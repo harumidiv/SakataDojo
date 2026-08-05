@@ -41,10 +41,45 @@ private enum QuizMode: String, CaseIterable, Identifiable {
     }
 }
 
+private enum QuizChartSource: String, CaseIterable, Identifiable {
+    case ideals = "基本形"
+    case examples = "実戦"
+
+    var id: Self { self }
+
+    var title: String {
+        switch self {
+        case .examples:
+            return "実戦チャートで挑戦"
+        case .ideals:
+            return "基本形チャートで練習"
+        }
+    }
+
+    var description: String {
+        switch self {
+        case .examples:
+            return "実際の日本株市場で発生したローソク足パターンです"
+        case .ideals:
+            return "特徴を強調した模式図で基本形を覚えます"
+        }
+    }
+
+    var systemImage: String {
+        switch self {
+        case .examples:
+            return "chart.xyaxis.line"
+        case .ideals:
+            return "star.fill"
+        }
+    }
+}
+
 struct ContentView: View {
     @State private var allPatterns: [QuizPattern] = []
     @State private var currentPattern: QuizPattern?
     @State private var currentExample: QuizExample?
+    @State private var quizChartSource: QuizChartSource = .examples
     @State private var quizMode: QuizMode = .direction
     @State private var appScreen: AppScreen = .title
     @State private var selectedAnswer: String?
@@ -55,6 +90,7 @@ struct ContentView: View {
     @State private var questionLimit: Int? = 10  // nil = 無限
     @State private var questionNumber: Int = 0
     @State private var correctCount: Int = 0
+    @State private var patternQueue: [QuizPattern] = []
 
     private let patternNames = [
         "赤三兵", "明けの明星", "陽のたすき",
@@ -68,11 +104,18 @@ struct ContentView: View {
     ]
 
     private var displayCandles: [Candle] {
-        guard let ex = currentExample else { return [] }
-        return showAnswer ? ex.quizCandles + ex.answerCandles : ex.quizCandles
+        switch quizChartSource {
+        case .examples:
+            guard let ex = currentExample else { return [] }
+            return showAnswer ? ex.quizCandles + ex.answerCandles : ex.quizCandles
+        case .ideals:
+            guard let pattern = currentPattern else { return [] }
+            return idealPatternCandles[pattern.pattern] ?? []
+        }
     }
 
     private var dividerIndex: Int? {
+        guard quizChartSource == .examples else { return nil }
         guard showAnswer, let ex = currentExample else { return nil }
         return ex.quizCandles.count
     }
@@ -137,6 +180,27 @@ struct ContentView: View {
         ScrollView {
             VStack(spacing: 24) {
                 Spacer(minLength: 36)
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("チャートを選択")
+                        .font(.headline)
+
+                    Picker("チャート", selection: $quizChartSource) {
+                        ForEach(QuizChartSource.allCases) { source in
+                            Label(source.rawValue, systemImage: source.systemImage)
+                                .tag(source)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+
+                    Label(quizChartSource.title, systemImage: quizChartSource.systemImage)
+                        .font(.subheadline.bold())
+                        .foregroundStyle(Color.accentColor)
+
+                    Text(quizChartSource.description)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
 
                 VStack(alignment: .leading, spacing: 12) {
                     Text("出題形式を選択")
@@ -204,8 +268,7 @@ struct ContentView: View {
 
                     Picker("問題数", selection: $questionLimit) {
                         Text("10問").tag(Optional(10))
-                        Text("20問").tag(Optional(20))
-                        Text("50問").tag(Optional(50))
+                        Text("30問").tag(Optional(30))
                         Text("∞").tag(Optional<Int>(nil))
                     }
                     .pickerStyle(.segmented)
@@ -229,10 +292,6 @@ struct ContentView: View {
                             .multilineTextAlignment(.center)
                     } else if allPatterns.isEmpty {
                         ProgressView("問題を読み込み中...")
-                    } else {
-                        Label("\(allPatterns.count)パターンを収録", systemImage: "checkmark.circle")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
                     }
                 }
 
@@ -327,7 +386,7 @@ struct ContentView: View {
     private var quizScreen: some View {
         VStack(spacing: 0) {
             // ヘッダー
-            if let ex = currentExample, let pattern = currentPattern {
+            if let pattern = currentPattern {
                 HStack(spacing: 12) {
                     Button {
                         returnToTitle()
@@ -352,7 +411,7 @@ struct ContentView: View {
                                     .foregroundStyle(pattern.direction == "bullish" ? .red : .blue)
                             }
                         }
-                        Text("\(ex.ticker) \(ex.name)  \(ex.quizCandles.last?.date ?? "")")
+                        Text(quizSubtitle)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
@@ -382,9 +441,15 @@ struct ContentView: View {
                 ProgressView("データ読み込み中...")
                 Spacer()
             } else {
-                CandlestickChartView(candles: displayCandles, dividerIndex: dividerIndex)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
+                CandlestickChartView(
+                    candles: displayCandles,
+                    dividerIndex: dividerIndex,
+                    showsVolume: quizChartSource == .examples,
+                    showsMovingAverages: quizChartSource == .examples
+                )
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
             }
 
             Divider()
@@ -464,10 +529,21 @@ struct ContentView: View {
     }
 
     private func pickRandom() {
-        guard let pattern = allPatterns.randomElement(),
-              let example = pattern.examples.randomElement() else { return }
+        let pattern: QuizPattern
+        if quizChartSource == .ideals {
+            if patternQueue.isEmpty { buildPatternQueue() }
+            guard !patternQueue.isEmpty else { return }
+            pattern = patternQueue.removeFirst()
+        } else {
+            let available = allPatterns.filter { !$0.examples.isEmpty }
+            let candidates = available.count > 1
+                ? available.filter { $0.pattern != currentPattern?.pattern }
+                : available
+            guard let picked = candidates.randomElement() else { return }
+            pattern = picked
+        }
         currentPattern = pattern
-        currentExample = example
+        currentExample = quizChartSource == .examples ? pattern.examples.randomElement() : nil
         patternChoices = makePatternChoices(correctPattern: pattern.pattern)
     }
 
@@ -503,6 +579,11 @@ struct ContentView: View {
             showAnswer = true
             questionNumber = 1
             appScreen = .quiz
+        case "ideal":
+            quizChartSource = .ideals
+            quizMode = .patternName
+            currentExample = nil
+            appScreen = .quiz
         case "study":
             appScreen = .study
         default:
@@ -528,6 +609,16 @@ struct ContentView: View {
             return "下落 ↘"
         default:
             return answer
+        }
+    }
+
+    private var quizSubtitle: String {
+        switch quizChartSource {
+        case .examples:
+            guard let ex = currentExample else { return "実例チャート" }
+            return "\(ex.ticker) \(ex.name)  \(ex.quizCandles.last?.date ?? "")"
+        case .ideals:
+            return "お手本チャート（模式図）"
         }
     }
 
@@ -592,10 +683,20 @@ struct ContentView: View {
         selectedAnswer = nil
         questionNumber = 0
         correctCount = 0
+        buildPatternQueue()
         pickRandom()
         withAnimation(.easeInOut(duration: 0.25)) {
             appScreen = .quiz
         }
+    }
+
+    private func buildPatternQueue() {
+        guard quizChartSource == .ideals else {
+            patternQueue = []
+            return
+        }
+        let available = allPatterns.filter { !(idealPatternCandles[$0.pattern] ?? []).isEmpty }
+        patternQueue = available.shuffled()
     }
 
     private func openStudyGuide() {
@@ -680,7 +781,7 @@ private struct PatternStudyDetailView: View {
                             showsVolume: false,
                             showsMovingAverages: false
                         )
-                            .frame(height: 200)
+                            .frame(height: 280)
                     }
                 }
 
@@ -701,7 +802,7 @@ private struct PatternStudyDetailView: View {
                             candles: displayedCandles,
                             dividerIndex: currentExample.quizCandles.count
                         )
-                        .frame(height: 320)
+                        .frame(height: 280)
                         .padding(8)
                         .background(
                             RoundedRectangle(cornerRadius: 12)
