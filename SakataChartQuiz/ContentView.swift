@@ -317,18 +317,12 @@ struct ContentView: View {
 
     private var studyScreen: some View {
         NavigationStack {
-            List {
-                studySection(
-                    title: "上昇サイン",
-                    direction: "bullish",
-                    color: .red
-                )
-
-                studySection(
-                    title: "下落サイン",
-                    direction: "bearish",
-                    color: .blue
-                )
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) {
+                    studyGrid(title: "上昇サイン", direction: "bullish", color: .red)
+                    studyGrid(title: "下落サイン", direction: "bearish", color: .blue)
+                }
+                .padding()
             }
             .navigationTitle("パターン図鑑")
             .searchable(text: $studySearchText, prompt: "パターン名や説明を検索")
@@ -350,35 +344,47 @@ struct ContentView: View {
     }
 
     @ViewBuilder
-    private func studySection(title: String, direction: String, color: Color) -> some View {
+    private func studyGrid(title: String, direction: String, color: Color) -> some View {
         let patterns = filteredStudyPatterns.filter { $0.direction == direction }
         if !patterns.isEmpty {
-            Section {
-                ForEach(patterns, id: \.pattern) { pattern in
-                    NavigationLink {
-                        PatternStudyDetailView(pattern: pattern)
-                    } label: {
-                        HStack(spacing: 12) {
-                            Circle()
-                                .fill(color)
-                                .frame(width: 12, height: 12)
+            VStack(alignment: .leading, spacing: 10) {
+                Label(title, systemImage: direction == "bullish" ? "arrow.up.right" : "arrow.down.right")
+                    .font(.headline)
+                    .foregroundStyle(color)
 
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(pattern.pattern)
-                                    .font(.headline)
-
-                                Text(pattern.description)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                                    .lineLimit(2)
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                    ForEach(patterns, id: \.pattern) { pattern in
+                        NavigationLink {
+                            PatternStudyDetailView(pattern: pattern)
+                        } label: {
+                            VStack(spacing: 6) {
+                                if let candles = idealPatternCandles[pattern.pattern] {
+                                    CandlestickChartView(
+                                        candles: candles,
+                                        dividerIndex: nil,
+                                        showsVolume: false,
+                                        showsMovingAverages: false
+                                    )
+                                    .frame(height: 80)
+                                }
+                                HStack(spacing: 4) {
+                                    Circle()
+                                        .fill(color)
+                                        .frame(width: 7, height: 7)
+                                    Text(pattern.pattern)
+                                        .font(.caption)
+                                        .foregroundStyle(.primary)
+                                        .lineLimit(1)
+                                }
                             }
+                            .padding(8)
+                            .frame(maxWidth: .infinity)
+                            .background(Color(.secondarySystemBackground))
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
-                        .padding(.vertical, 4)
+                        .buttonStyle(.plain)
                     }
                 }
-            } header: {
-                Label(title, systemImage: direction == "bullish" ? "arrow.up.right" : "arrow.down.right")
-                    .foregroundStyle(color)
             }
         }
     }
