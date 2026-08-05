@@ -2,7 +2,6 @@ import SwiftUI
 
 struct CandlestickChartView: View {
     let candles: [Candle]
-    // nil = クイズのみ表示、Int = その位置から答えパート
     let dividerIndex: Int?
 
     private var maxPrice: Double { candles.map { $0.high }.max() ?? 0 }
@@ -34,7 +33,6 @@ struct CandlestickChartView: View {
                 let isBullish = candle.close >= candle.open
                 let isAnswer = dividerIndex.map { i >= $0 } ?? false
 
-                // 答えパートは半透明
                 let baseColor: Color = isBullish
                     ? Color(red: 0.85, green: 0.1, blue: 0.1)
                     : Color(red: 0.1, green: 0.3, blue: 0.85)
@@ -53,7 +51,7 @@ struct CandlestickChartView: View {
                     )
                 }
 
-                // ひげ（高値〜安値）
+                // ひげ
                 context.stroke(
                     Path { p in
                         p.move(to: CGPoint(x: cx, y: priceY(candle.high)))
@@ -63,7 +61,7 @@ struct CandlestickChartView: View {
                     lineWidth: 1
                 )
 
-                // 実体（始値〜終値）
+                // 実体
                 let bodyTop = min(priceY(candle.open), priceY(candle.close))
                 let bodyH = max(abs(priceY(candle.open) - priceY(candle.close)), 1.5)
                 context.fill(
