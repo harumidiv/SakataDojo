@@ -3,6 +3,7 @@ import SwiftUI
 private enum AppScreen {
     case title
     case quiz
+    case results
     case study
 }
 
@@ -51,6 +52,9 @@ struct ContentView: View {
     @State private var showAnswer = false
     @State private var studySearchText = ""
     @State private var errorMessage: String?
+    @State private var questionLimit: Int? = 10  // nil = 無限
+    @State private var questionNumber: Int = 0
+    @State private var correctCount: Int = 0
 
     private let patternNames = [
         "赤三兵", "明けの明星", "陽のたすき",
@@ -121,6 +125,8 @@ struct ContentView: View {
                 titleScreen
             case .quiz:
                 quizScreen
+            case .results:
+                resultsScreen
             case .study:
                 studyScreen
             }
@@ -133,25 +139,10 @@ struct ContentView: View {
     }
 
     private var titleScreen: some View {
+        NavigationStack {
         ScrollView {
             VStack(spacing: 24) {
                 Spacer(minLength: 36)
-
-                Image(systemName: "chart.xyaxis.line")
-                    .font(.system(size: 64, weight: .semibold))
-                    .foregroundStyle(Color.accentColor)
-                    .accessibilityHidden(true)
-
-                VStack(spacing: 8) {
-                    Text("酒田チャートクイズ")
-                        .font(.largeTitle.bold())
-                        .multilineTextAlignment(.center)
-
-                    Text("実際の株価チャートでローソク足パターンを学ぼう")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
-                }
 
                 VStack(alignment: .leading, spacing: 12) {
                     Text("出題形式を選択")
@@ -213,6 +204,19 @@ struct ContentView: View {
                     }
                 }
 
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("問題数を選択")
+                        .font(.headline)
+
+                    Picker("問題数", selection: $questionLimit) {
+                        Text("10問").tag(Optional(10))
+                        Text("20問").tag(Optional(20))
+                        Text("50問").tag(Optional(50))
+                        Text("∞").tag(Optional<Int>(nil))
+                    }
+                    .pickerStyle(.segmented)
+                }
+
                 Button {
                     startQuiz()
                 } label: {
@@ -223,54 +227,6 @@ struct ContentView: View {
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
                 .disabled(allPatterns.isEmpty)
-
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("じっくり学ぶ")
-                        .font(.headline)
-
-                    Button {
-                        openStudyGuide()
-                    } label: {
-                        HStack(spacing: 16) {
-                            Image(systemName: "books.vertical.fill")
-                                .font(.title2.bold())
-                                .foregroundStyle(Color.accentColor)
-                                .frame(width: 44, height: 44)
-                                .background(
-                                    Circle()
-                                        .fill(Color.accentColor.opacity(0.12))
-                                )
-
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("ローソク足パターン図鑑")
-                                    .font(.headline)
-                                    .foregroundStyle(.primary)
-
-                                Text("意味と実例チャートをパターンごとに確認します")
-                                    .font(.subheadline)
-                                    .foregroundStyle(.secondary)
-                                    .multilineTextAlignment(.leading)
-                            }
-
-                            Spacer(minLength: 8)
-
-                            Image(systemName: "chevron.right")
-                                .font(.headline)
-                                .foregroundStyle(.secondary)
-                        }
-                        .padding(16)
-                        .background(
-                            RoundedRectangle(cornerRadius: 16)
-                                .fill(Color.secondary.opacity(0.06))
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color.secondary.opacity(0.2), lineWidth: 1)
-                        )
-                    }
-                    .buttonStyle(.plain)
-                    .disabled(allPatterns.isEmpty)
-                }
 
                 Group {
                     if let error = errorMessage {
@@ -293,6 +249,17 @@ struct ContentView: View {
             .frame(maxWidth: .infinity)
         }
         .background(Color.secondary.opacity(0.04).ignoresSafeArea())
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    openStudyGuide()
+                } label: {
+                    Image(systemName: "books.vertical.fill")
+                }
+                .disabled(allPatterns.isEmpty)
+            }
+        }
+        } // NavigationStack
     }
 
     private var studyScreen: some View {
@@ -371,7 +338,7 @@ struct ContentView: View {
                     Button {
                         returnToTitle()
                     } label: {
-                        Label("タイトル", systemImage: "chevron.left")
+                        Image(systemName: "chevron.left")
                             .font(.subheadline.bold())
                     }
                     .buttonStyle(.plain)
@@ -396,6 +363,11 @@ struct ContentView: View {
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
+                    if let limit = questionLimit {
+                        Text("\(questionNumber)/\(limit)")
+                            .font(.subheadline.monospacedDigit())
+                            .foregroundStyle(.secondary)
+                    }
                     if let result = resultText {
                         Text(result)
                             .font(.title3).bold()
@@ -540,12 +512,62 @@ struct ContentView: View {
         withAnimation {
             selectedAnswer = answer
             showAnswer = true
+            questionNumber += 1
         }
+    }
+
+    private var resultsScreen: some View {
+        VStack(spacing: 32) {
+            Spacer()
+
+            Image(systemName: correctCount > (questionNumber / 2) ? "star.fill" : "chart.xyaxis.line")
+                .font(.system(size: 64))
+                .foregroundStyle(correctCount > (questionNumber / 2) ? .yellow : .secondary)
+
+            VStack(spacing: 8) {
+                Text("セット終了！")
+                    .font(.largeTitle.bold())
+                Text("\(questionNumber)問中 \(correctCount)問正解")
+                    .font(.title2)
+                    .foregroundStyle(.secondary)
+                Text(String(format: "正解率 %.0f%%", questionNumber > 0 ? Double(correctCount) / Double(questionNumber) * 100 : 0))
+                    .font(.title3.bold())
+                    .foregroundStyle(correctCount >= questionNumber * 7 / 10 ? .green : .orange)
+            }
+
+            VStack(spacing: 12) {
+                Button {
+                    startQuiz()
+                } label: {
+                    Label("もう一度", systemImage: "arrow.clockwise")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, minHeight: 50)
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+
+                Button {
+                    returnToTitle()
+                } label: {
+                    Text("タイトルに戻る")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.large)
+            }
+            .frame(maxWidth: 400)
+
+            Spacer()
+        }
+        .padding(.horizontal, 32)
     }
 
     private func startQuiz() {
         showAnswer = false
         selectedAnswer = nil
+        questionNumber = 0
+        correctCount = 0
         pickRandom()
         withAnimation(.easeInOut(duration: 0.25)) {
             appScreen = .quiz
@@ -568,8 +590,13 @@ struct ContentView: View {
     }
 
     private func nextQuestion() {
+        if isCorrect == true { correctCount += 1 }
         showAnswer = false
         selectedAnswer = nil
+        if let limit = questionLimit, questionNumber >= limit {
+            withAnimation(.easeInOut(duration: 0.25)) { appScreen = .results }
+            return
+        }
         pickRandom()
     }
 }
