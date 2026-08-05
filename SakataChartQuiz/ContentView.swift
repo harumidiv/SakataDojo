@@ -432,7 +432,22 @@ struct ContentView: View {
                 .padding(.vertical, 12)
             }
 
-            Divider()
+            if let limit = questionLimit {
+                GeometryReader { geo in
+                    let progress = CGFloat(questionNumber) / CGFloat(limit)
+                    ZStack(alignment: .leading) {
+                        Rectangle()
+                            .fill(Color(.systemFill))
+                        Rectangle()
+                            .fill(Color.accentColor)
+                            .frame(width: geo.size.width * progress)
+                            .animation(.easeInOut(duration: 0.3), value: progress)
+                    }
+                }
+                .frame(height: 3)
+            } else {
+                Divider()
+            }
 
             // チャート
             if let error = errorMessage {
