@@ -1,10 +1,22 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var quizPattern: QuizPattern?
+    @State private var allPatterns: [QuizPattern] = []
+    @State private var currentPattern: QuizPattern?
     @State private var currentExample: QuizExample?
     @State private var showAnswer = false
     @State private var errorMessage: String?
+
+    private let patternNames = [
+        "赤三兵", "明けの明星", "陽のたすき", "上放れ赤2本",
+        "三羽烏", "宵の明星", "陰のたすき", "行き詰まり線",
+        "包み足陽線", "はらみ足陽線", "切り込み線", "毛抜き底", "最後の抱き線陽",
+        "包み足陰線", "はらみ足陰線", "かぶせ線", "毛抜き天井", "最後の抱き線陰",
+        "カラカサ", "トンボ",
+        "首吊り線", "トンカチ", "塔婆",
+        "上放れ並び赤", "上放れ並び黒", "上放れ黒二本", "上放れ十字線", "上放れ三手放れ寄せ線",
+        "下放れ並び赤", "下放れ二本の陰線", "下放れ十字線", "下放れ三手放れ寄せ線"
+    ]
 
     private var displayCandles: [Candle] {
         guard let ex = currentExample else { return [] }
@@ -28,7 +40,7 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 0) {
             // ヘッダー
-            if let ex = currentExample, let pattern = quizPattern {
+            if let ex = currentExample, let pattern = currentPattern {
                 HStack {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(showAnswer ? pattern.pattern : "？？？")
@@ -86,12 +98,12 @@ struct ContentView: View {
                     .controlSize(.large)
                 } else {
                     Button("次の問題") {
-                        nextExample()
+                        nextQuestion()
                     }
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
 
-                    if let pattern = quizPattern {
+                    if let pattern = currentPattern {
                         Text(pattern.description)
                             .font(.caption)
                             .foregroundStyle(.secondary)
@@ -101,29 +113,37 @@ struct ContentView: View {
             }
             .padding(16)
         }
-        .onAppear { loadPattern() }
+        .onAppear { loadAllPatterns() }
     }
 
-    private func loadPattern() {
-        guard let url = Bundle.main.url(forResource: "赤三兵", withExtension: "json") else {
-            errorMessage = "赤三兵.json がバンドルに見つかりません。\nXcodeでファイルをターゲットに追加してください。"
+    private func loadAllPatterns() {
+        var loaded: [QuizPattern] = []
+        for name in patternNames {
+            guard let url = Bundle.main.url(forResource: name, withExtension: "json"),
+                  let data = try? Data(contentsOf: url),
+                  let pattern = try? JSONDecoder().decode(QuizPattern.self, from: data) else {
+                continue
+            }
+            loaded.append(pattern)
+        }
+        if loaded.isEmpty {
+            errorMessage = "JSONが見つかりません。\nXcodeで全パターンのJSONをターゲットに追加してください。"
             return
         }
-        guard let data = try? Data(contentsOf: url) else {
-            errorMessage = "JSONの読み込みに失敗しました。"
-            return
-        }
-        guard let pattern = try? JSONDecoder().decode(QuizPattern.self, from: data) else {
-            errorMessage = "JSONのパースに失敗しました。"
-            return
-        }
-        quizPattern = pattern
-        currentExample = pattern.examples.randomElement()
+        allPatterns = loaded
+        pickRandom()
     }
 
-    private func nextExample() {
-        currentExample = quizPattern?.examples.randomElement()
+    private func pickRandom() {
+        guard let pattern = allPatterns.randomElement(),
+              let example = pattern.examples.randomElement() else { return }
+        currentPattern = pattern
+        currentExample = example
+    }
+
+    private func nextQuestion() {
         showAnswer = false
+        pickRandom()
     }
 }
 

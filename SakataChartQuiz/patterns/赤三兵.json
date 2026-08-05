@@ -1,7 +1,7 @@
 {
   "pattern": "赤三兵",
   "direction": "bullish",
-  "description": "3本連続して陽線が並び、終値が順に上昇。上昇継続のサイン。",
+  "description": "3本連続陽線で終値が順に上昇。上昇継続のサイン。",
   "examples": [
     {
       "id": "1301_2021-09-06",
