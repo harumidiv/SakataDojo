@@ -92,7 +92,10 @@ struct ContentView: View {
     @State private var correctCount: Int = 0
     @State private var patternQueue: [QuizPattern] = []
     @State private var weaknessMode: Bool = false
+    @State private var currentStreak: Int = 0
+    @State private var bestStreakThisSession: Int = 0
     @AppStorage("patternMistakesData") private var patternMistakesData: Data = Data()
+    @AppStorage("allTimeBestStreak") private var allTimeBestStreak: Int = 0
 
     private var patternMistakes: [String: Int] {
         (try? JSONDecoder().decode([String: Int].self, from: patternMistakesData)) ?? [:]
@@ -497,10 +500,21 @@ struct ContentView: View {
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
-                    if let limit = questionLimit {
-                        Text("\(questionNumber)/\(limit)")
-                            .font(.subheadline.monospacedDigit())
-                            .foregroundStyle(.secondary)
+                    VStack(alignment: .trailing, spacing: 2) {
+                        if let limit = questionLimit {
+                            Text("\(questionNumber)/\(limit)")
+                                .font(.subheadline.monospacedDigit())
+                                .foregroundStyle(.secondary)
+                        }
+                        if currentStreak >= 2 {
+                            HStack(spacing: 2) {
+                                Image(systemName: "bolt.fill")
+                                    .font(.caption2)
+                                Text("\(currentStreak)連続")
+                                    .font(.caption.monospacedDigit())
+                            }
+                            .foregroundStyle(.orange)
+                        }
                     }
                 }
                 .padding(.horizontal, 20)
@@ -753,6 +767,19 @@ struct ContentView: View {
                 Text(String(format: "正解率 %.0f%%", questionNumber > 0 ? Double(correctCount) / Double(questionNumber) * 100 : 0))
                     .font(.title3.bold())
                     .foregroundStyle(correctCount >= questionNumber * 7 / 10 ? .green : .orange)
+                if bestStreakThisSession >= 2 {
+                    HStack(spacing: 4) {
+                        Image(systemName: "bolt.fill")
+                            .foregroundStyle(.orange)
+                        Text("最大\(bestStreakThisSession)連続正解")
+                            .foregroundStyle(.orange)
+                        if bestStreakThisSession == allTimeBestStreak {
+                            Text("🏆 自己ベスト！")
+                                .foregroundStyle(.yellow)
+                        }
+                    }
+                    .font(.subheadline.bold())
+                }
             }
 
             VStack(spacing: 12) {
@@ -788,6 +815,8 @@ struct ContentView: View {
         selectedAnswer = nil
         questionNumber = 0
         correctCount = 0
+        currentStreak = 0
+        bestStreakThisSession = 0
         buildPatternQueue()
         pickRandom()
         withAnimation(.easeInOut(duration: 0.25)) {
@@ -821,7 +850,14 @@ struct ContentView: View {
 
     private func nextQuestion() {
         if let pattern = currentPattern, let correct = isCorrect {
-            if correct { correctCount += 1 }
+            if correct {
+                correctCount += 1
+                currentStreak += 1
+                if currentStreak > bestStreakThisSession { bestStreakThisSession = currentStreak }
+                if currentStreak > allTimeBestStreak { allTimeBestStreak = currentStreak }
+            } else {
+                currentStreak = 0
+            }
             recordResult(patternName: pattern.pattern, correct: correct)
         }
         showAnswer = false
