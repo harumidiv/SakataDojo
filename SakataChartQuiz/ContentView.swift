@@ -7,40 +7,6 @@ struct ContentView: View {
     @State private var showAnswer = false
     @State private var errorMessage: String?
 
-    // true = 強いサイン（赤丸）、false = 弱いサイン（青丸）
-    private let patternStrength: [String: Bool] = [
-        "赤三兵": true,
-        "明けの明星": true,
-        "三羽烏": true,
-        "宵の明星": true,
-        "上放れ並び赤": true,
-        "下放れ二本の陰線": true,
-        "最後の抱き線陽": true,
-        "最後の抱き線陰": true,
-        "包み足陽線": true,
-        "包み足陰線": true,
-        "陽のたすき": false,
-        "陰のたすき": false,
-        "行き詰まり線": false,
-        "はらみ足陽線": false,
-        "はらみ足陰線": false,
-        "切り込み線": true,
-        "毛抜き底": false,
-        "毛抜き天井": false,
-        "かぶせ線": true,
-        "カラカサ": false,
-        "トンボ": false,
-        "首吊り線": false,
-        "トンカチ": false,
-        "塔婆": false,
-        "上放れ並び黒": false,
-        "上放れ十字線": false,
-        "上放れ三手放れ寄せ線": true,
-        "下放れ並び赤": false,
-        "下放れ十字線": false,
-        "下放れ三手放れ寄せ線": true,
-    ]
-
     private let patternNames = [
         "赤三兵", "明けの明星", "陽のたすき",
         "三羽烏", "宵の明星", "陰のたすき", "行き詰まり線",
@@ -78,9 +44,9 @@ struct ContentView: View {
                 HStack {
                     VStack(alignment: .leading, spacing: 2) {
                         HStack(spacing: 8) {
-                            if showAnswer, let strong = patternStrength[pattern.pattern] {
+                            if showAnswer {
                                 Circle()
-                                    .fill(strong ? Color.red : Color.blue)
+                                    .fill(pattern.direction == "bullish" ? Color.red : Color.blue)
                                     .frame(width: 14, height: 14)
                             }
                             Text(showAnswer ? pattern.pattern : "？？？")

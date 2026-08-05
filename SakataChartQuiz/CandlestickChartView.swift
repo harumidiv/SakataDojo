@@ -8,6 +8,14 @@ struct CandlestickChartView: View {
     private var minPrice: Double { candles.map { $0.low }.min() ?? 0 }
     private var maxVolume: Double { Double(candles.map { $0.volume }.max() ?? 1) }
 
+    private func ma(_ period: Int) -> [Double?] {
+        let closes = candles.map { $0.close }
+        return closes.indices.map { i in
+            guard i >= period - 1 else { return nil }
+            return closes[(i - period + 1)...i].reduce(0, +) / Double(period)
+        }
+    }
+
     var body: some View {
         Canvas { context, size in
             guard !candles.isEmpty else { return }
@@ -27,6 +35,27 @@ struct CandlestickChartView: View {
             func priceY(_ price: Double) -> CGFloat {
                 CGFloat((priceHigh - price) / adjustedRange) * chartHeight
             }
+
+            func drawMA(_ values: [Double?], color: Color) {
+                var path = Path()
+                var started = false
+                for (i, val) in values.enumerated() {
+                    guard let v = val else { continue }
+                    let x = CGFloat(i) * slotWidth + slotWidth / 2
+                    let y = priceY(v)
+                    if !started {
+                        path.move(to: CGPoint(x: x, y: y))
+                        started = true
+                    } else {
+                        path.addLine(to: CGPoint(x: x, y: y))
+                    }
+                }
+                context.stroke(path, with: .color(color), lineWidth: 1.2)
+            }
+
+            // 移動平均線
+            drawMA(ma(5),  color: Color(red: 1.0, green: 0.6, blue: 0.0))  // 5日: オレンジ
+            drawMA(ma(25), color: Color(red: 0.2, green: 0.7, blue: 0.3))  // 25日: グリーン
 
             for (i, candle) in candles.enumerated() {
                 let cx = CGFloat(i) * slotWidth + slotWidth / 2
