@@ -41,10 +41,45 @@ private enum QuizMode: String, CaseIterable, Identifiable {
     }
 }
 
+private enum QuizChartSource: String, CaseIterable, Identifiable {
+    case ideals = "基本形"
+    case examples = "実戦"
+
+    var id: Self { self }
+
+    var title: String {
+        switch self {
+        case .examples:
+            return "実戦チャートで挑戦"
+        case .ideals:
+            return "基本形チャートで練習"
+        }
+    }
+
+    var description: String {
+        switch self {
+        case .examples:
+            return "実際の日本株市場で発生したローソク足パターンです"
+        case .ideals:
+            return "特徴を強調した模式図で基本形を覚えます"
+        }
+    }
+
+    var systemImage: String {
+        switch self {
+        case .examples:
+            return "chart.xyaxis.line"
+        case .ideals:
+            return "star.fill"
+        }
+    }
+}
+
 struct ContentView: View {
     @State private var allPatterns: [QuizPattern] = []
     @State private var currentPattern: QuizPattern?
     @State private var currentExample: QuizExample?
+    @State private var quizChartSource: QuizChartSource = .ideals
     @State private var quizMode: QuizMode = .direction
     @State private var appScreen: AppScreen = .title
     @State private var selectedAnswer: String?
@@ -55,6 +90,7 @@ struct ContentView: View {
     @State private var questionLimit: Int? = 10  // nil = 無限
     @State private var questionNumber: Int = 0
     @State private var correctCount: Int = 0
+    @State private var patternQueue: [QuizPattern] = []
 
     private let patternNames = [
         "赤三兵", "明けの明星", "陽のたすき",
@@ -68,22 +104,20 @@ struct ContentView: View {
     ]
 
     private var displayCandles: [Candle] {
-        guard let ex = currentExample else { return [] }
-        return showAnswer ? ex.quizCandles + ex.answerCandles : ex.quizCandles
+        switch quizChartSource {
+        case .examples:
+            guard let ex = currentExample else { return [] }
+            return showAnswer ? ex.quizCandles + ex.answerCandles : ex.quizCandles
+        case .ideals:
+            guard let pattern = currentPattern else { return [] }
+            return idealPatternCandles[pattern.pattern] ?? []
+        }
     }
 
     private var dividerIndex: Int? {
+        guard quizChartSource == .examples else { return nil }
         guard showAnswer, let ex = currentExample else { return nil }
         return ex.quizCandles.count
-    }
-
-    private var resultText: String? {
-        guard showAnswer, let ex = currentExample,
-              let base = ex.quizCandles.last?.close,
-              let last = ex.answerCandles.last?.close else { return nil }
-        let pct = (last - base) / base * 100
-        let sign = pct >= 0 ? "+" : ""
-        return "\(ex.answerCandles.count)日後: \(sign)\(String(format: "%.1f", pct))%"
     }
 
     private var answerOptions: [String] {
@@ -134,6 +168,9 @@ struct ContentView: View {
         .onAppear {
             if allPatterns.isEmpty, errorMessage == nil {
                 loadAllPatterns()
+#if DEBUG
+                configureScreenshotStateIfNeeded()
+#endif
             }
         }
     }
@@ -143,6 +180,27 @@ struct ContentView: View {
         ScrollView {
             VStack(spacing: 24) {
                 Spacer(minLength: 36)
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("チャートを選択")
+                        .font(.headline)
+
+                    Picker("チャート", selection: $quizChartSource) {
+                        ForEach(QuizChartSource.allCases) { source in
+                            Label(source.rawValue, systemImage: source.systemImage)
+                                .tag(source)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+
+                    Label(quizChartSource.title, systemImage: quizChartSource.systemImage)
+                        .font(.subheadline.bold())
+                        .foregroundStyle(Color.accentColor)
+
+                    Text(quizChartSource.description)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
 
                 VStack(alignment: .leading, spacing: 12) {
                     Text("出題形式を選択")
@@ -210,8 +268,7 @@ struct ContentView: View {
 
                     Picker("問題数", selection: $questionLimit) {
                         Text("10問").tag(Optional(10))
-                        Text("20問").tag(Optional(20))
-                        Text("50問").tag(Optional(50))
+                        Text("30問").tag(Optional(30))
                         Text("∞").tag(Optional<Int>(nil))
                     }
                     .pickerStyle(.segmented)
@@ -235,10 +292,6 @@ struct ContentView: View {
                             .multilineTextAlignment(.center)
                     } else if allPatterns.isEmpty {
                         ProgressView("問題を読み込み中...")
-                    } else {
-                        Label("\(allPatterns.count)パターンを収録", systemImage: "checkmark.circle")
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
                     }
                 }
 
@@ -264,18 +317,12 @@ struct ContentView: View {
 
     private var studyScreen: some View {
         NavigationStack {
-            List {
-                studySection(
-                    title: "上昇サイン",
-                    direction: "bullish",
-                    color: .red
-                )
-
-                studySection(
-                    title: "下落サイン",
-                    direction: "bearish",
-                    color: .blue
-                )
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) {
+                    studyGrid(title: "上昇サイン", direction: "bullish", color: .red)
+                    studyGrid(title: "下落サイン", direction: "bearish", color: .blue)
+                }
+                .padding()
             }
             .navigationTitle("パターン図鑑")
             .searchable(text: $studySearchText, prompt: "パターン名や説明を検索")
@@ -297,35 +344,47 @@ struct ContentView: View {
     }
 
     @ViewBuilder
-    private func studySection(title: String, direction: String, color: Color) -> some View {
+    private func studyGrid(title: String, direction: String, color: Color) -> some View {
         let patterns = filteredStudyPatterns.filter { $0.direction == direction }
         if !patterns.isEmpty {
-            Section {
-                ForEach(patterns, id: \.pattern) { pattern in
-                    NavigationLink {
-                        PatternStudyDetailView(pattern: pattern)
-                    } label: {
-                        HStack(spacing: 12) {
-                            Circle()
-                                .fill(color)
-                                .frame(width: 12, height: 12)
+            VStack(alignment: .leading, spacing: 10) {
+                Label(title, systemImage: direction == "bullish" ? "arrow.up.right" : "arrow.down.right")
+                    .font(.headline)
+                    .foregroundStyle(color)
 
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(pattern.pattern)
-                                    .font(.headline)
-
-                                Text(pattern.description)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                                    .lineLimit(2)
+                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                    ForEach(patterns, id: \.pattern) { pattern in
+                        NavigationLink {
+                            PatternStudyDetailView(pattern: pattern)
+                        } label: {
+                            VStack(spacing: 6) {
+                                if let candles = idealPatternCandles[pattern.pattern] {
+                                    CandlestickChartView(
+                                        candles: candles,
+                                        dividerIndex: nil,
+                                        showsVolume: false,
+                                        showsMovingAverages: false
+                                    )
+                                    .frame(height: 80)
+                                }
+                                HStack(spacing: 4) {
+                                    Circle()
+                                        .fill(color)
+                                        .frame(width: 7, height: 7)
+                                    Text(pattern.pattern)
+                                        .font(.caption)
+                                        .foregroundStyle(.primary)
+                                        .lineLimit(1)
+                                }
                             }
+                            .padding(8)
+                            .frame(maxWidth: .infinity)
+                            .background(Color(.secondarySystemBackground))
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
                         }
-                        .padding(.vertical, 4)
+                        .buttonStyle(.plain)
                     }
                 }
-            } header: {
-                Label(title, systemImage: direction == "bullish" ? "arrow.up.right" : "arrow.down.right")
-                    .foregroundStyle(color)
             }
         }
     }
@@ -333,7 +392,7 @@ struct ContentView: View {
     private var quizScreen: some View {
         VStack(spacing: 0) {
             // ヘッダー
-            if let ex = currentExample, let pattern = currentPattern {
+            if let pattern = currentPattern {
                 HStack(spacing: 12) {
                     Button {
                         returnToTitle()
@@ -358,7 +417,7 @@ struct ContentView: View {
                                     .foregroundStyle(pattern.direction == "bullish" ? .red : .blue)
                             }
                         }
-                        Text("\(ex.ticker) \(ex.name)  \(ex.quizCandles.last?.date ?? "")")
+                        Text(quizSubtitle)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
@@ -367,17 +426,6 @@ struct ContentView: View {
                         Text("\(questionNumber)/\(limit)")
                             .font(.subheadline.monospacedDigit())
                             .foregroundStyle(.secondary)
-                    }
-                    if let result = resultText {
-                        Text(result)
-                            .font(.title3).bold()
-                            .foregroundStyle(result.contains("+") ? .red : .blue)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.secondary.opacity(0.1))
-                            )
                     }
                 }
                 .padding(.horizontal, 20)
@@ -399,9 +447,15 @@ struct ContentView: View {
                 ProgressView("データ読み込み中...")
                 Spacer()
             } else {
-                CandlestickChartView(candles: displayCandles, dividerIndex: dividerIndex)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
+                CandlestickChartView(
+                    candles: displayCandles,
+                    dividerIndex: dividerIndex,
+                    showsVolume: quizChartSource == .examples,
+                    showsMovingAverages: quizChartSource == .examples
+                )
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
             }
 
             Divider()
@@ -443,9 +497,10 @@ struct ContentView: View {
                         }
 
                         Text(pattern.description)
-                            .font(.footnote)
+                            .font(.subheadline)
                             .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.center)
+                            .multilineTextAlignment(.leading)
+                            .frame(maxWidth: .infinity, alignment: .leading)
 
                         Button("次の問題") {
                             nextQuestion()
@@ -480,12 +535,68 @@ struct ContentView: View {
     }
 
     private func pickRandom() {
-        guard let pattern = allPatterns.randomElement(),
-              let example = pattern.examples.randomElement() else { return }
+        let pattern: QuizPattern
+        if quizChartSource == .ideals {
+            if patternQueue.isEmpty { buildPatternQueue() }
+            guard !patternQueue.isEmpty else { return }
+            pattern = patternQueue.removeFirst()
+        } else {
+            let available = allPatterns.filter { !$0.examples.isEmpty }
+            let candidates = available.count > 1
+                ? available.filter { $0.pattern != currentPattern?.pattern }
+                : available
+            guard let picked = candidates.randomElement() else { return }
+            pattern = picked
+        }
         currentPattern = pattern
-        currentExample = example
+        currentExample = quizChartSource == .examples ? pattern.examples.randomElement() : nil
         patternChoices = makePatternChoices(correctPattern: pattern.pattern)
     }
+
+#if DEBUG
+    private func configureScreenshotStateIfNeeded() {
+        guard let argument = ProcessInfo.processInfo.arguments.first(where: {
+            $0.hasPrefix("--screenshot-state=")
+        }) else { return }
+
+        let state = String(argument.dropFirst("--screenshot-state=".count))
+
+        if let pattern = allPatterns.first(where: { $0.pattern == "赤三兵" }),
+           let example = pattern.examples.first {
+            currentPattern = pattern
+            currentExample = example
+            patternChoices = ["赤三兵", "三羽烏", "明けの明星", "宵の明星"]
+        }
+
+        selectedAnswer = nil
+        showAnswer = false
+        questionNumber = 0
+
+        switch state {
+        case "direction":
+            quizMode = .direction
+            appScreen = .quiz
+        case "pattern":
+            quizMode = .patternName
+            appScreen = .quiz
+        case "answer":
+            quizMode = .direction
+            selectedAnswer = currentPattern?.direction
+            showAnswer = true
+            questionNumber = 1
+            appScreen = .quiz
+        case "ideal":
+            quizChartSource = .ideals
+            quizMode = .patternName
+            currentExample = nil
+            appScreen = .quiz
+        case "study":
+            appScreen = .study
+        default:
+            appScreen = .title
+        }
+    }
+#endif
 
     private func makePatternChoices(correctPattern: String) -> [String] {
         let distractors = allPatterns
@@ -504,6 +615,16 @@ struct ContentView: View {
             return "下落 ↘"
         default:
             return answer
+        }
+    }
+
+    private var quizSubtitle: String {
+        switch quizChartSource {
+        case .examples:
+            guard let ex = currentExample else { return "実例チャート" }
+            return "\(ex.ticker) \(ex.name)  \(ex.quizCandles.last?.date ?? "")"
+        case .ideals:
+            return "お手本チャート（模式図）"
         }
     }
 
@@ -568,10 +689,20 @@ struct ContentView: View {
         selectedAnswer = nil
         questionNumber = 0
         correctCount = 0
+        buildPatternQueue()
         pickRandom()
         withAnimation(.easeInOut(duration: 0.25)) {
             appScreen = .quiz
         }
+    }
+
+    private func buildPatternQueue() {
+        guard quizChartSource == .ideals else {
+            patternQueue = []
+            return
+        }
+        let available = allPatterns.filter { !(idealPatternCandles[$0.pattern] ?? []).isEmpty }
+        patternQueue = available.shuffled()
     }
 
     private func openStudyGuide() {
@@ -624,14 +755,6 @@ private struct PatternStudyDetailView: View {
         return currentExample.quizCandles + currentExample.answerCandles
     }
 
-    private var priceChangeText: String? {
-        guard let currentExample,
-              let base = currentExample.quizCandles.last?.close,
-              let last = currentExample.answerCandles.last?.close else { return nil }
-        let percent = (last - base) / base * 100
-        return "\(currentExample.answerCandles.count)日後  \(percent >= 0 ? "+" : "")\(String(format: "%.1f", percent))%"
-    }
-
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -656,6 +779,18 @@ private struct PatternStudyDetailView: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
 
+                if let idealCandles = idealPatternCandles[pattern.pattern], !idealCandles.isEmpty {
+                    studyCard(title: "手本チャート（模式図）", systemImage: "star.fill") {
+                        CandlestickChartView(
+                            candles: idealCandles,
+                            dividerIndex: nil,
+                            showsVolume: false,
+                            showsMovingAverages: false
+                        )
+                            .frame(height: 280)
+                    }
+                }
+
                 if let currentExample {
                     VStack(alignment: .leading, spacing: 12) {
                         HStack(alignment: .firstTextBaseline) {
@@ -667,23 +802,13 @@ private struct PatternStudyDetailView: View {
                                     .font(.subheadline)
                                     .foregroundStyle(.secondary)
                             }
-
-                            Spacer()
-
-                            if let priceChangeText {
-                                Text(priceChangeText)
-                                    .font(.subheadline.bold())
-                                    .foregroundStyle(
-                                        priceChangeText.contains("+") ? Color.red : Color.blue
-                                    )
-                            }
                         }
 
                         CandlestickChartView(
                             candles: displayedCandles,
                             dividerIndex: currentExample.quizCandles.count
                         )
-                        .frame(height: 320)
+                        .frame(height: 280)
                         .padding(8)
                         .background(
                             RoundedRectangle(cornerRadius: 12)
