@@ -1,5 +1,12 @@
 import SwiftUI
 
+private enum AppScreen {
+    case title
+    case quiz
+    case results
+    case study
+}
+
 private enum QuizMode: String, CaseIterable, Identifiable {
     case direction = "上昇／下落"
     case patternName = "パターン名4択"
@@ -39,11 +46,15 @@ struct ContentView: View {
     @State private var currentPattern: QuizPattern?
     @State private var currentExample: QuizExample?
     @State private var quizMode: QuizMode = .direction
-    @State private var isQuizActive = false
+    @State private var appScreen: AppScreen = .title
     @State private var selectedAnswer: String?
     @State private var patternChoices: [String] = []
     @State private var showAnswer = false
+    @State private var studySearchText = ""
     @State private var errorMessage: String?
+    @State private var questionLimit: Int? = 10  // nil = 無限
+    @State private var questionNumber: Int = 0
+    @State private var correctCount: Int = 0
 
     private let patternNames = [
         "赤三兵", "明けの明星", "陽のたすき",
@@ -99,12 +110,25 @@ struct ContentView: View {
         return selectedAnswer == correctAnswer
     }
 
+    private var filteredStudyPatterns: [QuizPattern] {
+        guard !studySearchText.isEmpty else { return allPatterns }
+        return allPatterns.filter {
+            $0.pattern.localizedCaseInsensitiveContains(studySearchText)
+                || $0.description.localizedCaseInsensitiveContains(studySearchText)
+        }
+    }
+
     var body: some View {
         Group {
-            if isQuizActive {
-                quizScreen
-            } else {
+            switch appScreen {
+            case .title:
                 titleScreen
+            case .quiz:
+                quizScreen
+            case .results:
+                resultsScreen
+            case .study:
+                studyScreen
             }
         }
         .onAppear {
@@ -115,25 +139,10 @@ struct ContentView: View {
     }
 
     private var titleScreen: some View {
+        NavigationStack {
         ScrollView {
             VStack(spacing: 24) {
                 Spacer(minLength: 36)
-
-                Image(systemName: "chart.xyaxis.line")
-                    .font(.system(size: 64, weight: .semibold))
-                    .foregroundStyle(Color.accentColor)
-                    .accessibilityHidden(true)
-
-                VStack(spacing: 8) {
-                    Text("酒田チャートクイズ")
-                        .font(.largeTitle.bold())
-                        .multilineTextAlignment(.center)
-
-                    Text("実際の株価チャートでローソク足パターンを学ぼう")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.center)
-                }
 
                 VStack(alignment: .leading, spacing: 12) {
                     Text("出題形式を選択")
@@ -195,6 +204,19 @@ struct ContentView: View {
                     }
                 }
 
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("問題数を選択")
+                        .font(.headline)
+
+                    Picker("問題数", selection: $questionLimit) {
+                        Text("10問").tag(Optional(10))
+                        Text("20問").tag(Optional(20))
+                        Text("50問").tag(Optional(50))
+                        Text("∞").tag(Optional<Int>(nil))
+                    }
+                    .pickerStyle(.segmented)
+                }
+
                 Button {
                     startQuiz()
                 } label: {
@@ -214,7 +236,7 @@ struct ContentView: View {
                     } else if allPatterns.isEmpty {
                         ProgressView("問題を読み込み中...")
                     } else {
-                        Label("\(allPatterns.count)パターンから出題", systemImage: "checkmark.circle")
+                        Label("\(allPatterns.count)パターンを収録", systemImage: "checkmark.circle")
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                     }
@@ -227,6 +249,85 @@ struct ContentView: View {
             .frame(maxWidth: .infinity)
         }
         .background(Color.secondary.opacity(0.04).ignoresSafeArea())
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    openStudyGuide()
+                } label: {
+                    Image(systemName: "books.vertical.fill")
+                }
+                .disabled(allPatterns.isEmpty)
+            }
+        }
+        } // NavigationStack
+    }
+
+    private var studyScreen: some View {
+        NavigationStack {
+            List {
+                studySection(
+                    title: "上昇サイン",
+                    direction: "bullish",
+                    color: .red
+                )
+
+                studySection(
+                    title: "下落サイン",
+                    direction: "bearish",
+                    color: .blue
+                )
+            }
+            .navigationTitle("パターン図鑑")
+            .searchable(text: $studySearchText, prompt: "パターン名や説明を検索")
+            .overlay {
+                if filteredStudyPatterns.isEmpty {
+                    ContentUnavailableView.search(text: studySearchText)
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        returnToTitle()
+                    } label: {
+                        Label("タイトル", systemImage: "chevron.left")
+                    }
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func studySection(title: String, direction: String, color: Color) -> some View {
+        let patterns = filteredStudyPatterns.filter { $0.direction == direction }
+        if !patterns.isEmpty {
+            Section {
+                ForEach(patterns, id: \.pattern) { pattern in
+                    NavigationLink {
+                        PatternStudyDetailView(pattern: pattern)
+                    } label: {
+                        HStack(spacing: 12) {
+                            Circle()
+                                .fill(color)
+                                .frame(width: 12, height: 12)
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(pattern.pattern)
+                                    .font(.headline)
+
+                                Text(pattern.description)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                    .lineLimit(2)
+                            }
+                        }
+                        .padding(.vertical, 4)
+                    }
+                }
+            } header: {
+                Label(title, systemImage: direction == "bullish" ? "arrow.up.right" : "arrow.down.right")
+                    .foregroundStyle(color)
+            }
+        }
     }
 
     private var quizScreen: some View {
@@ -237,7 +338,7 @@ struct ContentView: View {
                     Button {
                         returnToTitle()
                     } label: {
-                        Label("タイトル", systemImage: "chevron.left")
+                        Image(systemName: "chevron.left")
                             .font(.subheadline.bold())
                     }
                     .buttonStyle(.plain)
@@ -262,6 +363,11 @@ struct ContentView: View {
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
+                    if let limit = questionLimit {
+                        Text("\(questionNumber)/\(limit)")
+                            .font(.subheadline.monospacedDigit())
+                            .foregroundStyle(.secondary)
+                    }
                     if let result = resultText {
                         Text(result)
                             .font(.title3).bold()
@@ -406,30 +512,279 @@ struct ContentView: View {
         withAnimation {
             selectedAnswer = answer
             showAnswer = true
+            questionNumber += 1
         }
+    }
+
+    private var resultsScreen: some View {
+        VStack(spacing: 32) {
+            Spacer()
+
+            Image(systemName: correctCount > (questionNumber / 2) ? "star.fill" : "chart.xyaxis.line")
+                .font(.system(size: 64))
+                .foregroundStyle(correctCount > (questionNumber / 2) ? .yellow : .secondary)
+
+            VStack(spacing: 8) {
+                Text("セット終了！")
+                    .font(.largeTitle.bold())
+                Text("\(questionNumber)問中 \(correctCount)問正解")
+                    .font(.title2)
+                    .foregroundStyle(.secondary)
+                Text(String(format: "正解率 %.0f%%", questionNumber > 0 ? Double(correctCount) / Double(questionNumber) * 100 : 0))
+                    .font(.title3.bold())
+                    .foregroundStyle(correctCount >= questionNumber * 7 / 10 ? .green : .orange)
+            }
+
+            VStack(spacing: 12) {
+                Button {
+                    startQuiz()
+                } label: {
+                    Label("もう一度", systemImage: "arrow.clockwise")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, minHeight: 50)
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+
+                Button {
+                    returnToTitle()
+                } label: {
+                    Text("タイトルに戻る")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.large)
+            }
+            .frame(maxWidth: 400)
+
+            Spacer()
+        }
+        .padding(.horizontal, 32)
     }
 
     private func startQuiz() {
         showAnswer = false
         selectedAnswer = nil
+        questionNumber = 0
+        correctCount = 0
         pickRandom()
         withAnimation(.easeInOut(duration: 0.25)) {
-            isQuizActive = true
+            appScreen = .quiz
+        }
+    }
+
+    private func openStudyGuide() {
+        studySearchText = ""
+        withAnimation(.easeInOut(duration: 0.25)) {
+            appScreen = .study
         }
     }
 
     private func returnToTitle() {
         withAnimation(.easeInOut(duration: 0.25)) {
-            isQuizActive = false
+            appScreen = .title
             showAnswer = false
             selectedAnswer = nil
         }
     }
 
     private func nextQuestion() {
+        if isCorrect == true { correctCount += 1 }
         showAnswer = false
         selectedAnswer = nil
+        if let limit = questionLimit, questionNumber >= limit {
+            withAnimation(.easeInOut(duration: 0.25)) { appScreen = .results }
+            return
+        }
         pickRandom()
+    }
+}
+
+private struct PatternStudyDetailView: View {
+    let pattern: QuizPattern
+
+    @State private var exampleIndex = 0
+
+    private var signalColor: Color {
+        pattern.direction == "bullish" ? .red : .blue
+    }
+
+    private var signalLabel: String {
+        pattern.direction == "bullish" ? "上昇サイン" : "下落サイン"
+    }
+
+    private var currentExample: QuizExample? {
+        guard pattern.examples.indices.contains(exampleIndex) else { return nil }
+        return pattern.examples[exampleIndex]
+    }
+
+    private var displayedCandles: [Candle] {
+        guard let currentExample else { return [] }
+        return currentExample.quizCandles + currentExample.answerCandles
+    }
+
+    private var priceChangeText: String? {
+        guard let currentExample,
+              let base = currentExample.quizCandles.last?.close,
+              let last = currentExample.answerCandles.last?.close else { return nil }
+        let percent = (last - base) / base * 100
+        return "\(currentExample.answerCandles.count)日後  \(percent >= 0 ? "+" : "")\(String(format: "%.1f", percent))%"
+    }
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                HStack(spacing: 12) {
+                    Circle()
+                        .fill(signalColor)
+                        .frame(width: 18, height: 18)
+
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(pattern.pattern)
+                            .font(.title.bold())
+
+                        Text(signalLabel)
+                            .font(.subheadline.bold())
+                            .foregroundStyle(signalColor)
+                    }
+                }
+
+                studyCard(title: "パターンの意味", systemImage: "book.closed.fill") {
+                    Text(pattern.description)
+                        .font(.body)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                if let currentExample {
+                    VStack(alignment: .leading, spacing: 12) {
+                        HStack(alignment: .firstTextBaseline) {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("実例チャート")
+                                    .font(.headline)
+
+                                Text("\(currentExample.ticker)  \(currentExample.name)")
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                            }
+
+                            Spacer()
+
+                            if let priceChangeText {
+                                Text(priceChangeText)
+                                    .font(.subheadline.bold())
+                                    .foregroundStyle(
+                                        priceChangeText.contains("+") ? Color.red : Color.blue
+                                    )
+                            }
+                        }
+
+                        CandlestickChartView(
+                            candles: displayedCandles,
+                            dividerIndex: currentExample.quizCandles.count
+                        )
+                        .frame(height: 320)
+                        .padding(8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.secondary.opacity(0.06))
+                        )
+
+                        HStack(spacing: 16) {
+                            Label("パターン成立まで", systemImage: "chart.xyaxis.line")
+                            Label("その後（薄色）", systemImage: "arrow.right")
+                        }
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+
+                        if pattern.examples.count > 1 {
+                            HStack {
+                                Button {
+                                    showPreviousExample()
+                                } label: {
+                                    Label("前の実例", systemImage: "chevron.left")
+                                }
+                                .disabled(exampleIndex == 0)
+
+                                Spacer()
+
+                                Text("実例 \(exampleIndex + 1) / \(pattern.examples.count)")
+                                    .font(.footnote.monospacedDigit())
+                                    .foregroundStyle(.secondary)
+
+                                Spacer()
+
+                                Button {
+                                    showNextExample()
+                                } label: {
+                                    Label("次の実例", systemImage: "chevron.right")
+                                        .labelStyle(.titleAndIcon)
+                                }
+                                .disabled(exampleIndex == pattern.examples.count - 1)
+                            }
+                            .buttonStyle(.bordered)
+                        }
+                    }
+                } else {
+                    ContentUnavailableView(
+                        "実例がありません",
+                        systemImage: "chart.xyaxis.line",
+                        description: Text("このパターンの実例データを読み込めませんでした。")
+                    )
+                }
+
+                studyCard(title: "見方", systemImage: "lightbulb.fill") {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label(
+                            signalLabel,
+                            systemImage: pattern.direction == "bullish" ? "arrow.up.right" : "arrow.down.right"
+                        )
+                        .foregroundStyle(signalColor)
+
+                        Text("オレンジ色の縦線より左がパターン成立まで、右の薄いローソク足が成立後の値動きです。")
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+            .frame(maxWidth: 760)
+            .padding(20)
+            .frame(maxWidth: .infinity)
+        }
+        .navigationTitle(pattern.pattern)
+        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    private func showPreviousExample() {
+        guard exampleIndex > 0 else { return }
+        withAnimation {
+            exampleIndex -= 1
+        }
+    }
+
+    private func showNextExample() {
+        guard exampleIndex < pattern.examples.count - 1 else { return }
+        withAnimation {
+            exampleIndex += 1
+        }
+    }
+
+    private func studyCard<Content: View>(
+        title: String,
+        systemImage: String,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Label(title, systemImage: systemImage)
+                .font(.headline)
+
+            content()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.secondary.opacity(0.06))
+        )
     }
 }
 
