@@ -426,9 +426,10 @@ struct ContentView: View {
                         }
 
                         Text(pattern.description)
-                            .font(.footnote)
+                            .font(.subheadline)
                             .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.center)
+                            .multilineTextAlignment(.leading)
+                            .frame(maxWidth: .infinity, alignment: .leading)
 
                         Button("次の問題") {
                             nextQuestion()
