@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-酒田五法クイズ用JSONデータ生成スクリプト（全22パターン対応版）
-JPX上場銘柄（プライム・スタンダード）を全件スキャンして各パターン最大100件収集する。
+酒田五法クイズ用JSONデータ生成スクリプト（全30パターン対応版）
+JPX上場銘柄（プライム・スタンダード）を全件スキャンして各パターン最大500件収集する。
 """
 
 import io
@@ -138,15 +138,6 @@ def detect_yin_tasuki(df):
             result.append(i)
     return result
 
-def detect_uwabanaare_aka2(df):
-    """上放れ赤2本: ギャップアップ後に2本連続陽線（上昇継続）"""
-    o, h, c = df["Open"].values, df["High"].values, df["Close"].values
-    result = []
-    for i in range(2, len(df)):
-        if o[i-1]>h[i-2] and c[i-1]>o[i-1] and c[i]>o[i]:
-            result.append(i)
-    return result
-
 def detect_stalling(df):
     """行き詰まり線: 上昇中の3本陽線で3本目の実体が極小（上昇の失速）"""
     o, c = df["Open"].values, df["Close"].values
@@ -235,11 +226,11 @@ def detect_tweezers_top(df):
     return result
 
 def detect_last_engulfing_bull(df):
-    """最後の抱き線（陽）: 下降トレンド末期の大きな陽の包み足"""
+    """最後の抱き線（陽）: 上昇トレンド末期の大きな陽の包み足（売り転換）"""
     o, c = df["Open"].values, df["Close"].values
     result = []
     for i in range(11, len(df)):
-        if not is_downtrend(c, i): continue
+        if not is_uptrend(c, i): continue
         if c[i-1]>=o[i-1] or c[i]<=o[i]: continue
         if not (o[i]<=c[i-1] and c[i]>=o[i-1]): continue
         if c[i]>0 and _body(o[i],c[i])/c[i]>=0.02:
@@ -247,11 +238,11 @@ def detect_last_engulfing_bull(df):
     return result
 
 def detect_last_engulfing_bear(df):
-    """最後の抱き線（陰）: 上昇トレンド末期の大きな陰の包み足"""
+    """最後の抱き線（陰）: 下降トレンド末期の大きな陰の包み足（買い転換）"""
     o, c = df["Open"].values, df["Close"].values
     result = []
     for i in range(11, len(df)):
-        if not is_uptrend(c, i): continue
+        if not is_downtrend(c, i): continue
         if c[i-1]<=o[i-1] or c[i]>=o[i]: continue
         if not (o[i]>=c[i-1] and c[i]<=o[i-1]): continue
         if c[i]>0 and _body(o[i],c[i])/c[i]>=0.02:
@@ -312,6 +303,7 @@ def detect_uwabanaare_narabiari(df):
     o, h, c = df["Open"].values, df["High"].values, df["Close"].values
     result = []
     for i in range(2, len(df)):
+        if not is_uptrend(c, i-2): continue
         if o[i-1] <= h[i-2]: continue          # Day2 ギャップアップ
         if c[i-1] <= o[i-1]: continue          # Day2 陽線
         if c[i] <= o[i]: continue              # Day3 陽線
@@ -322,10 +314,11 @@ def detect_uwabanaare_narabiari(df):
     return result
 
 def detect_uwabanaare_narabikuro(df):
-    """上放れ並び黒: ギャップアップ後に似た大きさの陰線2本（崩れ警戒）"""
+    """上放れ並び黒: 上昇途中のギャップアップ後に似た大きさの陰線2本（押し目候補）"""
     o, h, c = df["Open"].values, df["High"].values, df["Close"].values
     result = []
     for i in range(2, len(df)):
+        if not is_uptrend(c, i-2): continue
         if o[i-1] <= h[i-2]: continue          # Day2 ギャップアップ
         if c[i-1] >= o[i-1]: continue          # Day2 陰線
         if c[i] >= o[i]: continue              # Day3 陰線
@@ -333,21 +326,6 @@ def detect_uwabanaare_narabikuro(df):
         if b2 == 0: continue
         if 0.7 <= b3/b2 <= 1.3 and o[i] >= o[i-1]*0.99:
             result.append(i)
-    return result
-
-def detect_uwabanaare_kuro2(df):
-    """上放れ黒二本: 天井圏でギャップアップ後に陰線2本（天井示唆）"""
-    o, h, c = df["Open"].values, df["High"].values, df["Close"].values
-    result = []
-    for i in range(12, len(df)):
-        if not is_uptrend(c, i): continue
-        if o[i-1] <= h[i-2]: continue          # Day2 ギャップアップ
-        if c[i-1] >= o[i-1]: continue          # Day2 陰線（まだDay1終値より上）
-        if c[i-1] <= c[i-2]: continue
-        if c[i] >= o[i]: continue              # Day3 陰線
-        if o[i] > o[i-1]: continue            # Day3はDay2実体内以下で始まる
-        if c[i] >= c[i-1]: continue           # Day3はDay2より下まで下落
-        result.append(i)
     return result
 
 def detect_uwabanaare_juji(df):
@@ -498,9 +476,6 @@ PATTERNS = [
     {"name": "陽のたすき", "direction": "bullish",
      "description": "ギャップアップ後2本陽線、その後の陰線がギャップを埋めきれない。上昇継続サイン。",
      "detect": detect_yang_tasuki, "confirm": confirmed_rise},
-    {"name": "上放れ赤2本", "direction": "bullish",
-     "description": "ギャップアップ後に2本連続陽線。強い買い圧力が続く上昇継続サイン。",
-     "detect": detect_uwabanaare_aka2, "confirm": confirmed_rise},
     # ── 3本足：下降 ──
     {"name": "三羽烏",     "direction": "bearish",
      "description": "3本連続陰線で終値が順に下降。下落継続のサイン。",
@@ -527,9 +502,9 @@ PATTERNS = [
     {"name": "毛抜き底",   "direction": "bullish",
      "description": "2本の安値がほぼ同じ水準で並ぶ。強いサポートの存在を示す底打ちサイン。",
      "detect": detect_tweezers_bottom, "confirm": confirmed_rise},
-    {"name": "最後の抱き線陽", "direction": "bullish",
-     "description": "下降トレンド末期の大きな陽の包み足。トレンド転換の最終確認サイン。",
-     "detect": detect_last_engulfing_bull, "confirm": confirmed_rise},
+    {"name": "最後の抱き線陰", "direction": "bullish",
+     "description": "下降トレンド末期に、小陽線を大陰線が包む形。翌日の上寄りで底入れを確認する買い転換サイン。",
+     "detect": detect_last_engulfing_bear, "confirm": confirmed_rise},
     # ── 2本足：下降 ──
     {"name": "包み足陰線", "direction": "bearish",
      "description": "前日陽線を大陰線が完全に包む。強い売り圧力の下落転換サイン。",
@@ -543,9 +518,9 @@ PATTERNS = [
     {"name": "毛抜き天井", "direction": "bearish",
      "description": "2本の高値がほぼ同じ水準で並ぶ。強いレジスタンスを示す天井打ちサイン。",
      "detect": detect_tweezers_top, "confirm": confirmed_fall},
-    {"name": "最後の抱き線陰", "direction": "bearish",
-     "description": "上昇トレンド末期の大きな陰の包み足。トレンド転換の最終確認サイン。",
-     "detect": detect_last_engulfing_bear, "confirm": confirmed_fall},
+    {"name": "最後の抱き線陽", "direction": "bearish",
+     "description": "上昇トレンド末期に、小陰線を大陽線が包む形。翌日の下寄りで天井を確認する売り転換サイン。",
+     "detect": detect_last_engulfing_bull, "confirm": confirmed_fall},
     # ── 1本足：上昇 ──
     {"name": "カラカサ",   "direction": "bullish",
      "description": "下降トレンド後の下ヒゲが長い足。底値圏での強い買い意欲を示す反転サイン。",
@@ -567,12 +542,9 @@ PATTERNS = [
     {"name": "上放れ並び赤", "direction": "bullish",
      "description": "ギャップアップ後に同じ大きさの陽線が2本並ぶ。強い買い勢いの継続サイン。",
      "detect": detect_uwabanaare_narabiari, "confirm": confirmed_rise},
-    {"name": "上放れ並び黒", "direction": "bearish",
-     "description": "ギャップアップ後に陰線2本が並ぶ。窓が崩れる可能性を示す下落警戒サイン。",
-     "detect": detect_uwabanaare_narabikuro, "confirm": confirmed_fall},
-    {"name": "上放れ黒二本", "direction": "bearish",
-     "description": "天井圏でギャップアップ後に陰線2本が出現。買いの失速と天井形成を示すサイン。",
-     "detect": detect_uwabanaare_kuro2, "confirm": confirmed_fall},
+    {"name": "上放れ並び黒", "direction": "bullish",
+     "description": "上昇途中のギャップアップ後に同程度の陰線が2本並ぶ。押し目からの上昇継続候補だが、確認を要する弱いサイン。",
+     "detect": detect_uwabanaare_narabikuro, "confirm": confirmed_rise},
     {"name": "上放れ十字線", "direction": "bearish",
      "description": "上昇中のギャップアップ後に十字線出現。買い勢力の迷いを示す天井転換警戒サイン。",
      "detect": detect_uwabanaare_juji, "confirm": confirmed_fall},

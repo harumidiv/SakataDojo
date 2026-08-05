@@ -14,8 +14,6 @@ struct ContentView: View {
         "三羽烏": true,
         "宵の明星": true,
         "上放れ並び赤": true,
-        "上放れ黒二本": true,
-        "上放れ赤2本": true,
         "下放れ二本の陰線": true,
         "最後の抱き線陽": true,
         "最後の抱き線陰": true,
@@ -26,10 +24,10 @@ struct ContentView: View {
         "行き詰まり線": false,
         "はらみ足陽線": false,
         "はらみ足陰線": false,
-        "切り込み線": false,
+        "切り込み線": true,
         "毛抜き底": false,
         "毛抜き天井": false,
-        "かぶせ線": false,
+        "かぶせ線": true,
         "カラカサ": false,
         "トンボ": false,
         "首吊り線": false,
@@ -37,20 +35,20 @@ struct ContentView: View {
         "塔婆": false,
         "上放れ並び黒": false,
         "上放れ十字線": false,
-        "上放れ三手放れ寄せ線": false,
+        "上放れ三手放れ寄せ線": true,
         "下放れ並び赤": false,
         "下放れ十字線": false,
-        "下放れ三手放れ寄せ線": false,
+        "下放れ三手放れ寄せ線": true,
     ]
 
     private let patternNames = [
-        "赤三兵", "明けの明星", "陽のたすき", "上放れ赤2本",
+        "赤三兵", "明けの明星", "陽のたすき",
         "三羽烏", "宵の明星", "陰のたすき", "行き詰まり線",
-        "包み足陽線", "はらみ足陽線", "切り込み線", "毛抜き底", "最後の抱き線陽",
-        "包み足陰線", "はらみ足陰線", "かぶせ線", "毛抜き天井", "最後の抱き線陰",
+        "包み足陽線", "はらみ足陽線", "切り込み線", "毛抜き底", "最後の抱き線陰",
+        "包み足陰線", "はらみ足陰線", "かぶせ線", "毛抜き天井", "最後の抱き線陽",
         "カラカサ", "トンボ",
         "首吊り線", "トンカチ", "塔婆",
-        "上放れ並び赤", "上放れ並び黒", "上放れ黒二本", "上放れ十字線", "上放れ三手放れ寄せ線",
+        "上放れ並び赤", "上放れ並び黒", "上放れ十字線", "上放れ三手放れ寄せ線",
         "下放れ並び赤", "下放れ二本の陰線", "下放れ十字線", "下放れ三手放れ寄せ線"
     ]
 
@@ -79,8 +77,15 @@ struct ContentView: View {
             if let ex = currentExample, let pattern = currentPattern {
                 HStack {
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(showAnswer ? pattern.pattern : "？？？")
-                            .font(.title2).bold()
+                        HStack(spacing: 8) {
+                            if showAnswer, let strong = patternStrength[pattern.pattern] {
+                                Circle()
+                                    .fill(strong ? Color.red : Color.blue)
+                                    .frame(width: 14, height: 14)
+                            }
+                            Text(showAnswer ? pattern.pattern : "？？？")
+                                .font(.title2).bold()
+                        }
                         Text("\(ex.ticker) \(ex.name)  \(ex.quizCandles.last?.date ?? "")")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
@@ -140,26 +145,10 @@ struct ContentView: View {
                     .controlSize(.large)
 
                     if let pattern = currentPattern {
-                        let isStrong = patternStrength[pattern.pattern]
-                        HStack(alignment: .top, spacing: 6) {
-                            if let strong = isStrong {
-                                Circle()
-                                    .fill(strong ? Color.red : Color.blue)
-                                    .frame(width: 10, height: 10)
-                                    .padding(.top, 3)
-                            }
-                            VStack(alignment: .leading, spacing: 2) {
-                                if let strong = isStrong {
-                                    Text(strong ? "強いサイン" : "弱いサイン")
-                                        .font(.caption2).bold()
-                                        .foregroundStyle(strong ? .red : .blue)
-                                }
-                                Text(pattern.description)
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-                        }
-                        .frame(maxWidth: 400, alignment: .leading)
+                        Text(pattern.description)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: 400)
                     }
                 }
             }
