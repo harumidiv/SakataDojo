@@ -77,15 +77,6 @@ struct ContentView: View {
         return ex.quizCandles.count
     }
 
-    private var resultText: String? {
-        guard showAnswer, let ex = currentExample,
-              let base = ex.quizCandles.last?.close,
-              let last = ex.answerCandles.last?.close else { return nil }
-        let pct = (last - base) / base * 100
-        let sign = pct >= 0 ? "+" : ""
-        return "\(ex.answerCandles.count)日後: \(sign)\(String(format: "%.1f", pct))%"
-    }
-
     private var answerOptions: [String] {
         switch quizMode {
         case .direction:
@@ -134,6 +125,9 @@ struct ContentView: View {
         .onAppear {
             if allPatterns.isEmpty, errorMessage == nil {
                 loadAllPatterns()
+#if DEBUG
+                configureScreenshotStateIfNeeded()
+#endif
             }
         }
     }
@@ -368,17 +362,6 @@ struct ContentView: View {
                             .font(.subheadline.monospacedDigit())
                             .foregroundStyle(.secondary)
                     }
-                    if let result = resultText {
-                        Text(result)
-                            .font(.title3).bold()
-                            .foregroundStyle(result.contains("+") ? .red : .blue)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(Color.secondary.opacity(0.1))
-                            )
-                    }
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 12)
@@ -486,6 +469,46 @@ struct ContentView: View {
         currentExample = example
         patternChoices = makePatternChoices(correctPattern: pattern.pattern)
     }
+
+#if DEBUG
+    private func configureScreenshotStateIfNeeded() {
+        guard let argument = ProcessInfo.processInfo.arguments.first(where: {
+            $0.hasPrefix("--screenshot-state=")
+        }) else { return }
+
+        let state = String(argument.dropFirst("--screenshot-state=".count))
+
+        if let pattern = allPatterns.first(where: { $0.pattern == "赤三兵" }),
+           let example = pattern.examples.first {
+            currentPattern = pattern
+            currentExample = example
+            patternChoices = ["赤三兵", "三羽烏", "明けの明星", "宵の明星"]
+        }
+
+        selectedAnswer = nil
+        showAnswer = false
+        questionNumber = 0
+
+        switch state {
+        case "direction":
+            quizMode = .direction
+            appScreen = .quiz
+        case "pattern":
+            quizMode = .patternName
+            appScreen = .quiz
+        case "answer":
+            quizMode = .direction
+            selectedAnswer = currentPattern?.direction
+            showAnswer = true
+            questionNumber = 1
+            appScreen = .quiz
+        case "study":
+            appScreen = .study
+        default:
+            appScreen = .title
+        }
+    }
+#endif
 
     private func makePatternChoices(correctPattern: String) -> [String] {
         let distractors = allPatterns
@@ -624,14 +647,6 @@ private struct PatternStudyDetailView: View {
         return currentExample.quizCandles + currentExample.answerCandles
     }
 
-    private var priceChangeText: String? {
-        guard let currentExample,
-              let base = currentExample.quizCandles.last?.close,
-              let last = currentExample.answerCandles.last?.close else { return nil }
-        let percent = (last - base) / base * 100
-        return "\(currentExample.answerCandles.count)日後  \(percent >= 0 ? "+" : "")\(String(format: "%.1f", percent))%"
-    }
-
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
@@ -666,16 +681,6 @@ private struct PatternStudyDetailView: View {
                                 Text("\(currentExample.ticker)  \(currentExample.name)")
                                     .font(.subheadline)
                                     .foregroundStyle(.secondary)
-                            }
-
-                            Spacer()
-
-                            if let priceChangeText {
-                                Text(priceChangeText)
-                                    .font(.subheadline.bold())
-                                    .foregroundStyle(
-                                        priceChangeText.contains("+") ? Color.red : Color.blue
-                                    )
                             }
                         }
 
