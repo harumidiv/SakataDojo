@@ -91,6 +91,33 @@ struct ContentView: View {
     @State private var questionNumber: Int = 0
     @State private var correctCount: Int = 0
     @State private var patternQueue: [QuizPattern] = []
+    @State private var weaknessMode: Bool = false
+    @AppStorage("patternMistakesData") private var patternMistakesData: Data = Data()
+
+    private var patternMistakes: [String: Int] {
+        (try? JSONDecoder().decode([String: Int].self, from: patternMistakesData)) ?? [:]
+    }
+
+    private func recordResult(patternName: String, correct: Bool) {
+        var m = patternMistakes
+        m[patternName] = correct
+            ? max(0, (m[patternName] ?? 0) - 1)
+            : (m[patternName] ?? 0) + 1
+        patternMistakesData = (try? JSONEncoder().encode(m)) ?? Data()
+    }
+
+    private func weightedRandom(from patterns: [QuizPattern]) -> QuizPattern? {
+        guard !patterns.isEmpty else { return nil }
+        let m = patternMistakes
+        let weights = patterns.map { max(1, (m[$0.pattern] ?? 0) * 2 + 1) }
+        let total = weights.reduce(0, +)
+        var rand = Int.random(in: 0..<total)
+        for (p, w) in zip(patterns, weights) {
+            rand -= w
+            if rand < 0 { return p }
+        }
+        return patterns.last
+    }
 
     private let patternNames = [
         "赤三兵", "明けの明星", "陽のたすき",
@@ -274,6 +301,37 @@ struct ContentView: View {
                     .pickerStyle(.segmented)
                 }
 
+                let totalMistakes = patternMistakes.values.reduce(0, +)
+                if totalMistakes >= 50 {
+                    HStack {
+                        Label("弱点強化モード", systemImage: "flame.fill")
+                            .font(.headline)
+                            .foregroundStyle(weaknessMode ? .orange : .primary)
+                        Spacer()
+                        Toggle("", isOn: $weaknessMode)
+                            .labelsHidden()
+                            .tint(.orange)
+                    }
+                    .padding(16)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(weaknessMode ? Color.orange.opacity(0.08) : Color.secondary.opacity(0.06))
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(weaknessMode ? Color.orange : Color.secondary.opacity(0.2),
+                                    lineWidth: weaknessMode ? 2 : 1)
+                    )
+                } else {
+                    HStack(spacing: 6) {
+                        Image(systemName: "flame")
+                            .foregroundStyle(.secondary)
+                        Text("あと\(50 - totalMistakes)問ミスで弱点強化モード解放")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+
                 Button {
                     startQuiz()
                 } label: {
@@ -339,6 +397,16 @@ struct ContentView: View {
                         Label("タイトル", systemImage: "chevron.left")
                     }
                 }
+                ToolbarItem(placement: .topBarTrailing) {
+                    if patternMistakes.values.contains(where: { $0 > 0 }) {
+                        Button {
+                            patternMistakesData = Data()
+                        } label: {
+                            Label("苦手リセット", systemImage: "flame.slash")
+                        }
+                        .tint(.orange)
+                    }
+                }
             }
         }
     }
@@ -375,6 +443,13 @@ struct ContentView: View {
                                         .font(.caption)
                                         .foregroundStyle(.primary)
                                         .lineLimit(1)
+                                    let mistakes = patternMistakes[pattern.pattern] ?? 0
+                                    if mistakes > 0 {
+                                        Spacer(minLength: 0)
+                                        Image(systemName: "flame.fill")
+                                            .font(.caption2)
+                                            .foregroundStyle(.orange)
+                                    }
                                 }
                             }
                             .padding(8)
@@ -551,16 +626,25 @@ struct ContentView: View {
 
     private func pickRandom() {
         let pattern: QuizPattern
-        if quizChartSource == .ideals {
+        if !weaknessMode && quizChartSource == .ideals {
             if patternQueue.isEmpty { buildPatternQueue() }
             guard !patternQueue.isEmpty else { return }
             pattern = patternQueue.removeFirst()
         } else {
-            let available = allPatterns.filter { !$0.examples.isEmpty }
+            let available: [QuizPattern]
+            switch quizChartSource {
+            case .examples:
+                available = allPatterns.filter { !$0.examples.isEmpty }
+            case .ideals:
+                available = allPatterns.filter { !(idealPatternCandles[$0.pattern] ?? []).isEmpty }
+            }
             let candidates = available.count > 1
                 ? available.filter { $0.pattern != currentPattern?.pattern }
                 : available
-            guard let picked = candidates.randomElement() else { return }
+            guard let picked = weaknessMode
+                ? weightedRandom(from: candidates)
+                : candidates.randomElement()
+            else { return }
             pattern = picked
         }
         currentPattern = pattern
@@ -736,7 +820,10 @@ struct ContentView: View {
     }
 
     private func nextQuestion() {
-        if isCorrect == true { correctCount += 1 }
+        if let pattern = currentPattern, let correct = isCorrect {
+            if correct { correctCount += 1 }
+            recordResult(patternName: pattern.pattern, correct: correct)
+        }
         showAnswer = false
         selectedAnswer = nil
         if let limit = questionLimit, questionNumber >= limit {
