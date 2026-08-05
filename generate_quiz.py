@@ -13,16 +13,18 @@ import yfinance as yf
 import pandas as pd
 
 # ========== 設定 ==========
-PERIOD = "5y"
+PERIOD = "10y"
 QUIZ_CANDLES = 20
 ANSWER_DAYS = 20
 MIN_CONFIRM_DAYS = 5
 MIN_MOVE_PCT = 0.02
-MAX_EXAMPLES = 100
-MAX_PER_TICKER = 2
+MAX_EXAMPLES = 500
+MAX_PER_TICKER = 5
 MIN_OVERLAP_DAYS = 30
 BATCH_SIZE = 100
 OUTPUT_DIR = "SakataChartQuiz/patterns"
+MIN_PRICE = 200       # quiz期間の平均終値がこれ未満の銘柄を除外（円）
+MIN_RANGE_PCT = 0.03  # quiz期間の高値-安値がこれ未満の銘柄を除外（平均終値比）
 
 JPX_LIST_URL = "https://www.jpx.co.jp/markets/statistics-equities/misc/tvdivq0000001vg2-att/data_j.xls"
 MARKETS = ["プライム（内国株式）", "スタンダード（内国株式）"]
@@ -462,6 +464,15 @@ def build_example(df, ticker, name, end_idx):
     ans_end = end_idx + 1 + ANSWER_DAYS
     if start < 0 or ans_end > len(df):
         return None
+
+    quiz_df = df.iloc[start:end_idx+1]
+    avg_close = float(quiz_df["Close"].mean())
+    price_range = float(quiz_df["High"].max()) - float(quiz_df["Low"].min())
+    if avg_close < MIN_PRICE:
+        return None
+    if avg_close > 0 and price_range / avg_close < MIN_RANGE_PCT:
+        return None
+
     date_str = df.index[end_idx].strftime("%Y-%m-%d")
     return {
         "id":      f"{ticker.replace('.T','')}_{date_str}",
