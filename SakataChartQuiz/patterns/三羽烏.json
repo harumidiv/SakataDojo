@@ -1,7 +1,7 @@
 {
   "pattern": "三羽烏",
   "direction": "bearish",
-  "description": "3本連続陰線で終値が順に下降。下落継続のサイン。",
+  "description": "高値圏で3本の陰線が続き、終値が順に下降。上昇から下降への転換サイン。",
   "examples": [
     {
       "id": "1301_2017-03-29",

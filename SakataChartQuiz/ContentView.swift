@@ -672,6 +672,18 @@ private struct PatternStudyDetailView: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
 
+                if let idealCandles = idealPatternCandles[pattern.pattern], !idealCandles.isEmpty {
+                    studyCard(title: "手本チャート（模式図）", systemImage: "star.fill") {
+                        CandlestickChartView(
+                            candles: idealCandles,
+                            dividerIndex: nil,
+                            showsVolume: false,
+                            showsMovingAverages: false
+                        )
+                            .frame(height: 200)
+                    }
+                }
+
                 if let currentExample {
                     VStack(alignment: .leading, spacing: 12) {
                         HStack(alignment: .firstTextBaseline) {

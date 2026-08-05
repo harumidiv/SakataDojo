@@ -3,6 +3,20 @@ import SwiftUI
 struct CandlestickChartView: View {
     let candles: [Candle]
     let dividerIndex: Int?
+    let showsVolume: Bool
+    let showsMovingAverages: Bool
+
+    init(
+        candles: [Candle],
+        dividerIndex: Int?,
+        showsVolume: Bool = true,
+        showsMovingAverages: Bool = true
+    ) {
+        self.candles = candles
+        self.dividerIndex = dividerIndex
+        self.showsVolume = showsVolume
+        self.showsMovingAverages = showsMovingAverages
+    }
 
     private var maxPrice: Double { candles.map { $0.high }.max() ?? 0 }
     private var minPrice: Double { candles.map { $0.low }.min() ?? 0 }
@@ -26,8 +40,8 @@ struct CandlestickChartView: View {
             let priceHigh = maxPrice + pad
             let adjustedRange = priceHigh - priceLow
 
-            let volumeHeight = size.height * 0.2
-            let chartHeight = size.height - volumeHeight - 6
+            let volumeHeight = showsVolume ? size.height * 0.2 : 0
+            let chartHeight = size.height - volumeHeight - (showsVolume ? 6 : 0)
 
             let slotWidth = size.width / CGFloat(candles.count)
             let bodyWidth = max(slotWidth * 0.6, 2)
@@ -53,9 +67,10 @@ struct CandlestickChartView: View {
                 context.stroke(path, with: .color(color), lineWidth: 1.2)
             }
 
-            // 移動平均線
-            drawMA(ma(5),  color: Color(red: 1.0, green: 0.6, blue: 0.0))  // 5日: オレンジ
-            drawMA(ma(25), color: Color(red: 0.2, green: 0.7, blue: 0.3))  // 25日: グリーン
+            if showsMovingAverages {
+                drawMA(ma(5),  color: Color(red: 1.0, green: 0.6, blue: 0.0))  // 5日: オレンジ
+                drawMA(ma(25), color: Color(red: 0.2, green: 0.7, blue: 0.3))  // 25日: グリーン
+            }
 
             for (i, candle) in candles.enumerated() {
                 let cx = CGFloat(i) * slotWidth + slotWidth / 2
@@ -99,15 +114,16 @@ struct CandlestickChartView: View {
                     with: .color(color)
                 )
 
-                // 出来高バー
-                let volRatio = CGFloat(candle.volume) / CGFloat(maxVolume)
-                let volBarH = volRatio * volumeHeight * 0.9
-                let volY = size.height - volBarH
-                context.fill(
-                    Path(CGRect(x: cx - bodyWidth / 2, y: volY,
-                                width: bodyWidth, height: volBarH)),
-                    with: .color(color.opacity(0.55))
-                )
+                if showsVolume {
+                    let volRatio = CGFloat(candle.volume) / CGFloat(maxVolume)
+                    let volBarH = volRatio * volumeHeight * 0.9
+                    let volY = size.height - volBarH
+                    context.fill(
+                        Path(CGRect(x: cx - bodyWidth / 2, y: volY,
+                                    width: bodyWidth, height: volBarH)),
+                        with: .color(color.opacity(0.55))
+                    )
+                }
             }
         }
     }
