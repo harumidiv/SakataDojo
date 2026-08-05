@@ -4,6 +4,7 @@
 JPX上場銘柄（プライム・スタンダード）を全件スキャンして各パターン最大500件収集する。
 """
 
+import argparse
 import io
 import json
 import os
@@ -25,6 +26,7 @@ BATCH_SIZE = 100
 OUTPUT_DIR = "SakataChartQuiz/patterns"
 MIN_PRICE = 200       # quiz期間の平均終値がこれ未満の銘柄を除外（円）
 MIN_RANGE_PCT = 0.03  # quiz期間の高値-安値がこれ未満の銘柄を除外（平均終値比）
+MIN_DAILY_TURNOVER = 100_000_000  # パターン成立日の概算売買代金（終値×出来高、円）
 
 JPX_LIST_URL = "https://www.jpx.co.jp/markets/statistics-equities/misc/tvdivq0000001vg2-att/data_j.xls"
 MARKETS = ["プライム（内国株式）", "スタンダード（内国株式）"]
@@ -437,10 +439,27 @@ def to_candles(df):
         for ts, row in df.iterrows()
     ]
 
+
+def daily_turnover(close, volume):
+    """日足データから概算売買代金（終値×出来高）を返す。"""
+    return float(close) * int(volume)
+
+
+def has_sufficient_turnover(close, volume):
+    """1億円以下を除外するため、基準を超える場合だけTrueを返す。"""
+    return daily_turnover(close, volume) > MIN_DAILY_TURNOVER
+
+
 def build_example(df, ticker, name, end_idx):
     start   = end_idx - QUIZ_CANDLES + 1
     ans_end = end_idx + 1 + ANSWER_DAYS
     if start < 0 or ans_end > len(df):
+        return None
+
+    if not has_sufficient_turnover(
+        df["Close"].iloc[end_idx],
+        df["Volume"].iloc[end_idx],
+    ):
         return None
 
     quiz_df = df.iloc[start:end_idx+1]
@@ -459,6 +478,54 @@ def build_example(df, ticker, name, end_idx):
         "quiz_candles":   to_candles(df.iloc[start:end_idx+1]),
         "answer_candles": to_candles(df.iloc[end_idx+1:ans_end]),
     }
+
+
+def filter_existing_examples():
+    """既存JSONからパターン成立日の売買代金が1億円以下の実例を除外する。"""
+    total_before = 0
+    total_after = 0
+
+    for pattern in PATTERNS:
+        pattern_name = pattern["name"]
+        path = os.path.join(OUTPUT_DIR, f"{pattern_name}.json")
+        if not os.path.exists(path):
+            print(f"  {pattern_name}: ファイルなし → {path}")
+            continue
+
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+
+        examples = data.get("examples", [])
+        filtered = []
+        for example in examples:
+            quiz_candles = example.get("quiz_candles", [])
+            if not quiz_candles:
+                continue
+            signal_candle = quiz_candles[-1]
+            if has_sufficient_turnover(
+                signal_candle.get("close", 0),
+                signal_candle.get("volume", 0),
+            ):
+                filtered.append(example)
+
+        total_before += len(examples)
+        total_after += len(filtered)
+        data["examples"] = filtered
+
+        temp_path = f"{path}.tmp"
+        with open(temp_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        os.replace(temp_path, path)
+
+        print(
+            f"  {pattern_name}: {len(examples)} → {len(filtered)} 件 "
+            f"（{len(examples) - len(filtered)} 件除外）"
+        )
+
+    print(
+        f"\n合計: {total_before} → {total_after} 件 "
+        f"（{total_before - total_after} 件除外）"
+    )
 
 
 # ─────────────────────────────
@@ -671,4 +738,15 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="酒田五法クイズ用JSONデータ生成")
+    parser.add_argument(
+        "--filter-existing",
+        action="store_true",
+        help="既存JSONからパターン成立日の売買代金が1億円以下の実例を除外する",
+    )
+    args = parser.parse_args()
+
+    if args.filter_existing:
+        filter_existing_examples()
+    else:
+        main()
