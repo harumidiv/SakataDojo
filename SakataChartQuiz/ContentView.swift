@@ -79,7 +79,7 @@ struct ContentView: View {
     @State private var allPatterns: [QuizPattern] = []
     @State private var currentPattern: QuizPattern?
     @State private var currentExample: QuizExample?
-    @State private var quizChartSource: QuizChartSource = .examples
+    @State private var quizChartSource: QuizChartSource = .ideals
     @State private var quizMode: QuizMode = .direction
     @State private var appScreen: AppScreen = .title
     @State private var selectedAnswer: String?

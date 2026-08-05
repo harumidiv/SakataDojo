@@ -105,14 +105,27 @@ struct CandlestickChartView: View {
                     lineWidth: 1
                 )
 
-                // 実体
-                let bodyTop = min(priceY(candle.open), priceY(candle.close))
-                let bodyH = max(abs(priceY(candle.open) - priceY(candle.close)), 1.5)
-                context.fill(
-                    Path(CGRect(x: cx - bodyWidth / 2, y: bodyTop,
-                                width: bodyWidth, height: bodyH)),
-                    with: .color(color)
-                )
+                // 実体（十字線は横線で描画）
+                let isDoji = abs(candle.open - candle.close) < adjustedRange * 0.005
+                if isDoji {
+                    let dojiY = priceY((candle.open + candle.close) / 2)
+                    context.stroke(
+                        Path { p in
+                            p.move(to: CGPoint(x: cx - bodyWidth / 2, y: dojiY))
+                            p.addLine(to: CGPoint(x: cx + bodyWidth / 2, y: dojiY))
+                        },
+                        with: .color(color),
+                        lineWidth: 1.5
+                    )
+                } else {
+                    let bodyTop = min(priceY(candle.open), priceY(candle.close))
+                    let bodyH = max(abs(priceY(candle.open) - priceY(candle.close)), 1.5)
+                    context.fill(
+                        Path(CGRect(x: cx - bodyWidth / 2, y: bodyTop,
+                                    width: bodyWidth, height: bodyH)),
+                        with: .color(color)
+                    )
+                }
 
                 if showsVolume {
                     let volRatio = CGFloat(candle.volume) / CGFloat(maxVolume)
