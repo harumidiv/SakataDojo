@@ -28,13 +28,13 @@ let screenshots = [
     ScreenshotSpec(
         key: "title",
         title: "ローソク足を、\n見抜く。",
-        subtitle: "実例チャートで酒田の型を楽しく学ぶ",
+        subtitle: "基本形から実戦まで、酒田の型を楽しく学ぶ",
         accent: NSColor(calibratedRed: 0.23, green: 0.83, blue: 1.00, alpha: 1)
     ),
     ScreenshotSpec(
         key: "direction",
         title: "上がる？\n下がる？",
-        subtitle: "値動きを見て、その後の方向を予測",
+        subtitle: "チャートを見て、その後の方向を予測する",
         accent: NSColor(calibratedRed: 0.10, green: 0.54, blue: 1.00, alpha: 1)
     ),
     ScreenshotSpec(
@@ -45,14 +45,14 @@ let screenshots = [
     ),
     ScreenshotSpec(
         key: "answer",
-        title: "答えの先まで、\n見える。",
-        subtitle: "正解と、その後の値動きを確認",
+        title: "解説付きで\n理解が深まる。",
+        subtitle: "正解後にパターンの意味をすぐ確認",
         accent: NSColor(calibratedRed: 1.00, green: 0.25, blue: 0.34, alpha: 1)
     ),
     ScreenshotSpec(
         key: "study",
-        title: "30パターンを\n図鑑で復習",
-        subtitle: "意味・見方・実例チャートをいつでも確認",
+        title: "全パターンを\n図鑑で確認",
+        subtitle: "チャート付きで30パターンをひと目で復習",
         accent: NSColor(calibratedRed: 1.00, green: 0.67, blue: 0.20, alpha: 1)
     )
 ]
