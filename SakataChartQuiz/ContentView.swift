@@ -140,14 +140,25 @@ struct ContentView: View {
             return showAnswer ? ex.quizCandles + ex.answerCandles : ex.quizCandles
         case .ideals:
             guard let pattern = currentPattern else { return [] }
-            return idealPatternCandles[pattern.pattern] ?? []
+            let base = idealPatternCandles[pattern.pattern] ?? []
+            if showAnswer, let answer = idealPatternAnswerCandles[pattern.pattern] {
+                return base + answer
+            }
+            return base
         }
     }
 
     private var dividerIndex: Int? {
-        guard quizChartSource == .examples else { return nil }
-        guard showAnswer, let ex = currentExample else { return nil }
-        return ex.quizCandles.count
+        guard showAnswer else { return nil }
+        switch quizChartSource {
+        case .examples:
+            guard let ex = currentExample else { return nil }
+            return ex.quizCandles.count
+        case .ideals:
+            guard let pattern = currentPattern,
+                  idealPatternAnswerCandles[pattern.pattern] != nil else { return nil }
+            return idealPatternCandles[pattern.pattern]?.count
+        }
     }
 
     private var answerOptions: [String] {
