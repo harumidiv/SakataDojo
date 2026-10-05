@@ -77,6 +77,7 @@ private enum QuizChartSource: String, CaseIterable, Identifiable {
 }
 
 struct ContentView: View {
+    @StateObject private var interstitialAdManager = InterstitialAdManager()
     @State private var allPatterns: [QuizPattern] = []
     @State private var currentPattern: QuizPattern?
     @State private var currentExample: QuizExample?
@@ -95,6 +96,7 @@ struct ContentView: View {
     @State private var weaknessMode: Bool = false
     @State private var currentStreak: Int = 0
     @State private var bestStreakThisSession: Int = 0
+    @State private var isCompletingQuiz = false
     @AppStorage("patternMistakesData") private var patternMistakesData: Data = Data()
     @AppStorage("allTimeBestStreak") private var allTimeBestStreak: Int = 0
 
@@ -186,6 +188,11 @@ struct ContentView: View {
         return selectedAnswer == correctAnswer
     }
 
+    private var isLastQuestion: Bool {
+        guard let questionLimit else { return false }
+        return questionNumber >= questionLimit
+    }
+
     private var filteredStudyPatterns: [QuizPattern] {
         guard !studySearchText.isEmpty else { return allPatterns }
         return allPatterns.filter {
@@ -208,6 +215,7 @@ struct ContentView: View {
             }
         }
         .onAppear {
+            interstitialAdManager.loadAd()
             if allPatterns.isEmpty, errorMessage == nil {
                 loadAllPatterns()
 #if DEBUG
@@ -618,11 +626,12 @@ struct ContentView: View {
                             .multilineTextAlignment(.leading)
                             .frame(maxWidth: .infinity, alignment: .leading)
 
-                        Button("次の問題") {
+                        Button(isLastQuestion ? "結果を見る" : "次の問題") {
                             nextQuestion()
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
+                        .disabled(isCompletingQuiz)
                     }
                 }
             }
@@ -829,10 +838,12 @@ struct ContentView: View {
     private func startQuiz() {
         showAnswer = false
         selectedAnswer = nil
+        isCompletingQuiz = false
         questionNumber = 0
         correctCount = 0
         currentStreak = 0
         bestStreakThisSession = 0
+        interstitialAdManager.loadAd()
         buildPatternQueue()
         pickRandom()
         withAnimation(.easeInOut(duration: 0.25)) {
@@ -861,10 +872,13 @@ struct ContentView: View {
             appScreen = .title
             showAnswer = false
             selectedAnswer = nil
+            isCompletingQuiz = false
         }
     }
 
     private func nextQuestion() {
+        guard !isCompletingQuiz else { return }
+
         if let pattern = currentPattern, let correct = isCorrect {
             if correct {
                 correctCount += 1
@@ -876,12 +890,22 @@ struct ContentView: View {
             }
             recordResult(patternName: pattern.pattern, correct: correct)
         }
-        showAnswer = false
-        selectedAnswer = nil
-        if let limit = questionLimit, questionNumber >= limit {
-            withAnimation(.easeInOut(duration: 0.25)) { appScreen = .results }
+
+        if isLastQuestion {
+            isCompletingQuiz = true
+            interstitialAdManager.present {
+                isCompletingQuiz = false
+                showAnswer = false
+                selectedAnswer = nil
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    appScreen = .results
+                }
+            }
             return
         }
+
+        showAnswer = false
+        selectedAnswer = nil
         pickRandom()
     }
 }

@@ -6,9 +6,14 @@
 //
 
 import SwiftUI
+import GoogleMobileAds
 
 @main
 struct SakataChartQuizApp: App {
+    init() {
+        MobileAds.shared.start()
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
