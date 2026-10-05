@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 private enum AppScreen {
     case title
@@ -754,6 +755,10 @@ struct ContentView: View {
 
     private func submitAnswer(_ answer: String) {
         guard !showAnswer else { return }
+
+        let feedbackGenerator = UINotificationFeedbackGenerator()
+        feedbackGenerator.notificationOccurred(answer == correctAnswer ? .success : .error)
+
         withAnimation {
             selectedAnswer = answer
             showAnswer = true
