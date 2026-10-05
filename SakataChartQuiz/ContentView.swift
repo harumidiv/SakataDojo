@@ -77,6 +77,8 @@ private enum QuizChartSource: String, CaseIterable, Identifiable {
 }
 
 struct ContentView: View {
+    @Environment(\.scenePhase) private var scenePhase
+    @StateObject private var adConsentManager = AdConsentManager()
     @StateObject private var interstitialAdManager = InterstitialAdManager()
     @State private var allPatterns: [QuizPattern] = []
     @State private var currentPattern: QuizPattern?
@@ -214,8 +216,14 @@ struct ContentView: View {
                 studyScreen
             }
         }
+        .onChange(of: scenePhase, initial: true) { _, phase in
+            guard phase == .active else { return }
+            Task { await adConsentManager.gatherConsentIfNeeded() }
+        }
+        .onChange(of: adConsentManager.canRequestAds) { _, canRequestAds in
+            if canRequestAds { interstitialAdManager.loadAd() }
+        }
         .onAppear {
-            interstitialAdManager.loadAd()
             if allPatterns.isEmpty, errorMessage == nil {
                 loadAllPatterns()
 #if DEBUG
@@ -384,6 +392,16 @@ struct ContentView: View {
         }
         .background(Color.secondary.opacity(0.04).ignoresSafeArea())
         .toolbar {
+            if adConsentManager.isPrivacyOptionsRequired {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        Task { await adConsentManager.presentPrivacyOptionsForm() }
+                    } label: {
+                        Image(systemName: "hand.raised.fill")
+                    }
+                    .accessibilityLabel("プライバシー設定")
+                }
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     openStudyGuide()
