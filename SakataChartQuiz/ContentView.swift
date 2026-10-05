@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 private enum AppScreen {
     case title
@@ -76,6 +77,9 @@ private enum QuizChartSource: String, CaseIterable, Identifiable {
 }
 
 struct ContentView: View {
+    @Environment(\.scenePhase) private var scenePhase
+    @StateObject private var adConsentManager = AdConsentManager()
+    @StateObject private var interstitialAdManager = InterstitialAdManager()
     @State private var allPatterns: [QuizPattern] = []
     @State private var currentPattern: QuizPattern?
     @State private var currentExample: QuizExample?
@@ -94,6 +98,7 @@ struct ContentView: View {
     @State private var weaknessMode: Bool = false
     @State private var currentStreak: Int = 0
     @State private var bestStreakThisSession: Int = 0
+    @State private var isCompletingQuiz = false
     @AppStorage("patternMistakesData") private var patternMistakesData: Data = Data()
     @AppStorage("allTimeBestStreak") private var allTimeBestStreak: Int = 0
 
@@ -185,6 +190,11 @@ struct ContentView: View {
         return selectedAnswer == correctAnswer
     }
 
+    private var isLastQuestion: Bool {
+        guard let questionLimit else { return false }
+        return questionNumber >= questionLimit
+    }
+
     private var filteredStudyPatterns: [QuizPattern] {
         guard !studySearchText.isEmpty else { return allPatterns }
         return allPatterns.filter {
@@ -205,6 +215,13 @@ struct ContentView: View {
             case .study:
                 studyScreen
             }
+        }
+        .onChange(of: scenePhase, initial: true) { _, phase in
+            guard phase == .active else { return }
+            Task { await adConsentManager.gatherConsentIfNeeded() }
+        }
+        .onChange(of: adConsentManager.canRequestAds) { _, canRequestAds in
+            if canRequestAds { interstitialAdManager.loadAd() }
         }
         .onAppear {
             if allPatterns.isEmpty, errorMessage == nil {
@@ -375,6 +392,16 @@ struct ContentView: View {
         }
         .background(Color.secondary.opacity(0.04).ignoresSafeArea())
         .toolbar {
+            if adConsentManager.isPrivacyOptionsRequired {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        Task { await adConsentManager.presentPrivacyOptionsForm() }
+                    } label: {
+                        Image(systemName: "hand.raised.fill")
+                    }
+                    .accessibilityLabel("プライバシー設定")
+                }
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     openStudyGuide()
@@ -617,11 +644,12 @@ struct ContentView: View {
                             .multilineTextAlignment(.leading)
                             .frame(maxWidth: .infinity, alignment: .leading)
 
-                        Button("次の問題") {
+                        Button(isLastQuestion ? "結果を見る" : "次の問題") {
                             nextQuestion()
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
+                        .disabled(isCompletingQuiz)
                     }
                 }
             }
@@ -754,6 +782,10 @@ struct ContentView: View {
 
     private func submitAnswer(_ answer: String) {
         guard !showAnswer else { return }
+
+        let feedbackGenerator = UINotificationFeedbackGenerator()
+        feedbackGenerator.notificationOccurred(answer == correctAnswer ? .success : .error)
+
         withAnimation {
             selectedAnswer = answer
             showAnswer = true
@@ -824,10 +856,12 @@ struct ContentView: View {
     private func startQuiz() {
         showAnswer = false
         selectedAnswer = nil
+        isCompletingQuiz = false
         questionNumber = 0
         correctCount = 0
         currentStreak = 0
         bestStreakThisSession = 0
+        interstitialAdManager.loadAd()
         buildPatternQueue()
         pickRandom()
         withAnimation(.easeInOut(duration: 0.25)) {
@@ -856,10 +890,13 @@ struct ContentView: View {
             appScreen = .title
             showAnswer = false
             selectedAnswer = nil
+            isCompletingQuiz = false
         }
     }
 
     private func nextQuestion() {
+        guard !isCompletingQuiz else { return }
+
         if let pattern = currentPattern, let correct = isCorrect {
             if correct {
                 correctCount += 1
@@ -871,12 +908,22 @@ struct ContentView: View {
             }
             recordResult(patternName: pattern.pattern, correct: correct)
         }
-        showAnswer = false
-        selectedAnswer = nil
-        if let limit = questionLimit, questionNumber >= limit {
-            withAnimation(.easeInOut(duration: 0.25)) { appScreen = .results }
+
+        if isLastQuestion {
+            isCompletingQuiz = true
+            interstitialAdManager.present {
+                isCompletingQuiz = false
+                showAnswer = false
+                selectedAnswer = nil
+                withAnimation(.easeInOut(duration: 0.25)) {
+                    appScreen = .results
+                }
+            }
             return
         }
+
+        showAnswer = false
+        selectedAnswer = nil
         pickRandom()
     }
 }
