@@ -783,8 +783,10 @@ struct ContentView: View {
     private func submitAnswer(_ answer: String) {
         guard !showAnswer else { return }
 
+        let isCorrect = answer == correctAnswer
         let feedbackGenerator = UINotificationFeedbackGenerator()
-        feedbackGenerator.notificationOccurred(answer == correctAnswer ? .success : .error)
+        feedbackGenerator.notificationOccurred(isCorrect ? .success : .error)
+        SoundEffectPlayer.shared.play(isCorrect ? .correct : .wrong)
 
         withAnimation {
             selectedAnswer = answer
@@ -862,6 +864,7 @@ struct ContentView: View {
         currentStreak = 0
         bestStreakThisSession = 0
         interstitialAdManager.loadAd()
+        SoundEffectPlayer.shared.prepare()
         buildPatternQueue()
         pickRandom()
         withAnimation(.easeInOut(duration: 0.25)) {
