@@ -913,13 +913,14 @@ struct ContentView: View {
         }
 
         if isLastQuestion {
+            // 先に結果画面へ切り替えてから広告を出し、閉じたときに最後の問題が一瞬見えないようにする
             isCompletingQuiz = true
-            interstitialAdManager.present {
-                isCompletingQuiz = false
-                showAnswer = false
-                selectedAnswer = nil
-                withAnimation(.easeInOut(duration: 0.25)) {
-                    appScreen = .results
+            showAnswer = false
+            selectedAnswer = nil
+            appScreen = .results
+            Task { @MainActor in
+                interstitialAdManager.present {
+                    isCompletingQuiz = false
                 }
             }
             return
