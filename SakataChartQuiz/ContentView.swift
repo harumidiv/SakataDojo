@@ -1,5 +1,6 @@
 import SwiftUI
 import UIKit
+import StoreKit
 
 private enum AppScreen {
     case title
@@ -76,8 +77,24 @@ private enum QuizChartSource: String, CaseIterable, Identifiable {
     }
 }
 
+private struct QuestionResult: Identifiable {
+    let id = UUID()
+    let questionNumber: Int
+    let patternName: String
+    let patternDescription: String
+    let signalDirection: String
+    let chartSubtitle: String
+    let candles: [Candle]
+    let dividerIndex: Int?
+    let showsMarketDetails: Bool
+    let selectedAnswer: String
+    let correctAnswer: String
+    let isCorrect: Bool
+}
+
 struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.requestReview) private var requestReview
     @StateObject private var adConsentManager = AdConsentManager()
     @StateObject private var interstitialAdManager = InterstitialAdManager()
     @State private var allPatterns: [QuizPattern] = []
@@ -99,8 +116,14 @@ struct ContentView: View {
     @State private var currentStreak: Int = 0
     @State private var bestStreakThisSession: Int = 0
     @State private var isCompletingQuiz = false
+    @State private var questionResults: [QuestionResult] = []
+    @State private var isCorrectResultsExpanded = false
+    @State private var isIncorrectResultsExpanded = false
     @AppStorage("patternMistakesData") private var patternMistakesData: Data = Data()
     @AppStorage("allTimeBestStreak") private var allTimeBestStreak: Int = 0
+    @AppStorage("lastReviewRequestVersion") private var lastReviewRequestVersion = ""
+
+    private static let appStoreURL = "https://apps.apple.com/app/id6798115410"
 
     private var patternMistakes: [String: Int] {
         (try? JSONDecoder().decode([String: Int].self, from: patternMistakesData)) ?? [:]
@@ -201,6 +224,30 @@ struct ContentView: View {
             $0.pattern.localizedCaseInsensitiveContains(studySearchText)
                 || $0.description.localizedCaseInsensitiveContains(studySearchText)
         }
+    }
+
+    private var resultShareText: String {
+        let accuracy = Int((questionNumber > 0
+            ? Double(correctCount) / Double(questionNumber) * 100
+            : 0).rounded())
+        var lines = [
+            "酒田道場でローソク足クイズに挑戦！",
+            "\(questionNumber)問中 \(correctCount)問正解（正解率\(accuracy)%）"
+        ]
+        if bestStreakThisSession >= 2 {
+            lines.append("最大\(bestStreakThisSession)連続正解🔥")
+        }
+        lines.append("#酒田道場")
+        lines.append(Self.appStoreURL)
+        return lines.joined(separator: "\n")
+    }
+
+    private var correctQuestionResults: [QuestionResult] {
+        questionResults.filter(\.isCorrect)
+    }
+
+    private var incorrectQuestionResults: [QuestionResult] {
+        questionResults.filter { !$0.isCorrect }
     }
 
     var body: some View {
@@ -796,63 +843,195 @@ struct ContentView: View {
     }
 
     private var resultsScreen: some View {
-        VStack(spacing: 32) {
-            Spacer()
+        ScrollView {
+            VStack(spacing: 24) {
+                Image(systemName: correctCount > (questionNumber / 2) ? "star.fill" : "chart.xyaxis.line")
+                    .font(.system(size: 64))
+                    .foregroundStyle(correctCount > (questionNumber / 2) ? .yellow : .secondary)
 
-            Image(systemName: correctCount > (questionNumber / 2) ? "star.fill" : "chart.xyaxis.line")
-                .font(.system(size: 64))
-                .foregroundStyle(correctCount > (questionNumber / 2) ? .yellow : .secondary)
-
-            VStack(spacing: 8) {
-                Text("セット終了！")
-                    .font(.largeTitle.bold())
-                Text("\(questionNumber)問中 \(correctCount)問正解")
-                    .font(.title2)
-                    .foregroundStyle(.secondary)
-                Text(String(format: "正解率 %.0f%%", questionNumber > 0 ? Double(correctCount) / Double(questionNumber) * 100 : 0))
-                    .font(.title3.bold())
-                    .foregroundStyle(correctCount >= questionNumber * 7 / 10 ? .green : .orange)
-                if bestStreakThisSession >= 2 {
-                    HStack(spacing: 4) {
-                        Image(systemName: "bolt.fill")
-                            .foregroundStyle(.orange)
-                        Text("最大\(bestStreakThisSession)連続正解")
-                            .foregroundStyle(.orange)
-                        if bestStreakThisSession == allTimeBestStreak {
-                            Text("🏆 自己ベスト！")
-                                .foregroundStyle(.yellow)
+                VStack(spacing: 8) {
+                    Text("セット終了！")
+                        .font(.largeTitle.bold())
+                    Text("\(questionNumber)問中 \(correctCount)問正解")
+                        .font(.title2)
+                        .foregroundStyle(.secondary)
+                    Text(String(format: "正解率 %.0f%%", questionNumber > 0 ? Double(correctCount) / Double(questionNumber) * 100 : 0))
+                        .font(.title3.bold())
+                        .foregroundStyle(correctCount >= questionNumber * 7 / 10 ? .green : .orange)
+                    if bestStreakThisSession >= 2 {
+                        HStack(spacing: 4) {
+                            Image(systemName: "bolt.fill")
+                                .foregroundStyle(.orange)
+                            Text("最大\(bestStreakThisSession)連続正解")
+                                .foregroundStyle(.orange)
+                            if bestStreakThisSession == allTimeBestStreak {
+                                Text("🏆 自己ベスト！")
+                                    .foregroundStyle(.yellow)
+                            }
                         }
+                        .font(.subheadline.bold())
                     }
-                    .font(.subheadline.bold())
                 }
+
+                VStack(spacing: 12) {
+                    Button {
+                        startQuiz()
+                    } label: {
+                        Label("もう一度", systemImage: "arrow.clockwise")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity, minHeight: 50)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                    .disabled(isCompletingQuiz)
+
+                    ShareLink(item: resultShareText) {
+                        Label("結果をSNSで共有", systemImage: "square.and.arrow.up")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity, minHeight: 44)
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.large)
+                    .disabled(isCompletingQuiz)
+
+                    Button {
+                        returnToTitle()
+                    } label: {
+                        Text("タイトルに戻る")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity, minHeight: 44)
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.large)
+                    .disabled(isCompletingQuiz)
+                }
+                .frame(maxWidth: 400)
+
+                VStack(alignment: .leading, spacing: 12) {
+                    Label("チャートを振り返る", systemImage: "chart.xyaxis.line")
+                        .font(.title2.bold())
+
+                    resultSection(
+                        title: "間違えたチャート",
+                        systemImage: "xmark.circle.fill",
+                        color: .orange,
+                        results: incorrectQuestionResults,
+                        isExpanded: $isIncorrectResultsExpanded
+                    )
+
+                    resultSection(
+                        title: "正解したチャート",
+                        systemImage: "checkmark.circle.fill",
+                        color: .green,
+                        results: correctQuestionResults,
+                        isExpanded: $isCorrectResultsExpanded
+                    )
+                }
+                .frame(maxWidth: 760)
             }
-
-            VStack(spacing: 12) {
-                Button {
-                    startQuiz()
-                } label: {
-                    Label("もう一度", systemImage: "arrow.clockwise")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity, minHeight: 50)
-                }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
-
-                Button {
-                    returnToTitle()
-                } label: {
-                    Text("タイトルに戻る")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity, minHeight: 44)
-                }
-                .buttonStyle(.bordered)
-                .controlSize(.large)
-            }
-            .frame(maxWidth: 400)
-
-            Spacer()
+            .padding(.horizontal, 20)
+            .padding(.vertical, 32)
+            .frame(maxWidth: .infinity)
         }
-        .padding(.horizontal, 32)
+        .background(Color.secondary.opacity(0.04).ignoresSafeArea())
+    }
+
+    private func resultSection(
+        title: String,
+        systemImage: String,
+        color: Color,
+        results: [QuestionResult],
+        isExpanded: Binding<Bool>
+    ) -> some View {
+        DisclosureGroup(isExpanded: isExpanded) {
+            if results.isEmpty {
+                Text("該当するチャートはありません")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.top, 12)
+            } else {
+                LazyVStack(spacing: 12) {
+                    ForEach(results) { result in
+                        resultChartCard(result)
+                    }
+                }
+                .padding(.top, 12)
+            }
+        } label: {
+            HStack {
+                Label(title, systemImage: systemImage)
+                    .font(.headline)
+                    .foregroundStyle(color)
+                Spacer()
+                Text("\(results.count)問")
+                    .font(.subheadline.monospacedDigit())
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(.secondarySystemBackground))
+        )
+    }
+
+    private func resultChartCard(_ result: QuestionResult) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .firstTextBaseline) {
+                Text("第\(result.questionNumber)問")
+                    .font(.caption.bold())
+                    .foregroundStyle(result.isCorrect ? .green : .orange)
+                Text(result.patternName)
+                    .font(.headline)
+                Spacer()
+                Text(result.signalDirection == "bullish" ? "上昇サイン" : "下落サイン")
+                    .font(.caption.bold())
+                    .foregroundStyle(result.signalDirection == "bullish" ? .red : .blue)
+            }
+
+            Text(result.chartSubtitle)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            CandlestickChartView(
+                candles: result.candles,
+                dividerIndex: result.dividerIndex,
+                showsVolume: result.showsMarketDetails,
+                showsMovingAverages: result.showsMarketDetails
+            )
+            .frame(height: 180)
+            .padding(8)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.secondary.opacity(0.06))
+            )
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text("あなたの回答: \(result.selectedAnswer)")
+                    .foregroundStyle(result.isCorrect ? .green : .orange)
+                if !result.isCorrect {
+                    Text("正解: \(result.correctAnswer)")
+                        .bold()
+                }
+                Text(result.patternDescription)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            .font(.subheadline)
+        }
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: 14)
+                .fill(Color(.systemBackground))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 14)
+                .stroke(
+                    (result.isCorrect ? Color.green : Color.orange).opacity(0.25),
+                    lineWidth: 1
+                )
+        )
     }
 
     private func startQuiz() {
@@ -863,6 +1042,9 @@ struct ContentView: View {
         correctCount = 0
         currentStreak = 0
         bestStreakThisSession = 0
+        questionResults = []
+        isCorrectResultsExpanded = false
+        isIncorrectResultsExpanded = false
         interstitialAdManager.loadAd()
         SoundEffectPlayer.shared.prepare()
         buildPatternQueue()
@@ -901,6 +1083,7 @@ struct ContentView: View {
         guard !isCompletingQuiz else { return }
 
         if let pattern = currentPattern, let correct = isCorrect {
+            saveQuestionResult(pattern: pattern, isCorrect: correct)
             if correct {
                 correctCount += 1
                 currentStreak += 1
@@ -913,11 +1096,26 @@ struct ContentView: View {
         }
 
         if isLastQuestion {
+            isIncorrectResultsExpanded = !incorrectQuestionResults.isEmpty
+            isCorrectResultsExpanded = incorrectQuestionResults.isEmpty && !correctQuestionResults.isEmpty
+
             // 先に結果画面へ切り替えてから広告を出し、閉じたときに最後の問題が一瞬見えないようにする
             isCompletingQuiz = true
             showAnswer = false
             selectedAnswer = nil
             appScreen = .results
+
+            if shouldRequestReviewForCurrentVersion {
+                lastReviewRequestVersion = currentAppVersion
+                Task { @MainActor in
+                    // 結果画面へ切り替わってからレビュー依頼を表示する
+                    try? await Task.sleep(for: .milliseconds(500))
+                    requestReview()
+                    isCompletingQuiz = false
+                }
+                return
+            }
+
             Task { @MainActor in
                 interstitialAdManager.present {
                     isCompletingQuiz = false
@@ -929,6 +1127,35 @@ struct ContentView: View {
         showAnswer = false
         selectedAnswer = nil
         pickRandom()
+    }
+
+    private func saveQuestionResult(pattern: QuizPattern, isCorrect: Bool) {
+        guard let selectedAnswer, let correctAnswer else { return }
+
+        questionResults.append(
+            QuestionResult(
+                questionNumber: questionNumber,
+                patternName: pattern.pattern,
+                patternDescription: pattern.description,
+                signalDirection: pattern.direction,
+                chartSubtitle: quizSubtitle,
+                candles: displayCandles,
+                dividerIndex: dividerIndex,
+                showsMarketDetails: quizChartSource == .examples,
+                selectedAnswer: answerLabel(for: selectedAnswer),
+                correctAnswer: answerLabel(for: correctAnswer),
+                isCorrect: isCorrect
+            )
+        )
+    }
+
+    private var currentAppVersion: String {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
+            ?? "unknown"
+    }
+
+    private var shouldRequestReviewForCurrentVersion: Bool {
+        questionLimit != nil && lastReviewRequestVersion != currentAppVersion
     }
 }
 
