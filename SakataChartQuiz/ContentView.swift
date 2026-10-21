@@ -273,9 +273,6 @@ struct ContentView: View {
         .onAppear {
             if allPatterns.isEmpty, errorMessage == nil {
                 loadAllPatterns()
-#if DEBUG
-                configureScreenshotStateIfNeeded()
-#endif
             }
         }
     }
@@ -751,51 +748,6 @@ struct ContentView: View {
         currentExample = quizChartSource == .examples ? pattern.examples.randomElement() : nil
         patternChoices = makePatternChoices(correctPattern: pattern.pattern)
     }
-
-#if DEBUG
-    private func configureScreenshotStateIfNeeded() {
-        guard let argument = ProcessInfo.processInfo.arguments.first(where: {
-            $0.hasPrefix("--screenshot-state=")
-        }) else { return }
-
-        let state = String(argument.dropFirst("--screenshot-state=".count))
-
-        if let pattern = allPatterns.first(where: { $0.pattern == "赤三兵" }),
-           let example = pattern.examples.first {
-            currentPattern = pattern
-            currentExample = example
-            patternChoices = ["赤三兵", "三羽烏", "明けの明星", "宵の明星"]
-        }
-
-        selectedAnswer = nil
-        showAnswer = false
-        questionNumber = 0
-
-        switch state {
-        case "direction":
-            quizMode = .direction
-            appScreen = .quiz
-        case "pattern":
-            quizMode = .patternName
-            appScreen = .quiz
-        case "answer":
-            quizMode = .direction
-            selectedAnswer = currentPattern?.direction
-            showAnswer = true
-            questionNumber = 1
-            appScreen = .quiz
-        case "ideal":
-            quizChartSource = .ideals
-            quizMode = .patternName
-            currentExample = nil
-            appScreen = .quiz
-        case "study":
-            appScreen = .study
-        default:
-            appScreen = .title
-        }
-    }
-#endif
 
     private func makePatternChoices(correctPattern: String) -> [String] {
         let distractors = allPatterns
