@@ -79,6 +79,17 @@ let canvases = [
         deviceWidth: 1600,
         deviceFrame: 30,
         deviceRadius: 54
+    ),
+    CanvasSpec(
+        width: 2007,
+        height: 2853,
+        backgroundPath: "AppStoreScreenshots/backgrounds/neon_ipad.png",
+        rawPrefix: "duo",
+        outputDirectory: "AppStoreScreenshots/duo-inner",
+        deviceTop: 680,
+        deviceWidth: 1560,
+        deviceFrame: 30,
+        deviceRadius: 60
     )
 ]
 
@@ -319,8 +330,11 @@ func render(spec: ScreenshotSpec, canvas: CanvasSpec) throws {
     print(outputURL.path)
 }
 
+// 引数で rawPrefix を指定するとそのデバイスだけ書き出す（例: swift render_screenshots.swift duo）
+let selectedPrefixes = Set(CommandLine.arguments.dropFirst())
+
 do {
-    for canvas in canvases {
+    for canvas in canvases where selectedPrefixes.isEmpty || selectedPrefixes.contains(canvas.rawPrefix) {
         for screenshot in screenshots {
             try render(spec: screenshot, canvas: canvas)
         }

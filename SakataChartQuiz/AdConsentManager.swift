@@ -15,6 +15,7 @@ final class AdConsentManager: ObservableObject {
     /// ATT はアプリがアクティブな状態でないと表示されないため、scenePhase が active になってから呼ぶこと。
     func gatherConsentIfNeeded() async {
         guard !hasGatheredConsent else { return }
+        if ProcessInfo.processInfo.arguments.contains(where: { $0.hasPrefix("--screenshot-state=") }) { return }
         hasGatheredConsent = true
 
         // 前回起動時に同意済みなら、同意情報の更新を待たずに広告の準備を始める
