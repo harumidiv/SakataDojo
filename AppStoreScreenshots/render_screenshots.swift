@@ -5,9 +5,22 @@ import UniformTypeIdentifiers
 
 struct ScreenshotSpec {
     let key: String
+    let accent: NSColor
+}
+
+struct Copy {
     let title: String
     let subtitle: String
-    let accent: NSColor
+}
+
+struct LocaleSpec {
+    let identifier: String
+    let brand: String
+    let copies: [String: Copy]
+    let titleFontName: String?
+    let bodyFontName: String?
+    // ベトナム語の声調記号などが詰まって欠けないよう、行間を言語ごとに調整する
+    let titleLineSpacing: CGFloat
 }
 
 struct CanvasSpec {
@@ -16,8 +29,7 @@ struct CanvasSpec {
     let backgroundPath: String
     let rawPrefix: String
     let outputDirectory: String
-    let deviceTop: CGFloat
-    let deviceWidth: CGFloat
+    let deviceMaxWidth: CGFloat
     let deviceFrame: CGFloat
     let deviceRadius: CGFloat
 }
@@ -25,58 +37,105 @@ struct CanvasSpec {
 let root = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
 
 let screenshots = [
-    ScreenshotSpec(
-        key: "title",
-        title: "ローソク足を、\n見抜く。",
-        subtitle: "基本形から実戦まで、酒田の型を楽しく学ぶ",
-        accent: NSColor(calibratedRed: 0.23, green: 0.83, blue: 1.00, alpha: 1)
+    ScreenshotSpec(key: "title", accent: NSColor(calibratedRed: 0.23, green: 0.83, blue: 1.00, alpha: 1)),
+    ScreenshotSpec(key: "direction", accent: NSColor(calibratedRed: 0.10, green: 0.54, blue: 1.00, alpha: 1)),
+    ScreenshotSpec(key: "pattern", accent: NSColor(calibratedRed: 0.96, green: 0.23, blue: 0.76, alpha: 1)),
+    ScreenshotSpec(key: "answer", accent: NSColor(calibratedRed: 1.00, green: 0.25, blue: 0.34, alpha: 1)),
+    ScreenshotSpec(key: "study", accent: NSColor(calibratedRed: 1.00, green: 0.67, blue: 0.20, alpha: 1))
+]
+
+let locales = [
+    LocaleSpec(
+        identifier: "ja",
+        brand: "酒田道場  |  ローソク足クイズ",
+        copies: [
+            "title": Copy(title: "ローソク足を\nクイズで学ぶ", subtitle: "酒田五法の30パターンを、基本形から実戦チャートまで"),
+            "direction": Copy(title: "上がる？\n下がる？", subtitle: "チャートを見て、この後の値動きを予想"),
+            "pattern": Copy(title: "30の型を\n4択で覚える", subtitle: "形を見てパターン名を当てるトレーニング"),
+            "answer": Copy(title: "解説つきで\nすぐ分かる", subtitle: "答えのあとにパターンの意味を確認"),
+            "study": Copy(title: "全30パターンを\n図鑑で復習", subtitle: "チャートつきで、いつでも見返せる")
+        ],
+        titleFontName: "HiraginoSans-W8",
+        bodyFontName: "HiraginoSans-W6",
+        titleLineSpacing: -4
     ),
-    ScreenshotSpec(
-        key: "direction",
-        title: "上がる？\n下がる？",
-        subtitle: "チャートを見て、その後の方向を予測する",
-        accent: NSColor(calibratedRed: 0.10, green: 0.54, blue: 1.00, alpha: 1)
+    LocaleSpec(
+        identifier: "en",
+        brand: "Sakata Dojo  |  Candlestick Quiz",
+        copies: [
+            "title": Copy(title: "Learn Candlestick\nPatterns by Quiz", subtitle: "30 classic Japanese patterns, from basics to real charts"),
+            "direction": Copy(title: "Up or\nDown?", subtitle: "Read the chart and predict the next move"),
+            "pattern": Copy(title: "Name the Pattern\nin 4 Choices", subtitle: "Train your eye to spot all 30 patterns"),
+            "answer": Copy(title: "Learn Why,\nInstantly", subtitle: "See what each pattern means right after you answer"),
+            "study": Copy(title: "All 30 Patterns\nin One Library", subtitle: "Review every pattern with charts, anytime")
+        ],
+        titleFontName: nil,
+        bodyFontName: nil,
+        titleLineSpacing: -4
     ),
-    ScreenshotSpec(
-        key: "pattern",
-        title: "30の型を\n4択で習得",
-        subtitle: "形からパターン名を見抜くトレーニング",
-        accent: NSColor(calibratedRed: 0.96, green: 0.23, blue: 0.76, alpha: 1)
+    LocaleSpec(
+        identifier: "ko",
+        brand: "사카타 도장  |  캔들 퀴즈",
+        copies: [
+            "title": Copy(title: "캔들 패턴을\n퀴즈로 배우자", subtitle: "사카타 5법 30가지 패턴을 기본형부터 실전 차트까지"),
+            "direction": Copy(title: "오를까?\n내릴까?", subtitle: "차트를 보고 이후 가격 흐름을 예측"),
+            "pattern": Copy(title: "30가지 패턴을\n4지선다로", subtitle: "모양을 보고 패턴명을 맞히는 트레이닝"),
+            "answer": Copy(title: "해설로\n바로 이해", subtitle: "정답 후 패턴의 의미를 바로 확인"),
+            "study": Copy(title: "30가지 패턴을\n도감으로 복습", subtitle: "차트와 함께 언제든 다시 보기")
+        ],
+        titleFontName: "AppleSDGothicNeo-Heavy",
+        bodyFontName: "AppleSDGothicNeo-SemiBold",
+        titleLineSpacing: -2
     ),
-    ScreenshotSpec(
-        key: "answer",
-        title: "解説付きで\n理解が深まる。",
-        subtitle: "正解後にパターンの意味をすぐ確認",
-        accent: NSColor(calibratedRed: 1.00, green: 0.25, blue: 0.34, alpha: 1)
+    LocaleSpec(
+        identifier: "zh-Hant",
+        brand: "酒田道場  |  K線測驗",
+        copies: [
+            "title": Copy(title: "用測驗\n學會K線型態", subtitle: "酒田五法30種型態，從基本型到實戰圖表"),
+            "direction": Copy(title: "會漲？\n還是會跌？", subtitle: "看圖表，預測接下來的走勢"),
+            "pattern": Copy(title: "30種型態\n四選一練習", subtitle: "看形狀猜出型態名稱的訓練"),
+            "answer": Copy(title: "附解說\n一看就懂", subtitle: "作答後立即確認型態的意義"),
+            "study": Copy(title: "全部30種型態\n圖鑑複習", subtitle: "附圖表，隨時都能回顧")
+        ],
+        titleFontName: "PingFangTC-Semibold",
+        bodyFontName: "PingFangTC-Medium",
+        titleLineSpacing: -2
     ),
-    ScreenshotSpec(
-        key: "study",
-        title: "全パターンを\n図鑑で確認",
-        subtitle: "チャート付きで30パターンをひと目で復習",
-        accent: NSColor(calibratedRed: 1.00, green: 0.67, blue: 0.20, alpha: 1)
+    LocaleSpec(
+        identifier: "vi",
+        brand: "Sakata Dojo  |  Câu đố nến Nhật",
+        copies: [
+            "title": Copy(title: "Học mô hình nến\nqua câu đố", subtitle: "30 mô hình nến Nhật, từ cơ bản đến biểu đồ thực chiến"),
+            "direction": Copy(title: "Tăng hay\ngiảm?", subtitle: "Xem biểu đồ và dự đoán diễn biến giá tiếp theo"),
+            "pattern": Copy(title: "Đoán tên mô hình\nvới 4 lựa chọn", subtitle: "Luyện mắt nhận diện cả 30 mô hình nến"),
+            "answer": Copy(title: "Hiểu ngay\nnhờ giải thích", subtitle: "Xem ý nghĩa mô hình ngay sau khi trả lời"),
+            "study": Copy(title: "Cả 30 mô hình\ntrong thư viện", subtitle: "Ôn lại mọi mô hình kèm biểu đồ, bất cứ lúc nào")
+        ],
+        titleFontName: nil,
+        bodyFontName: nil,
+        titleLineSpacing: 6
     )
 ]
 
 let canvases = [
     CanvasSpec(
-        width: 1284,
-        height: 2778,
+        // App Store Connect の iPhone 6.3インチ枠（1206 x 2622）
+        width: 1206,
+        height: 2622,
         backgroundPath: "AppStoreScreenshots/backgrounds/neon_phone.png",
         rawPrefix: "iphone",
-        outputDirectory: "AppStoreScreenshots/6.5-inch",
-        deviceTop: 720,
-        deviceWidth: 920,
-        deviceFrame: 25,
-        deviceRadius: 82
+        outputDirectory: "6.3-inch",
+        deviceMaxWidth: 860,
+        deviceFrame: 24,
+        deviceRadius: 80
     ),
     CanvasSpec(
         width: 2064,
         height: 2752,
         backgroundPath: "AppStoreScreenshots/backgrounds/neon_ipad.png",
         rawPrefix: "ipad",
-        outputDirectory: "AppStoreScreenshots/13-inch",
-        deviceTop: 680,
-        deviceWidth: 1600,
+        outputDirectory: "13-inch",
+        deviceMaxWidth: 1560,
         deviceFrame: 30,
         deviceRadius: 54
     ),
@@ -85,9 +144,8 @@ let canvases = [
         height: 2853,
         backgroundPath: "AppStoreScreenshots/backgrounds/neon_ipad.png",
         rawPrefix: "duo",
-        outputDirectory: "AppStoreScreenshots/duo-inner",
-        deviceTop: 680,
-        deviceWidth: 1560,
+        outputDirectory: "duo-inner",
+        deviceMaxWidth: 1520,
         deviceFrame: 30,
         deviceRadius: 60
     )
@@ -116,20 +174,24 @@ func drawImageCover(_ image: NSImage, in destination: NSRect) {
     image.draw(in: destination, from: sourceRect, operation: .copy, fraction: 1)
 }
 
-func drawText(
+func font(named name: String?, size: CGFloat, fallbackWeight: NSFont.Weight) -> NSFont {
+    if let name, let font = NSFont(name: name, size: size) { return font }
+    return NSFont.systemFont(ofSize: size, weight: fallbackWeight)
+}
+
+func attributedText(
     _ text: String,
-    rect: NSRect,
     font: NSFont,
     color: NSColor,
     lineSpacing: CGFloat = 0,
     kern: CGFloat = 0
-) {
+) -> NSAttributedString {
     let style = NSMutableParagraphStyle()
     style.lineSpacing = lineSpacing
     style.alignment = .left
     style.lineBreakMode = .byWordWrapping
 
-    let attributed = NSAttributedString(
+    return NSAttributedString(
         string: text,
         attributes: [
             .font: font,
@@ -138,7 +200,34 @@ func drawText(
             .kern: kern
         ]
     )
-    attributed.draw(in: rect)
+}
+
+func textHeight(_ text: NSAttributedString, width: CGFloat) -> CGFloat {
+    ceil(text.boundingRect(
+        with: NSSize(width: width, height: .greatestFiniteMagnitude),
+        options: [.usesLineFragmentOrigin, .usesFontLeading]
+    ).height)
+}
+
+// 明示的な改行ごとの行が1行に収まる最大のフォントサイズを探す（長い言語でも折り返さずに大きく見せる）
+func fittingFontSize(
+    _ text: String,
+    maxSize: CGFloat,
+    minSize: CGFloat,
+    width: CGFloat,
+    makeFont: (CGFloat) -> NSFont,
+    kern: CGFloat
+) -> CGFloat {
+    var size = maxSize
+    while size > minSize {
+        let font = makeFont(size)
+        let widest = text.components(separatedBy: "\n").map { line in
+            attributedText(line, font: font, color: .white, kern: kern).size().width
+        }.max() ?? 0
+        if widest <= width { return size }
+        size -= 2
+    }
+    return minSize
 }
 
 func drawRoundedImage(_ image: NSImage, in rect: NSRect, radius: CGFloat) {
@@ -148,17 +237,23 @@ func drawRoundedImage(_ image: NSImage, in rect: NSRect, radius: CGFloat) {
     NSGraphicsContext.restoreGraphicsState()
 }
 
-func drawDevice(rawScreenshot: NSImage, canvas: CanvasSpec) {
+func drawDevice(rawScreenshot: NSImage, canvas: CanvasSpec, top: CGFloat) {
     let canvasWidth = CGFloat(canvas.width)
     let canvasHeight = CGFloat(canvas.height)
-    let outerWidth = canvas.deviceWidth
+    let bottomMargin: CGFloat = canvas.rawPrefix == "iphone" ? 70 : 80
+    let aspect = rawScreenshot.size.height / rawScreenshot.size.width
+
+    // テキストを大きくした分、端末がキャンバス下端からはみ出さないよう幅を調整する
+    let availableHeight = canvasHeight - top - bottomMargin
+    let widthForHeight = (availableHeight - canvas.deviceFrame * 2) / aspect + canvas.deviceFrame * 2
+    let outerWidth = min(canvas.deviceMaxWidth, widthForHeight)
     let screenWidth = outerWidth - canvas.deviceFrame * 2
-    let screenHeight = screenWidth * rawScreenshot.size.height / rawScreenshot.size.width
+    let screenHeight = screenWidth * aspect
     let outerHeight = screenHeight + canvas.deviceFrame * 2
     let outerX = (canvasWidth - outerWidth) / 2
     let outerRect = rectFromTop(
         x: outerX,
-        y: canvas.deviceTop,
+        y: top,
         width: outerWidth,
         height: outerHeight,
         canvasHeight: canvasHeight
@@ -196,15 +291,18 @@ func drawDevice(rawScreenshot: NSImage, canvas: CanvasSpec) {
     highlight.stroke()
 }
 
-func render(spec: ScreenshotSpec, canvas: CanvasSpec) throws {
+func render(spec: ScreenshotSpec, canvas: CanvasSpec, locale: LocaleSpec) throws {
+    guard let copy = locale.copies[spec.key] else {
+        throw NSError(domain: "ScreenshotRenderer", code: 5, userInfo: [NSLocalizedDescriptionKey: "Missing copy for \(locale.identifier)/\(spec.key)"])
+    }
     let backgroundURL = root.appendingPathComponent(canvas.backgroundPath)
-    let rawURL = root.appendingPathComponent("AppStoreScreenshots/raw/\(canvas.rawPrefix)_\(spec.key).png")
+    let rawURL = root.appendingPathComponent("AppStoreScreenshots/raw/\(locale.identifier)/\(canvas.rawPrefix)_\(spec.key).png")
     let iconURL = root.appendingPathComponent("SakataChartQuiz/Assets.xcassets/AppIcon.appiconset/oneline_neon_icon_1024.png")
 
     guard let background = NSImage(contentsOf: backgroundURL),
           let rawScreenshot = NSImage(contentsOf: rawURL),
           let icon = NSImage(contentsOf: iconURL) else {
-        throw NSError(domain: "ScreenshotRenderer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Required image could not be loaded for \(spec.key)"])
+        throw NSError(domain: "ScreenshotRenderer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Required image could not be loaded for \(locale.identifier)/\(canvas.rawPrefix)_\(spec.key)"])
     }
 
     let colorSpace = CGColorSpaceCreateDeviceRGB()
@@ -225,91 +323,96 @@ func render(spec: ScreenshotSpec, canvas: CanvasSpec) throws {
     NSGraphicsContext.current = graphics
     defer { NSGraphicsContext.current = previous }
 
-    let canvasRect = NSRect(x: 0, y: 0, width: canvas.width, height: canvas.height)
+    let canvasWidth = CGFloat(canvas.width)
+    let canvasHeight = CGFloat(canvas.height)
+    let canvasRect = NSRect(x: 0, y: 0, width: canvasWidth, height: canvasHeight)
     NSColor(calibratedRed: 0.005, green: 0.008, blue: 0.025, alpha: 1).setFill()
     canvasRect.fill()
     drawImageCover(background, in: canvasRect)
 
+    // 文字を大きくしたので、背景の柄に負けないよう上部の暗いグラデーションを広めにとる
     let topShade = NSGradient(colorsAndLocations:
-        (NSColor.black.withAlphaComponent(0.90), 0.0),
-        (NSColor.black.withAlphaComponent(0.58), 0.56),
+        (NSColor.black.withAlphaComponent(0.92), 0.0),
+        (NSColor.black.withAlphaComponent(0.70), 0.62),
         (NSColor.clear, 1.0)
     )!
-    let shadeHeight = CGFloat(canvas.height) * 0.32
     topShade.draw(
-        in: rectFromTop(x: 0, y: 0, width: CGFloat(canvas.width), height: shadeHeight, canvasHeight: CGFloat(canvas.height)),
+        in: rectFromTop(x: 0, y: 0, width: canvasWidth, height: canvasHeight * 0.42, canvasHeight: canvasHeight),
         angle: 90
     )
 
     let glow = NSGradient(colors: [spec.accent.withAlphaComponent(0.32), spec.accent.withAlphaComponent(0)])!
-    let glowCenter = NSPoint(x: CGFloat(canvas.width) * 0.83, y: CGFloat(canvas.height) * 0.80)
+    let glowCenter = NSPoint(x: canvasWidth * 0.83, y: canvasHeight * 0.80)
     glow.draw(
         fromCenter: glowCenter,
         radius: 0,
         toCenter: glowCenter,
-        radius: CGFloat(canvas.width) * 0.62,
+        radius: canvasWidth * 0.62,
         options: [.drawsBeforeStartingLocation, .drawsAfterEndingLocation]
     )
 
     let isPhone = canvas.rawPrefix == "iphone"
-    let left: CGFloat = isPhone ? 94 : 150
-    let iconTop: CGFloat = isPhone ? 92 : 78
-    let iconSize: CGFloat = isPhone ? 76 : 88
-    let brandFont = NSFont.systemFont(ofSize: isPhone ? 29 : 34, weight: .semibold)
-    let titleFont = NSFont.systemFont(ofSize: isPhone ? 92 : 108, weight: .heavy)
-    let subtitleFont = NSFont.systemFont(ofSize: isPhone ? 34 : 39, weight: .medium)
+    let left: CGFloat = isPhone ? 80 : 150
+    let textWidth = canvasWidth - left * 2
+    let iconSize: CGFloat = isPhone ? 96 : 112
+    var cursor: CGFloat = isPhone ? 96 : 84
 
-    let iconRect = rectFromTop(x: left, y: iconTop, width: iconSize, height: iconSize, canvasHeight: CGFloat(canvas.height))
+    // ブランド行（アイコン + アプリ名 | ジャンル）
+    let brandFont = font(named: locale.bodyFontName, size: isPhone ? 40 : 46, fallbackWeight: .bold)
+    let brand = attributedText(locale.brand, font: brandFont, color: spec.accent, kern: 0.4)
+    let iconRect = rectFromTop(x: left, y: cursor, width: iconSize, height: iconSize, canvasHeight: canvasHeight)
     drawRoundedImage(icon, in: iconRect, radius: iconSize * 0.23)
-    drawText(
-        "酒田道場  |  ローソク足クイズ",
-        rect: rectFromTop(
-            x: left + iconSize + 22,
-            y: iconTop + 12,
-            width: CGFloat(canvas.width) - left * 2 - iconSize - 22,
-            height: 52,
-            canvasHeight: CGFloat(canvas.height)
-        ),
-        font: brandFont,
-        color: spec.accent,
-        kern: 0.4
-    )
+    let brandHeight = textHeight(brand, width: textWidth - iconSize - 26)
+    brand.draw(in: rectFromTop(
+        x: left + iconSize + 26,
+        y: cursor + (iconSize - brandHeight) / 2,
+        width: textWidth - iconSize - 26,
+        height: brandHeight,
+        canvasHeight: canvasHeight
+    ))
+    cursor += iconSize + (isPhone ? 44 : 48)
 
-    let titleTop: CGFloat = isPhone ? 202 : 178
-    let titleHeight: CGFloat = isPhone ? 236 : 274
-    drawText(
-        spec.title,
-        rect: rectFromTop(
-            x: left,
-            y: titleTop,
-            width: CGFloat(canvas.width) - left * 2,
-            height: titleHeight,
-            canvasHeight: CGFloat(canvas.height)
-        ),
-        font: titleFont,
+    // 見出し（1行ずつ収まる範囲で最大サイズ）
+    let titleKern: CGFloat = -1.0
+    let makeTitleFont = { (size: CGFloat) in font(named: locale.titleFontName, size: size, fallbackWeight: .heavy) }
+    let titleSize = fittingFontSize(
+        copy.title,
+        maxSize: isPhone ? 150 : 176,
+        minSize: isPhone ? 96 : 110,
+        width: textWidth,
+        makeFont: makeTitleFont,
+        kern: titleKern
+    )
+    let title = attributedText(
+        copy.title,
+        font: makeTitleFont(titleSize),
         color: NSColor(calibratedWhite: 0.98, alpha: 1),
-        lineSpacing: isPhone ? -6 : -4,
-        kern: -1.2
+        lineSpacing: locale.titleLineSpacing,
+        kern: titleKern
     )
+    let titleHeight = textHeight(title, width: textWidth)
+    title.draw(in: rectFromTop(x: left, y: cursor, width: textWidth, height: titleHeight, canvasHeight: canvasHeight))
+    cursor += titleHeight + (isPhone ? 28 : 32)
 
-    let subtitleTop: CGFloat = isPhone ? 486 : 480
-    drawText(
-        spec.subtitle,
-        rect: rectFromTop(
-            x: left,
-            y: subtitleTop,
-            width: CGFloat(canvas.width) - left * 2,
-            height: 72,
-            canvasHeight: CGFloat(canvas.height)
-        ),
+    // サブ見出し（最大2行まで折り返し）
+    let subtitleFont = font(named: locale.bodyFontName, size: isPhone ? 52 : 60, fallbackWeight: .semibold)
+    let subtitle = attributedText(
+        copy.subtitle,
         font: subtitleFont,
-        color: NSColor(calibratedWhite: 0.86, alpha: 1),
+        color: NSColor(calibratedWhite: 0.90, alpha: 1),
+        lineSpacing: 6,
         kern: 0.1
     )
+    let subtitleHeight = textHeight(subtitle, width: textWidth)
+    subtitle.draw(in: rectFromTop(x: left, y: cursor, width: textWidth, height: subtitleHeight, canvasHeight: canvasHeight))
+    cursor += subtitleHeight + (isPhone ? 64 : 72)
 
-    drawDevice(rawScreenshot: rawScreenshot, canvas: canvas)
+    drawDevice(rawScreenshot: rawScreenshot, canvas: canvas, top: cursor)
 
-    let outputDirectory = root.appendingPathComponent(canvas.outputDirectory, isDirectory: true)
+    let outputDirectory = root
+        .appendingPathComponent("AppStoreScreenshots", isDirectory: true)
+        .appendingPathComponent(locale.identifier, isDirectory: true)
+        .appendingPathComponent(canvas.outputDirectory, isDirectory: true)
     try FileManager.default.createDirectory(at: outputDirectory, withIntermediateDirectories: true)
     let index = screenshots.firstIndex(where: { $0.key == spec.key })! + 1
     let outputURL = outputDirectory.appendingPathComponent(String(format: "%02d_%@.png", index, spec.key))
@@ -330,13 +433,20 @@ func render(spec: ScreenshotSpec, canvas: CanvasSpec) throws {
     print(outputURL.path)
 }
 
-// 引数で rawPrefix を指定するとそのデバイスだけ書き出す（例: swift render_screenshots.swift duo）
-let selectedPrefixes = Set(CommandLine.arguments.dropFirst())
+// リポジトリのルートで実行する: swift AppStoreScreenshots/render_screenshots.swift [rawPrefix や locale ...]
+//   例: swift AppStoreScreenshots/render_screenshots.swift duo     （duo だけ全言語）
+//       swift AppStoreScreenshots/render_screenshots.swift en ko   （英語と韓国語だけ全デバイス）
+// 出力: AppStoreScreenshots/<locale>/<6.3-inch|13-inch|duo-inner>/NN_<key>.png
+let arguments = Set(CommandLine.arguments.dropFirst())
+let selectedPrefixes = arguments.intersection(canvases.map(\.rawPrefix))
+let selectedLocales = arguments.intersection(locales.map(\.identifier))
 
 do {
-    for canvas in canvases where selectedPrefixes.isEmpty || selectedPrefixes.contains(canvas.rawPrefix) {
-        for screenshot in screenshots {
-            try render(spec: screenshot, canvas: canvas)
+    for locale in locales where selectedLocales.isEmpty || selectedLocales.contains(locale.identifier) {
+        for canvas in canvases where selectedPrefixes.isEmpty || selectedPrefixes.contains(canvas.rawPrefix) {
+            for screenshot in screenshots {
+                try render(spec: screenshot, canvas: canvas, locale: locale)
+            }
         }
     }
 } catch {

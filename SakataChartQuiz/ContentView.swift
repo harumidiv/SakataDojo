@@ -2,6 +2,12 @@ import SwiftUI
 import UIKit
 import StoreKit
 
+private func signalLabel(for direction: String) -> String {
+    direction == "bullish"
+        ? String(localized: "上昇サイン", comment: "上昇を示すローソク足パターン")
+        : String(localized: "下落サイン", comment: "下落を示すローソク足パターン")
+}
+
 private enum AppScreen {
     case title
     case quiz
@@ -15,21 +21,30 @@ private enum QuizMode: String, CaseIterable, Identifiable {
 
     var id: Self { self }
 
+    var title: String {
+        switch self {
+        case .direction:
+            return String(localized: "上昇／下落", comment: "出題形式: 上がるか下がるかを当てる")
+        case .patternName:
+            return String(localized: "パターン名4択", comment: "出題形式: パターン名を4択で当てる")
+        }
+    }
+
     var prompt: String {
         switch self {
         case .direction:
-            return "このサインの方向は？"
+            return String(localized: "このサインの方向は？")
         case .patternName:
-            return "このローソク足パターンは？"
+            return String(localized: "このローソク足パターンは？")
         }
     }
 
     var description: String {
         switch self {
         case .direction:
-            return "チャートを見て、その後に上がるか下がるかを当てます"
+            return String(localized: "チャートを見て、その後に上がるか下がるかを当てます")
         case .patternName:
-            return "ローソク足の形から、パターン名を4つの候補から選びます"
+            return String(localized: "ローソク足の形から、パターン名を4つの候補から選びます")
         }
     }
 
@@ -49,21 +64,30 @@ private enum QuizChartSource: String, CaseIterable, Identifiable {
 
     var id: Self { self }
 
+    var label: String {
+        switch self {
+        case .ideals:
+            return String(localized: "基本形", comment: "チャート種別の切り替え: 模式図")
+        case .examples:
+            return String(localized: "実戦", comment: "チャート種別の切り替え: 実際の株価チャート")
+        }
+    }
+
     var title: String {
         switch self {
         case .examples:
-            return "実戦チャートで挑戦"
+            return String(localized: "実戦チャートで挑戦")
         case .ideals:
-            return "基本形チャートで練習"
+            return String(localized: "基本形チャートで練習")
         }
     }
 
     var description: String {
         switch self {
         case .examples:
-            return "実際の日本株市場で発生したローソク足パターンです"
+            return String(localized: "実際の日本株市場で発生したローソク足パターンです")
         case .ideals:
-            return "特徴を強調した模式図で基本形を覚えます"
+            return String(localized: "特徴を強調した模式図で基本形を覚えます")
         }
     }
 
@@ -221,23 +245,24 @@ struct ContentView: View {
     private var filteredStudyPatterns: [QuizPattern] {
         guard !studySearchText.isEmpty else { return allPatterns }
         return allPatterns.filter {
-            $0.pattern.localizedCaseInsensitiveContains(studySearchText)
-                || $0.description.localizedCaseInsensitiveContains(studySearchText)
+            $0.localizedName.localizedCaseInsensitiveContains(studySearchText)
+                || $0.localizedDescription.localizedCaseInsensitiveContains(studySearchText)
+                || $0.pattern.localizedCaseInsensitiveContains(studySearchText)
         }
     }
 
     private var resultShareText: String {
-        let accuracy = Int((questionNumber > 0
-            ? Double(correctCount) / Double(questionNumber) * 100
-            : 0).rounded())
+        let accuracy = (questionNumber > 0
+            ? Double(correctCount) / Double(questionNumber)
+            : 0).formatted(.percent.precision(.fractionLength(0)))
         var lines = [
-            "酒田道場でローソク足クイズに挑戦！",
-            "\(questionNumber)問中 \(correctCount)問正解（正解率\(accuracy)%）"
+            String(localized: "酒田道場でローソク足クイズに挑戦！", comment: "SNS共有テキストの1行目"),
+            String(localized: "\(questionNumber)問中 \(correctCount)問正解（正解率\(accuracy)）", comment: "SNS共有テキスト: 問題数・正解数・正解率")
         ]
         if bestStreakThisSession >= 2 {
-            lines.append("最大\(bestStreakThisSession)連続正解🔥")
+            lines.append(String(localized: "最大\(bestStreakThisSession)連続正解🔥", comment: "SNS共有テキスト: 最大連続正解数"))
         }
-        lines.append("#酒田道場")
+        lines.append(String(localized: "#酒田道場", comment: "SNS共有用ハッシュタグ（#を残し、スペースを含めないこと）"))
         lines.append(Self.appStoreURL)
         return lines.joined(separator: "\n")
     }
@@ -292,7 +317,7 @@ struct ContentView: View {
 
                     Picker("チャート", selection: $quizChartSource) {
                         ForEach(QuizChartSource.allCases) { source in
-                            Label(source.rawValue, systemImage: source.systemImage)
+                            Label(source.label, systemImage: source.systemImage)
                                 .tag(source)
                         }
                     }
@@ -328,7 +353,7 @@ struct ContentView: View {
                                     )
 
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(mode.rawValue)
+                                    Text(mode.title)
                                         .font(.headline)
                                         .foregroundStyle(.primary)
 
@@ -500,7 +525,7 @@ struct ContentView: View {
     }
 
     @ViewBuilder
-    private func studyGrid(title: String, direction: String, color: Color) -> some View {
+    private func studyGrid(title: LocalizedStringKey, direction: String, color: Color) -> some View {
         let patterns = filteredStudyPatterns.filter { $0.direction == direction }
         if !patterns.isEmpty {
             VStack(alignment: .leading, spacing: 10) {
@@ -527,7 +552,7 @@ struct ContentView: View {
                                     Circle()
                                         .fill(color)
                                         .frame(width: 7, height: 7)
-                                    Text(pattern.pattern)
+                                    Text(pattern.localizedName)
                                         .font(.caption)
                                         .foregroundStyle(.primary)
                                         .lineLimit(1)
@@ -572,10 +597,10 @@ struct ContentView: View {
                                     .fill(pattern.direction == "bullish" ? Color.red : Color.blue)
                                     .frame(width: 14, height: 14)
                             }
-                            Text(showAnswer ? pattern.pattern : "？？？")
+                            Text(showAnswer ? pattern.localizedName : "???")
                                 .font(.title2).bold()
                             if showAnswer {
-                                Text(pattern.direction == "bullish" ? "上昇サイン" : "下落サイン")
+                                Text(signalLabel(for: pattern.direction))
                                     .font(.caption).bold()
                                     .foregroundStyle(pattern.direction == "bullish" ? .red : .blue)
                             }
@@ -674,7 +699,7 @@ struct ContentView: View {
                         }
                     } else if let pattern = currentPattern, let isCorrect {
                         Label(
-                            isCorrect ? "正解！" : "不正解",
+                            isCorrect ? String(localized: "正解！") : String(localized: "不正解"),
                             systemImage: isCorrect ? "checkmark.circle.fill" : "xmark.circle.fill"
                         )
                         .font(.headline)
@@ -685,13 +710,13 @@ struct ContentView: View {
                                 .font(.subheadline).bold()
                         }
 
-                        Text(pattern.description)
+                        Text(pattern.localizedDescription)
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.leading)
                             .frame(maxWidth: .infinity, alignment: .leading)
 
-                        Button(isLastQuestion ? "結果を見る" : "次の問題") {
+                        Button(isLastQuestion ? String(localized: "結果を見る") : String(localized: "次の問題")) {
                             nextQuestion()
                         }
                         .buttonStyle(.borderedProminent)
@@ -717,7 +742,7 @@ struct ContentView: View {
             loaded.append(pattern)
         }
         if loaded.isEmpty {
-            errorMessage = "JSONが見つかりません。\nXcodeで全パターンのJSONをターゲットに追加してください。"
+            errorMessage = String(localized: "JSONが見つかりません。\nXcodeで全パターンのJSONをターゲットに追加してください。", comment: "開発者向けのエラー表示")
             return
         }
         allPatterns = loaded
@@ -818,21 +843,21 @@ struct ContentView: View {
     private func answerLabel(for answer: String) -> String {
         switch answer {
         case "bullish":
-            return "上昇 ↗"
+            return String(localized: "上昇 ↗", comment: "回答ボタン: 上昇")
         case "bearish":
-            return "下落 ↘"
+            return String(localized: "下落 ↘", comment: "回答ボタン: 下落")
         default:
-            return answer
+            return PatternText.name(for: answer)
         }
     }
 
     private var quizSubtitle: String {
         switch quizChartSource {
         case .examples:
-            guard let ex = currentExample else { return "実例チャート" }
+            guard let ex = currentExample else { return String(localized: "実例チャート") }
             return "\(ex.ticker) \(ex.name)  \(ex.quizCandles.last?.date ?? "")"
         case .ideals:
-            return "お手本チャート（模式図）"
+            return String(localized: "お手本チャート（模式図）")
         }
     }
 
@@ -864,7 +889,7 @@ struct ContentView: View {
                     Text("\(questionNumber)問中 \(correctCount)問正解")
                         .font(.title2)
                         .foregroundStyle(.secondary)
-                    Text(String(format: "正解率 %.0f%%", questionNumber > 0 ? Double(correctCount) / Double(questionNumber) * 100 : 0))
+                    Text("正解率 \(questionNumber > 0 ? Double(correctCount) / Double(questionNumber) : 0, format: .percent.precision(.fractionLength(0)))", comment: "結果画面の正解率")
                         .font(.title3.bold())
                         .foregroundStyle(correctCount >= questionNumber * 7 / 10 ? .green : .orange)
                     if bestStreakThisSession >= 2 {
@@ -946,7 +971,7 @@ struct ContentView: View {
     }
 
     private func resultSection(
-        title: String,
+        title: LocalizedStringKey,
         systemImage: String,
         color: Color,
         results: [QuestionResult],
@@ -994,7 +1019,7 @@ struct ContentView: View {
                 Text(result.patternName)
                     .font(.headline)
                 Spacer()
-                Text(result.signalDirection == "bullish" ? "上昇サイン" : "下落サイン")
+                Text(signalLabel(for: result.signalDirection))
                     .font(.caption.bold())
                     .foregroundStyle(result.signalDirection == "bullish" ? .red : .blue)
             }
@@ -1144,8 +1169,8 @@ struct ContentView: View {
         questionResults.append(
             QuestionResult(
                 questionNumber: questionNumber,
-                patternName: pattern.pattern,
-                patternDescription: pattern.description,
+                patternName: pattern.localizedName,
+                patternDescription: pattern.localizedDescription,
                 signalDirection: pattern.direction,
                 chartSubtitle: quizSubtitle,
                 candles: displayCandles,
@@ -1178,7 +1203,7 @@ private struct PatternStudyDetailView: View {
     }
 
     private var signalLabel: String {
-        pattern.direction == "bullish" ? "上昇サイン" : "下落サイン"
+        SakataChartQuiz.signalLabel(for: pattern.direction)
     }
 
     private var currentExample: QuizExample? {
@@ -1200,7 +1225,7 @@ private struct PatternStudyDetailView: View {
                         .frame(width: 18, height: 18)
 
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(pattern.pattern)
+                        Text(pattern.localizedName)
                             .font(.title.bold())
 
                         Text(signalLabel)
@@ -1210,7 +1235,7 @@ private struct PatternStudyDetailView: View {
                 }
 
                 studyCard(title: "パターンの意味", systemImage: "book.closed.fill") {
-                    Text(pattern.description)
+                    Text(pattern.localizedDescription)
                         .font(.body)
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -1311,7 +1336,7 @@ private struct PatternStudyDetailView: View {
             .padding(20)
             .frame(maxWidth: .infinity)
         }
-        .navigationTitle(pattern.pattern)
+        .navigationTitle(pattern.localizedName)
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -1330,7 +1355,7 @@ private struct PatternStudyDetailView: View {
     }
 
     private func studyCard<Content: View>(
-        title: String,
+        title: LocalizedStringKey,
         systemImage: String,
         @ViewBuilder content: () -> Content
     ) -> some View {
