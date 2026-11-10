@@ -1,0 +1,4554 @@
+{
+  "sourceLanguage" : "ja",
+  "strings" : {
+    "" : {
+
+    },
+    "#酒田道場" : {
+      "comment" : "SNS共有用ハッシュタグ（#を残し、スペースを含めないこと）",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "#SakataDojo"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "#사카타도장"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "#SakataDojo"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "#酒田道場"
+          }
+        }
+      }
+    },
+    "%@  %@" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@  %2$@"
+          }
+        }
+      }
+    },
+    "%lld/%lld" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld/%2$lld"
+          }
+        }
+      }
+    },
+    "%lld問" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld question"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld questions"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld questions"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld問"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld問"
+                }
+              }
+            }
+          }
+        },
+        "ko" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld문제"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld문제"
+                }
+              }
+            }
+          }
+        },
+        "vi" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld câu"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld câu"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hant" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld題"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld題"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld問中 %lld問正解" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%2$lld of %#@total@ correct"
+          },
+          "substitutions" : {
+            "total" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "machine_translated",
+                      "value" : "%arg question"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "machine_translated",
+                      "value" : "%arg questions"
+                    }
+                  },
+                  "zero" : {
+                    "stringUnit" : {
+                      "state" : "machine_translated",
+                      "value" : "%arg questions"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%#@total@問中 %2$lld問正解"
+          },
+          "substitutions" : {
+            "total" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "machine_translated",
+                      "value" : "%arg"
+                    }
+                  },
+                  "zero" : {
+                    "stringUnit" : {
+                      "state" : "machine_translated",
+                      "value" : "%arg"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%#@total@ 중 %2$lld문제 정답"
+          },
+          "substitutions" : {
+            "total" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "machine_translated",
+                      "value" : "%arg문제"
+                    }
+                  },
+                  "zero" : {
+                    "stringUnit" : {
+                      "state" : "machine_translated",
+                      "value" : "%arg문제"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Đúng %2$lld/%#@total@"
+          },
+          "substitutions" : {
+            "total" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "machine_translated",
+                      "value" : "%arg câu"
+                    }
+                  },
+                  "zero" : {
+                    "stringUnit" : {
+                      "state" : "machine_translated",
+                      "value" : "%arg câu"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%#@total@中答對%2$lld題"
+          },
+          "substitutions" : {
+            "total" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "machine_translated",
+                      "value" : "%arg題"
+                    }
+                  },
+                  "zero" : {
+                    "stringUnit" : {
+                      "state" : "machine_translated",
+                      "value" : "%arg題"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld問中 %lld問正解（正解率%@）" : {
+      "comment" : "SNS共有テキスト: 問題数・正解数・正解率",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%2$lld of %1$lld correct (%3$@ accuracy)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld問中 %2$lld問正解（正解率%3$@）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%1$lld문제 중 %2$lld문제 정답(정답률 %3$@)"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Đúng %2$lld/%1$lld câu (tỷ lệ chính xác %3$@)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%1$lld題中答對%2$lld題（正確率%3$@）"
+          }
+        }
+      }
+    },
+    "%lld問中 %lld問正解（正解率%lld%%）" : {
+      "comment" : "SNS共有テキスト: 問題数・正解数・正解率",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%2$lld of %1$lld correct (%3$lld%% accuracy)"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld問中 %2$lld問正解（正解率%3$lld%%）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%1$lld문제 중 %2$lld문제 정답(정답률 %3$lld%%)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%1$lld題中答對%2$lld題（正確率%3$lld%%）"
+          }
+        }
+      }
+    },
+    "%lld連続" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%lld in a row"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%lld연속"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%lld câu liên tiếp"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "連續%lld題"
+          }
+        }
+      }
+    },
+    "10問" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "10 Questions"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "10문제"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "10 câu"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "10題"
+          }
+        }
+      }
+    },
+    "30問" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "30 Questions"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "30문제"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "30 câu"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "30題"
+          }
+        }
+      }
+    },
+    "JSONが見つかりません。\nXcodeで全パターンのJSONをターゲットに追加してください。" : {
+      "comment" : "開発者向けのエラー表示",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "JSON not found.\nAdd the JSON files for all patterns to the target in Xcode."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "JSON을 찾을 수 없습니다.\nXcode에서 모든 패턴의 JSON을 타깃에 추가하십시오."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Không tìm thấy JSON.\nHãy thêm JSON của tất cả mô hình vào target trong Xcode."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "找不到JSON。\n請在Xcode中將所有型態的JSON加入目標。"
+          }
+        }
+      }
+    },
+    "pattern.description.かぶせ線" : {
+      "comment" : "ローソク足パターン「かぶせ線」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "After a bullish candle, a bearish candle opens higher and closes below the bullish candle’s midpoint. A sign of a pullback from a top."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "陽線の後、高く始まって陽線の半値以下まで食い込む陰線。天井からの反落サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "양봉 다음에 높게 시작한 음봉이 양봉의 중간값 아래까지 파고듭니다. 천장에서 하락 반전하는 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sau một nến tăng, nến giảm mở cửa cao hơn rồi đóng cửa dưới điểm giữa của nến tăng. Tín hiệu giá quay đầu giảm từ đỉnh."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "紅K之後，黑K開高並跌破紅K的半值以下。是從頭部回落的訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.はらみ足陰線" : {
+      "comment" : "ローソク足パターン「はらみ足陰線」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "A small bearish candle sits within the real body of a large bullish candle. A reversal sign showing weakening buying pressure."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "大陽線の実体内に小陰線が収まる。買い勢力の弱まりを示す反転サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "큰 양봉의 몸통 안에 작은 음봉이 들어갑니다. 매수세가 약해졌음을 나타내는 반전 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Một nến giảm nhỏ nằm gọn trong thân nến của một nến tăng lớn. Tín hiệu đảo chiều cho thấy lực mua đang suy yếu."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "小黑K落在長紅K的實體之內。顯示買方力道減弱的反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.はらみ足陽線" : {
+      "comment" : "ローソク足パターン「はらみ足陽線」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "A small bullish candle sits within the real body of a large bearish candle. A reversal sign showing weakening selling pressure."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "大陰線の実体内に小陽線が収まる。売り勢力の弱まりを示す反転サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "큰 음봉의 몸통 안에 작은 양봉이 들어갑니다. 매도세가 약해졌음을 나타내는 반전 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Một nến tăng nhỏ nằm gọn trong thân nến của một nến giảm lớn. Tín hiệu đảo chiều cho thấy lực bán đang suy yếu."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "小紅K落在長黑K的實體之內。顯示賣方力道減弱的反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.カラカサ" : {
+      "comment" : "ローソク足パターン「カラカサ」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "A candle with a long lower shadow after a downtrend. A reversal sign showing strong buying interest near the bottom."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "下降トレンド後の下ヒゲが長い足。底値圏での強い買い意欲を示す反転サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "하락 추세 후 긴 아랫꼬리가 달린 캔들입니다. 바닥권에서 강한 매수 의지를 나타내는 반전 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nến có bóng dưới dài xuất hiện sau xu hướng giảm. Tín hiệu đảo chiều cho thấy lực mua mạnh ở vùng đáy."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "下跌趨勢後出現帶有長下影線的K線。顯示底部區域買盤強勁的反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.トンカチ" : {
+      "comment" : "ローソク足パターン「トンカチ」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "A candle with a long upper shadow after an uptrend. A top reversal sign where selling pushed the price back down from its highs."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "上昇トレンド後の上ヒゲが長い足。高値で売りに押された天井転換サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승 추세 후 긴 윗꼬리가 달린 캔들입니다. 고가에서 매도에 밀린 천장 반전 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nến có bóng trên dài xuất hiện sau xu hướng tăng. Tín hiệu đảo chiều tại đỉnh khi lực bán đẩy giá xuống từ vùng giá cao."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "上漲趨勢後出現帶有長上影線的K線。在高點遭賣壓打回的頭部反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.トンボ" : {
+      "comment" : "ローソク足パターン「トンボ」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "A doji with only a lower shadow after a downtrend. A reversal sign showing sellers losing steam and buyers stepping in."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "下降トレンド後の下ヒゲのみの十字線。売り方の失速と買い方の出現を示す反転サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "하락 추세 후 아랫꼬리만 있는 도지입니다. 매도세의 약화와 매수세의 등장을 나타내는 반전 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Doji chỉ có bóng dưới, xuất hiện sau xu hướng giảm. Tín hiệu đảo chiều cho thấy phe bán đuối sức và phe mua bắt đầu tham gia."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "下跌趨勢後出現只有下影線的十字線。顯示賣方力竭、買方進場的反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.三羽烏" : {
+      "comment" : "ローソク足パターン「三羽烏」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Three bearish candles in a row near the highs, each closing lower than the last. A sign of a shift from an uptrend to a downtrend."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "高値圏で3本の陰線が続き、終値が順に下降。上昇から下降への転換サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "고가권에서 음봉 3개가 연속으로 나타나며 종가가 차례로 낮아집니다. 상승에서 하락으로 전환하는 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ba nến giảm liên tiếp ở vùng giá cao, mỗi nến đóng cửa thấp hơn nến trước. Tín hiệu chuyển từ xu hướng tăng sang xu hướng giảm."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "在高檔區連續出現3根黑K，收盤價依序走低。由漲轉跌的轉折訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.上放れ三手放れ寄せ線" : {
+      "comment" : "ローソク足パターン「上放れ三手放れ寄せ線」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "After a gap up, three bullish candles make new highs, followed by a doji. A top sign showing buying pressure running out."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "上方へ窓を空けた後、3本の陽線が高値を更新し、十字線が出現。買い勢力の行き詰まりを示す天井サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "위쪽으로 갭이 생긴 후 양봉 3개가 고가를 경신하고 도지가 나타납니다. 매수세가 한계에 다다랐음을 나타내는 천장 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sau khoảng trống tăng, ba nến tăng liên tục tạo mức giá cao mới rồi xuất hiện doji. Tín hiệu đỉnh cho thấy lực mua đã cạn."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "出現向上跳空缺口後，3根紅K連創新高，接著出現十字線。顯示買方力道後繼無力的頭部訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.上放れ並び赤" : {
+      "comment" : "ローソク足パターン「上放れ並び赤」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "After a gap up, two bullish candles of the same size appear side by side. A sign that strong buying momentum is continuing."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "ギャップアップ後に同じ大きさの陽線が2本並ぶ。強い買い勢いの継続サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "갭 상승 후 같은 크기의 양봉 2개가 나란히 나타납니다. 강한 매수세가 이어지는 지속 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sau khoảng trống tăng, hai nến tăng có kích thước tương đương nằm cạnh nhau. Tín hiệu đà mua mạnh đang tiếp diễn."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "向上跳空缺口後，出現2根大小相同的紅K並列。強勁買氣持續的訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.上放れ並び黒" : {
+      "comment" : "ローソク足パターン「上放れ並び黒」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "During an uptrend, two similar bearish candles appear side by side after a gap up. It may signal the uptrend resuming after a pullback, but it’s a weak sign that needs confirmation."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "上昇途中のギャップアップ後に同程度の陰線が2本並ぶ。押し目からの上昇継続候補だが、確認を要する弱いサイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승 도중 갭 상승 후 비슷한 크기의 음봉 2개가 나란히 나타납니다. 눌림목 이후 상승이 이어질 수 있지만, 확인이 필요한 약한 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Trong xu hướng tăng, sau khoảng trống tăng xuất hiện hai nến giảm có kích thước tương tự nằm cạnh nhau. Có thể báo hiệu đà tăng tiếp diễn sau nhịp điều chỉnh, nhưng đây là tín hiệu yếu cần xác nhận thêm."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "上漲途中出現向上跳空缺口後，2根大小相近的黑K並列。可能是回檔後續漲的跡象，但屬於需要確認的弱勢訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.上放れ十字線" : {
+      "comment" : "ローソク足パターン「上放れ十字線」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "A doji appears after a gap up during an uptrend. A warning of a possible top reversal, showing indecision among buyers."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "上昇中のギャップアップ後に十字線出現。買い勢力の迷いを示す天井転換警戒サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승 중 갭 상승 후 도지가 나타납니다. 매수세의 망설임을 나타내는 천장 반전 경고 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Doji xuất hiện sau khoảng trống tăng trong xu hướng tăng. Tín hiệu cảnh báo khả năng đảo chiều tại đỉnh, cho thấy phe mua đang do dự."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "上漲途中出現向上跳空缺口後，接著出現十字線。顯示買方猶豫、須提防頭部反轉的警訊。"
+          }
+        }
+      }
+    },
+    "pattern.description.下放れ三手放れ寄せ線" : {
+      "comment" : "ローソク足パターン「下放れ三手放れ寄せ線」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "After a gap down, three bearish candles make new lows, followed by a doji. A bottom sign showing selling pressure running out."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "下方へ窓を空けた後、3本の陰線が安値を更新し、十字線が出現。売り勢力の行き詰まりを示す底値サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "아래쪽으로 갭이 생긴 후 음봉 3개가 저가를 경신하고 도지가 나타납니다. 매도세가 한계에 다다랐음을 나타내는 바닥 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sau khoảng trống giảm, ba nến giảm liên tục tạo mức giá thấp mới rồi xuất hiện doji. Tín hiệu đáy cho thấy lực bán đã cạn."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "出現向下跳空缺口後，3根黑K連創新低，接著出現十字線。顯示賣方力道後繼無力的底部訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.下放れ並び赤" : {
+      "comment" : "ローソク足パターン「下放れ並び赤」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "After a gap down, two bullish candles appear side by side but fail to fill the gap. A surprising sign that the decline is continuing."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "ギャップダウン後に陽線2本が並ぶが窓を埋めきれない。下落継続の意外な継続サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "갭 하락 후 양봉 2개가 나란히 나타나지만 갭을 메우지 못합니다. 의외로 하락이 이어지는 지속 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sau khoảng trống giảm, hai nến tăng nằm cạnh nhau nhưng không lấp được khoảng trống. Tín hiệu bất ngờ cho thấy đà giảm vẫn tiếp diễn."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "向下跳空缺口後，出現2根並列的紅K，但未能回補缺口。出人意料的續跌訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.下放れ二本の陰線" : {
+      "comment" : "ローソク足パターン「下放れ二本の陰線」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Two bearish candles follow a gap down. A sign that strong selling momentum is continuing."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "ギャップダウン後に陰線2本が続く。強い売り勢いの継続を示すサイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "갭 하락 후 음봉 2개가 이어집니다. 강한 매도세가 지속됨을 나타내는 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Hai nến giảm nối tiếp nhau sau khoảng trống giảm. Tín hiệu cho thấy đà bán mạnh đang tiếp diễn."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "向下跳空缺口後，連續出現2根黑K。顯示強勁賣壓持續的訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.下放れ十字線" : {
+      "comment" : "ローソク足パターン「下放れ十字線」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "A doji appears after a gap down during a downtrend. A warning of a possible bottom reversal, showing indecision among sellers."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "下降中のギャップダウン後に十字線出現。売り勢力の迷いを示す底値転換警戒サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "하락 중 갭 하락 후 도지가 나타납니다. 매도세의 망설임을 나타내는 바닥 반전 경고 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Doji xuất hiện sau khoảng trống giảm trong xu hướng giảm. Tín hiệu cảnh báo khả năng đảo chiều tại đáy, cho thấy phe bán đang do dự."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "下跌途中出現向下跳空缺口後，接著出現十字線。顯示賣方猶豫、須留意底部反轉的警訊。"
+          }
+        }
+      }
+    },
+    "pattern.description.切り込み線" : {
+      "comment" : "ローソク足パターン「切り込み線」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "After a bearish candle, a bullish candle opens lower and closes above the bearish candle’s midpoint. A rebound signal from the bottom."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "陰線の後、低く始まって陰線の半値以上まで戻す陽線。底からの反発サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "음봉 다음에 낮게 시작해 음봉의 절반 이상까지 회복하는 양봉. 바닥에서의 반등 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sau một nến giảm, nến tăng mở cửa thấp hơn rồi hồi lên trên điểm giữa của nến giảm. Tín hiệu bật tăng từ đáy."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "黑K之後，開低並回升至黑K一半以上的紅K。底部反彈訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.包み足陰線" : {
+      "comment" : "ローソク足パターン「包み足陰線」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "A large bearish candle completely engulfs the previous day’s bullish candle. A bearish reversal signal driven by strong selling pressure."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "前日陽線を大陰線が完全に包む。強い売り圧力の下落転換サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "큰 음봉이 전일 양봉을 완전히 감싸는 형태. 강한 매도 압력에 의한 하락 전환 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nến giảm lớn bao trùm hoàn toàn nến tăng của phiên trước. Tín hiệu đảo chiều giảm do áp lực bán mạnh."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "大黑K完全吞噬前一日的紅K。顯示強烈賣壓的下跌反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.包み足陽線" : {
+      "comment" : "ローソク足パターン「包み足陽線」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "A large bullish candle completely engulfs the previous day’s bearish candle. A bullish reversal signal driven by strong buying pressure."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "前日陰線を大陽線が完全に包む。強い買い圧力の上昇転換サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "큰 양봉이 전일 음봉을 완전히 감싸는 형태. 강한 매수 압력에 의한 상승 전환 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nến tăng lớn bao trùm hoàn toàn nến giảm của phiên trước. Tín hiệu đảo chiều tăng do áp lực mua mạnh."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "大紅K完全吞噬前一日的黑K。顯示強勁買盤的上漲反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.塔婆" : {
+      "comment" : "ローソク足パターン「塔婆」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "A doji with only an upper shadow that appears after an uptrend. A top signal showing that buying stalls at high prices as selling pressure builds."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "上昇トレンド後の上ヒゲのみの十字線。高値での買い失速と売り圧力を示す天井サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승 추세 후 윗꼬리만 있는 도지. 고가에서의 매수세 약화와 매도 압력을 나타내는 천장 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Doji chỉ có bóng trên, xuất hiện sau xu hướng tăng. Tín hiệu đỉnh cho thấy lực mua chững lại ở vùng giá cao và áp lực bán gia tăng."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "上升趨勢後出現只有上影線的十字線。顯示高檔買盤失速與賣壓的頂部訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.宵の明星" : {
+      "comment" : "ローソク足パターン「宵の明星」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Three candles: a large bullish candle, a small real body, and a large bearish candle. A bearish reversal signal from a top."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "大陽線・小実体・大陰線の3本。天井からの下落転換サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "큰 양봉, 작은 몸통, 큰 음봉의 3개 캔들. 천장에서의 하락 전환 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gồm 3 nến: nến tăng lớn, nến thân nhỏ và nến giảm lớn. Tín hiệu đảo chiều giảm từ đỉnh."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "由大紅K、小實體、大黑K三根K線組成。從頂部轉為下跌的反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.明けの明星" : {
+      "comment" : "ローソク足パターン「明けの明星」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Three candles: a large bearish candle, a small real body, and a large bullish candle. A bullish reversal signal after bottoming out."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "大陰線・小実体・大陽線の3本。底打ちからの上昇転換サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "큰 음봉, 작은 몸통, 큰 양봉의 3개 캔들. 바닥을 찍은 후의 상승 전환 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gồm 3 nến: nến giảm lớn, nến thân nhỏ và nến tăng lớn. Tín hiệu đảo chiều tăng sau khi chạm đáy."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "由大黑K、小實體、大紅K三根K線組成。觸底後轉為上漲的反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.最後の抱き線陰" : {
+      "comment" : "ローソク足パターン「最後の抱き線陰」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Late in a downtrend, a large bearish candle engulfs a small bullish candle. A bullish reversal signal, with the bottom confirmed when the next day opens higher."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "下降トレンド末期に、小陽線を大陰線が包む形。翌日の上寄りで底入れを確認する買い転換サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "하락 추세 막바지에 큰 음봉이 작은 양봉을 감싸는 형태. 다음 날 시가가 높게 형성되면 바닥이 확인되는 매수 전환 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Cuối xu hướng giảm, nến giảm lớn bao trùm nến tăng nhỏ. Tín hiệu đảo chiều tăng, đáy được xác nhận khi phiên sau mở cửa cao hơn."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "下跌趨勢末段，大黑K吞噬小紅K的型態。隔日開高即確認底部，為買進反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.最後の抱き線陽" : {
+      "comment" : "ローソク足パターン「最後の抱き線陽」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Late in an uptrend, a large bullish candle engulfs a small bearish candle. A bearish reversal signal, with the top confirmed when the next day opens lower."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "上昇トレンド末期に、小陰線を大陽線が包む形。翌日の下寄りで天井を確認する売り転換サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승 추세 막바지에 큰 양봉이 작은 음봉을 감싸는 형태. 다음 날 시가가 낮게 형성되면 천장이 확인되는 매도 전환 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Cuối xu hướng tăng, nến tăng lớn bao trùm nến giảm nhỏ. Tín hiệu đảo chiều giảm, đỉnh được xác nhận khi phiên sau mở cửa thấp hơn."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "上升趨勢末段，大紅K吞噬小黑K的型態。隔日開低即確認頂部，為賣出反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.毛抜き天井" : {
+      "comment" : "ローソク足パターン「毛抜き天井」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Two candles with highs at nearly the same level. A topping signal that shows strong resistance."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "2本の高値がほぼ同じ水準で並ぶ。強いレジスタンスを示す天井打ちサイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "두 캔들의 고가가 거의 같은 수준에 나란히 형성. 강한 저항을 나타내는 천장 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Hai nến có giá cao nhất gần như ngang nhau. Tín hiệu tạo đỉnh cho thấy ngưỡng kháng cự mạnh."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "兩根K線的最高價幾乎位於同一水準。顯示強大壓力的觸頂訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.毛抜き底" : {
+      "comment" : "ローソク足パターン「毛抜き底」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Two candles with lows at nearly the same level. A bottoming signal that shows strong support."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "2本の安値がほぼ同じ水準で並ぶ。強いサポートの存在を示す底打ちサイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "두 캔들의 저가가 거의 같은 수준에 나란히 형성. 강한 지지의 존재를 나타내는 바닥 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Hai nến có giá thấp nhất gần như ngang nhau. Tín hiệu tạo đáy cho thấy có ngưỡng hỗ trợ mạnh."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "兩根K線的最低價幾乎位於同一水準。顯示強力支撐存在的觸底訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.行き詰まり線" : {
+      "comment" : "ローソク足パターン「行き詰まり線」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Three bullish candles in an uptrend, with a very small real body on the third. A top reversal signal showing that buying momentum is fading."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "上昇中の3本陽線で3本目の実体が極小。買い勢力の失速を示す天井転換サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승 중 나타난 3개의 양봉 중 세 번째 몸통이 매우 작음. 매수세 약화를 나타내는 천장 전환 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ba nến tăng trong xu hướng tăng, nến thứ ba có thân rất nhỏ. Tín hiệu đảo chiều tại đỉnh cho thấy lực mua đang suy yếu."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "上漲途中的三根紅K，第三根實體極小。顯示買盤失速的頂部反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.赤三兵" : {
+      "comment" : "ローソク足パターン「赤三兵」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Three consecutive bullish candles, each closing higher than the last. A signal that the uptrend is continuing."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "3本連続陽線で終値が順に上昇。上昇継続のサイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "3개의 양봉이 연속되며 종가가 차례로 상승. 상승 지속 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ba nến tăng liên tiếp, giá đóng cửa sau cao hơn phiên trước. Tín hiệu xu hướng tăng tiếp diễn."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "連續三根紅K，收盤價依序走高。上漲持續的訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.陰のたすき" : {
+      "comment" : "ローソク足パターン「陰のたすき」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Two bearish candles after a gap down, followed by a bullish candle that fails to fill the gap. A signal that the downtrend is continuing."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "ギャップダウン後2本陰線、その後の陽線がギャップを埋めきれない。下落継続サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "갭 하락 후 음봉 2개가 이어지고, 그다음 양봉이 갭을 다 메우지 못함. 하락 지속 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sau khoảng trống giảm là hai nến giảm, tiếp theo là nến tăng không lấp đầy được khoảng trống. Tín hiệu xu hướng giảm tiếp diễn."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "跳空下跌後出現兩根黑K，隨後的紅K未能完全回補缺口。下跌持續訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.陽のたすき" : {
+      "comment" : "ローソク足パターン「陽のたすき」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Two bullish candles after a gap up, followed by a bearish candle that fails to fill the gap. A signal that the uptrend is continuing."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "ギャップアップ後2本陽線、その後の陰線がギャップを埋めきれない。上昇継続サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "갭 상승 후 양봉 2개가 이어지고, 그다음 음봉이 갭을 다 메우지 못함. 상승 지속 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sau khoảng trống tăng là hai nến tăng, tiếp theo là nến giảm không lấp đầy được khoảng trống. Tín hiệu xu hướng tăng tiếp diễn."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "跳空上漲後出現兩根紅K，隨後的黑K未能完全回補缺口。上漲持續訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.首吊り線" : {
+      "comment" : "ローソク足パターン「首吊り線」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "A candle with a long lower shadow that appears after an uptrend. A top reversal signal that shows instability at high price levels."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "上昇トレンド後の下ヒゲが長い足。高値圏での不安定さを示す天井転換サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승 추세 후 아랫꼬리가 긴 캔들. 고가권의 불안정을 나타내는 천장 전환 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nến có bóng dưới dài, xuất hiện sau xu hướng tăng. Tín hiệu đảo chiều tại đỉnh cho thấy sự bất ổn ở vùng giá cao."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "上升趨勢後出現下影線很長的K線。顯示高檔不穩定的頂部反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.name.かぶせ線" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Dark Cloud Cover"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "かぶせ線"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "흑운형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Mây Đen Che Phủ"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "烏雲蓋頂"
+          }
+        }
+      }
+    },
+    "pattern.name.はらみ足陰線" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bearish Harami"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "はらみ足陰線"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "하락잉태형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Harami Giảm"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "空頭孕育"
+          }
+        }
+      }
+    },
+    "pattern.name.はらみ足陽線" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bullish Harami"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "はらみ足陽線"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승잉태형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Harami Tăng"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "多頭孕育"
+          }
+        }
+      }
+    },
+    "pattern.name.カラカサ" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Hammer"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "カラカサ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "망치형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Búa"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "錘子線"
+          }
+        }
+      }
+    },
+    "pattern.name.トンカチ" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Shooting Star"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "トンカチ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "유성형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sao Băng"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "流星線"
+          }
+        }
+      }
+    },
+    "pattern.name.トンボ" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Dragonfly Doji"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "トンボ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "잠자리형 도지"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Doji Chuồn Chuồn"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "蜻蜓十字"
+          }
+        }
+      }
+    },
+    "pattern.name.三羽烏" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Three Black Crows"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "三羽烏"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "흑삼병"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ba Con Quạ Đen"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "三烏鴉"
+          }
+        }
+      }
+    },
+    "pattern.name.上放れ三手放れ寄せ線" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Upside Gap Three Doji"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "上放れ三手放れ寄せ線"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승갭 3양봉 도지"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gap Tăng Ba Doji"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "向上跳空三紅十字"
+          }
+        }
+      }
+    },
+    "pattern.name.上放れ並び赤" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Upside Gap Side-by-Side White"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "上放れ並び赤"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승갭 나란히 양봉"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gap Tăng Hai Nến Trắng"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "向上跳空並列紅線"
+          }
+        }
+      }
+    },
+    "pattern.name.上放れ並び黒" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Upside Gap Side-by-Side Black"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "上放れ並び黒"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승갭 나란히 음봉"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gap Tăng Hai Nến Đen"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "向上跳空並列黑線"
+          }
+        }
+      }
+    },
+    "pattern.name.上放れ十字線" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Upside Gap Doji"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "上放れ十字線"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승갭 도지"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gap Tăng Doji"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "向上跳空十字線"
+          }
+        }
+      }
+    },
+    "pattern.name.下放れ三手放れ寄せ線" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Downside Gap Three Doji"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "下放れ三手放れ寄せ線"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "하락갭 3음봉 도지"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gap Giảm Ba Doji"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "向下跳空三黑十字"
+          }
+        }
+      }
+    },
+    "pattern.name.下放れ並び赤" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Downside Gap Side-by-Side White"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "下放れ並び赤"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "하락갭 나란히 양봉"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gap Giảm Hai Nến Trắng"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "向下跳空並列紅線"
+          }
+        }
+      }
+    },
+    "pattern.name.下放れ二本の陰線" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Downside Gap Two Black Candles"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "下放れ二本の陰線"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "하락갭 2음봉"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gap Giảm Hai Nến Đen"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "向下跳空雙黑線"
+          }
+        }
+      }
+    },
+    "pattern.name.下放れ十字線" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Downside Gap Doji"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "下放れ十字線"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "하락갭 도지"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gap Giảm Doji"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "向下跳空十字線"
+          }
+        }
+      }
+    },
+    "pattern.name.切り込み線" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Piercing Line"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "切り込み線"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "관통형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Đường Xuyên Thấu"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "貫穿線"
+          }
+        }
+      }
+    },
+    "pattern.name.包み足陰線" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bearish Engulfing"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "包み足陰線"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "하락장악형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nhấn Chìm Giảm"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "空頭吞噬"
+          }
+        }
+      }
+    },
+    "pattern.name.包み足陽線" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bullish Engulfing"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "包み足陽線"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승장악형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nhấn Chìm Tăng"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "多頭吞噬"
+          }
+        }
+      }
+    },
+    "pattern.name.塔婆" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Gravestone Doji"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "塔婆"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "비석형 도지"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Doji Bia Mộ"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "墓碑十字"
+          }
+        }
+      }
+    },
+    "pattern.name.宵の明星" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Evening Star"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "宵の明星"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "석별형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sao Hôm"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "夜星"
+          }
+        }
+      }
+    },
+    "pattern.name.明けの明星" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Morning Star"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "明けの明星"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "샛별형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sao Mai"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "晨星"
+          }
+        }
+      }
+    },
+    "pattern.name.最後の抱き線陰" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Last Engulfing Bottom"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "最後の抱き線陰"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "최후 장악 바닥형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nhấn Chìm Đáy Cuối"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "最後吞噬底部"
+          }
+        }
+      }
+    },
+    "pattern.name.最後の抱き線陽" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Last Engulfing Top"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "最後の抱き線陽"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "최후 장악 천장형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nhấn Chìm Đỉnh Cuối"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "最後吞噬頂部"
+          }
+        }
+      }
+    },
+    "pattern.name.毛抜き天井" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tweezer Top"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "毛抜き天井"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "족집게 천장형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nhíp Đỉnh"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "鑷子頂"
+          }
+        }
+      }
+    },
+    "pattern.name.毛抜き底" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tweezer Bottom"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "毛抜き底"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "족집게 바닥형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nhíp Đáy"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "鑷子底"
+          }
+        }
+      }
+    },
+    "pattern.name.行き詰まり線" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Advance Block"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "行き詰まり線"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승 정체형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Đà Tăng Bị Chặn"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "前方受阻"
+          }
+        }
+      }
+    },
+    "pattern.name.赤三兵" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Three White Soldiers"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "赤三兵"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "적삼병"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ba Chàng Lính Trắng"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "紅三兵"
+          }
+        }
+      }
+    },
+    "pattern.name.陰のたすき" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Downside Tasuki Gap"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "陰のたすき"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "하락 타스키 갭"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Khoảng Trống Tasuki Giảm"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "向下跳空缺口"
+          }
+        }
+      }
+    },
+    "pattern.name.陽のたすき" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Upside Tasuki Gap"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "陽のたすき"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승 타스키 갭"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Khoảng Trống Tasuki Tăng"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "向上跳空缺口"
+          }
+        }
+      }
+    },
+    "pattern.name.首吊り線" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Hanging Man"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "首吊り線"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "교수형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Người Treo Cổ"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "吊人線"
+          }
+        }
+      }
+    },
+    "∞" : {
+
+    },
+    "あと%lld問ミスで弱点強化モード解放" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld more mistake to unlock Weak Spot Mode"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld more mistakes to unlock Weak Spot Mode"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld more mistakes to unlock Weak Spot Mode"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "あと%lld問ミスで弱点強化モード解放"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "あと%lld問ミスで弱点強化モード解放"
+                }
+              }
+            }
+          }
+        },
+        "ko" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld문제 더 틀리면 약점 강화 모드가 잠금 해제됩니다"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "%lld문제 더 틀리면 약점 강화 모드가 잠금 해제됩니다"
+                }
+              }
+            }
+          }
+        },
+        "vi" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "Sai thêm %lld câu để mở khóa Chế độ luyện điểm yếu"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "Sai thêm %lld câu để mở khóa Chế độ luyện điểm yếu"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hant" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "再答錯%lld題即可解鎖弱點強化模式"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "machine_translated",
+                  "value" : "再答錯%lld題即可解鎖弱點強化模式"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "あなたの回答: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Your Answer: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "내 답: %@"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Câu trả lời của bạn: %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "你的答案：%@"
+          }
+        }
+      }
+    },
+    "お手本チャート（模式図）" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Model Chart (Schematic)"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "모범 차트(모식도)"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Biểu đồ mẫu (sơ đồ)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "模範圖表（示意圖）"
+          }
+        }
+      }
+    },
+    "このサインの方向は？" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Which way does this signal point?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "이 신호의 방향은?"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tín hiệu này theo hướng nào?"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "這個訊號的方向是？"
+          }
+        }
+      }
+    },
+    "このパターンの実例データを読み込めませんでした。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Couldn’t load example data for this pattern."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "이 패턴의 사례 데이터를 불러올 수 없습니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Không thể tải dữ liệu ví dụ thực tế của mô hình này."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "無法載入此型態的實例資料。"
+          }
+        }
+      }
+    },
+    "このローソク足パターンは？" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "What’s this candlestick pattern?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "이 캔들 패턴은?"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Đây là mô hình nến nào?"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "這是哪種K線型態？"
+          }
+        }
+      }
+    },
+    "その後（薄色）" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Afterward (Faded)"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "이후(흐린 색)"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sau đó (màu nhạt)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "之後（淡色）"
+          }
+        }
+      }
+    },
+    "もう一度" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Try Again"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "다시 하기"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Làm lại"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "再試一次"
+          }
+        }
+      }
+    },
+    "オレンジ色の縦線より左がパターン成立まで、右の薄いローソク足が成立後の値動きです。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Everything left of the vertical orange line leads up to the pattern. The faded candlesticks on the right show how the price moved afterward."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "주황색 세로선의 왼쪽은 패턴이 완성되기까지의 흐름이고, 오른쪽의 흐린 캔들은 패턴 완성 후의 가격 움직임입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Phần bên trái đường dọc màu cam là diễn biến đến khi hình thành mô hình, còn các nến màu nhạt bên phải là biến động giá sau khi mô hình hình thành."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "橘色垂直線左側為型態成立前的走勢，右側的淡色K線則是成立後的價格走勢。"
+          }
+        }
+      }
+    },
+    "クイズを始める" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Start Quiz"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "퀴즈 시작"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bắt đầu câu đố"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "開始測驗"
+          }
+        }
+      }
+    },
+    "セット終了！" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Set Complete!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "세트 완료!"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Hoàn thành bộ câu hỏi!"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "本輪結束！"
+          }
+        }
+      }
+    },
+    "タイトル" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Home"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "홈"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Trang chủ"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "首頁"
+          }
+        }
+      }
+    },
+    "タイトルに戻る" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Back to Title"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "타이틀로 돌아가기"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Quay về màn hình chính"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "返回標題畫面"
+          }
+        }
+      }
+    },
+    "チャート" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Chart"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "차트"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Biểu đồ"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "圖表"
+          }
+        }
+      }
+    },
+    "チャートを振り返る" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Review Charts"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "차트 돌아보기"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Xem lại biểu đồ"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "回顧圖表"
+          }
+        }
+      }
+    },
+    "チャートを見て、その後に上がるか下がるかを当てます" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Look at the chart and guess whether the price goes up or down next"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "차트를 보고 이후에 오를지 내릴지 맞힙니다"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Xem biểu đồ và đoán giá sau đó sẽ tăng hay giảm"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "看圖表猜猜之後會上漲還是下跌"
+          }
+        }
+      }
+    },
+    "チャートを選択" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Select Chart Type"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "차트 선택"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Chọn biểu đồ"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "選擇圖表"
+          }
+        }
+      }
+    },
+    "データ読み込み中..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Loading data…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "데이터 로드 중…"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Đang tải dữ liệu…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "資料載入中⋯"
+          }
+        }
+      }
+    },
+    "パターンの意味" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "What the Pattern Means"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "패턴의 의미"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ý nghĩa của mô hình"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "型態意義"
+          }
+        }
+      }
+    },
+    "パターン名4択" : {
+      "comment" : "出題形式: パターン名を4択で当てる",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Name the Pattern"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "패턴명 4지선다"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tên mô hình (4 lựa chọn)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "型態名稱四選一"
+          }
+        }
+      }
+    },
+    "パターン名や説明を検索" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Search pattern names or descriptions"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "패턴명 또는 설명 검색"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tìm theo tên hoặc mô tả mô hình"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "搜尋型態名稱或說明"
+          }
+        }
+      }
+    },
+    "パターン図鑑" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Pattern Library"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "패턴 도감"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Thư viện mô hình"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "型態圖鑑"
+          }
+        }
+      }
+    },
+    "パターン成立まで" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Pattern Formation"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "패턴 완성까지"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Đến khi hình thành mô hình"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "型態成立前"
+          }
+        }
+      }
+    },
+    "プライバシー設定" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Privacy Settings"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "개인정보 보호 설정"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Cài đặt quyền riêng tư"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "隱私設定"
+          }
+        }
+      }
+    },
+    "ローソク足の形から、パターン名を4つの候補から選びます" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Pick the pattern name from 4 choices based on the candlestick shape"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "캔들 모양을 보고 4개의 보기 중에서 패턴명을 고릅니다"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Dựa vào hình dạng nến, chọn tên mô hình đúng trong 4 lựa chọn"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "根據K線的形狀，從4個選項中選出型態名稱"
+          }
+        }
+      }
+    },
+    "上昇 ↗" : {
+      "comment" : "回答ボタン: 上昇",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Up ↗"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승 ↗"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tăng ↗"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "上漲 ↗"
+          }
+        }
+      }
+    },
+    "上昇サイン" : {
+      "comment" : "上昇を示すローソク足パターン",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bullish Signal"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승 신호"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tín hiệu tăng"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "看漲訊號"
+          }
+        }
+      }
+    },
+    "上昇／下落" : {
+      "comment" : "出題形式: 上がるか下がるかを当てる",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Up or Down"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승/하락"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tăng/Giảm"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "上漲／下跌"
+          }
+        }
+      }
+    },
+    "下落 ↘" : {
+      "comment" : "回答ボタン: 下落",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Down ↘"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "하락 ↘"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Giảm ↘"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "下跌 ↘"
+          }
+        }
+      }
+    },
+    "下落サイン" : {
+      "comment" : "下落を示すローソク足パターン",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bearish Signal"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "하락 신호"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tín hiệu giảm"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "看跌訊號"
+          }
+        }
+      }
+    },
+    "不正解" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Incorrect"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "오답"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Không chính xác"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "答錯了"
+          }
+        }
+      }
+    },
+    "出題形式を選択" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Select Quiz Mode"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "문제 유형 선택"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Chọn dạng câu hỏi"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "選擇題型"
+          }
+        }
+      }
+    },
+    "前の実例" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Previous"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "이전 사례"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Trước"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "上一個實例"
+          }
+        }
+      }
+    },
+    "問題を読み込み中..." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Loading questions…"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "문제 로드 중…"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Đang tải câu hỏi…"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "題目載入中⋯"
+          }
+        }
+      }
+    },
+    "問題数" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Number of Questions"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "문제 수"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Số câu hỏi"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "題數"
+          }
+        }
+      }
+    },
+    "問題数を選択" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Choose Number of Questions"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "문제 수 선택"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Chọn số câu hỏi"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "選擇題數"
+          }
+        }
+      }
+    },
+    "基本形" : {
+      "comment" : "チャート種別の切り替え: 模式図",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Basics"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "기본형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Cơ bản"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "基本型"
+          }
+        }
+      }
+    },
+    "基本形チャートで練習" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Practice with Basic Charts"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "기본형 차트로 연습"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Luyện tập với biểu đồ cơ bản"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "用基本型圖表練習"
+          }
+        }
+      }
+    },
+    "実例 %lld / %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Example %1$lld / %2$lld"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "実例 %1$lld / %2$lld"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "사례 %1$lld / %2$lld"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ví dụ %1$lld / %2$lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "實例%1$lld / %2$lld"
+          }
+        }
+      }
+    },
+    "実例がありません" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "No Examples"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "사례 없음"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Không có ví dụ thực tế"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "沒有實例"
+          }
+        }
+      }
+    },
+    "実例チャート" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Real Example Chart"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "실제 사례 차트"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Biểu đồ ví dụ thực tế"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "實例圖表"
+          }
+        }
+      }
+    },
+    "実戦" : {
+      "comment" : "チャート種別の切り替え: 実際の株価チャート",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Real Charts"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "실전"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Thực chiến"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "實戰"
+          }
+        }
+      }
+    },
+    "実戦チャートで挑戦" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Take On Real Charts"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "실전 차트로 도전"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Thử sức với biểu đồ thực chiến"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "挑戰實戰圖表"
+          }
+        }
+      }
+    },
+    "実際の日本株市場で発生したローソク足パターンです" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Candlestick patterns that actually appeared in the Japanese stock market"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "실제 일본 주식 시장에서 나타난 캔들 패턴입니다"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Các mô hình nến đã thực sự xuất hiện trên thị trường chứng khoán Nhật Bản"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "實際出現在日本股市的K線型態"
+          }
+        }
+      }
+    },
+    "弱点強化モード" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Weak Spot Mode"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "약점 강화 모드"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Chế độ luyện điểm yếu"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "弱點強化模式"
+          }
+        }
+      }
+    },
+    "手本チャート（模式図）" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Model Chart (Schematic)"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "모범 차트(모식도)"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Biểu đồ mẫu (sơ đồ)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "模範圖表（示意圖）"
+          }
+        }
+      }
+    },
+    "最大%lld連続正解" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Best streak: %lld in a row"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "최대 %lld연속 정답"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Chuỗi đúng dài nhất: %lld câu"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "最多連續答對%lld題"
+          }
+        }
+      }
+    },
+    "最大%lld連続正解🔥" : {
+      "comment" : "SNS共有テキスト: 最大連続正解数",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Best streak: %lld in a row 🔥"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "최대 %lld연속 정답🔥"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Chuỗi đúng dài nhất: %lld câu 🔥"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "最多連續答對%lld題🔥"
+          }
+        }
+      }
+    },
+    "次の問題" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Next Question"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "다음 문제"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Câu tiếp theo"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "下一題"
+          }
+        }
+      }
+    },
+    "次の実例" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Next"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "다음 사례"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tiếp"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "下一個實例"
+          }
+        }
+      }
+    },
+    "正解: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Correct Answer: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "정답: %@"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Đáp án đúng: %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "正確答案：%@"
+          }
+        }
+      }
+    },
+    "正解したチャート" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Charts You Got Right"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "맞힌 차트"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Biểu đồ trả lời đúng"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "答對的圖表"
+          }
+        }
+      }
+    },
+    "正解率 %@" : {
+      "comment" : "結果画面の正解率",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Accuracy: %@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "정답률 %@"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tỷ lệ chính xác: %@"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "正確率%@"
+          }
+        }
+      }
+    },
+    "正解率 %lld%%" : {
+      "comment" : "結果画面の正解率",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Accuracy: %lld%%"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "정답률 %lld%%"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "正確率%lld%%"
+          }
+        }
+      }
+    },
+    "正解！" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Correct!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "정답!"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Chính xác!"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "答對了！"
+          }
+        }
+      }
+    },
+    "特徴を強調した模式図で基本形を覚えます" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Learn the basic patterns with diagrams that highlight their key features"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "특징을 강조한 모식도로 기본형을 익힙니다"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Ghi nhớ các mô hình cơ bản qua sơ đồ làm nổi bật đặc điểm chính"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "透過強調特徵的示意圖熟記基本型"
+          }
+        }
+      }
+    },
+    "第%lld問" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Question %lld"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "%lld번 문제"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Câu %lld"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "第%lld題"
+          }
+        }
+      }
+    },
+    "結果をSNSで共有" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Share Results"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "SNS에 결과 공유"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Chia sẻ kết quả lên mạng xã hội"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "分享結果至社群平台"
+          }
+        }
+      }
+    },
+    "結果を見る" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "See Results"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "결과 보기"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Xem kết quả"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "查看結果"
+          }
+        }
+      }
+    },
+    "苦手リセット" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Reset Weak Spots"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "약점 초기화"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Đặt lại điểm yếu"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "重設弱點"
+          }
+        }
+      }
+    },
+    "見方" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "How to Read It"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "보는 법"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Cách đọc"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "如何解讀"
+          }
+        }
+      }
+    },
+    "該当するチャートはありません" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "No charts to show"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "해당하는 차트가 없습니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Không có biểu đồ nào"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "沒有符合的圖表"
+          }
+        }
+      }
+    },
+    "酒田道場でローソク足クイズに挑戦！" : {
+      "comment" : "SNS共有テキストの1行目",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Take on the candlestick quiz at Sakata Dojo!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "사카타 도장에서 캔들스틱 퀴즈에 도전!"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Thử thách câu đố nến Nhật cùng Sakata Dojo!"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "在酒田道場挑戰K線測驗！"
+          }
+        }
+      }
+    },
+    "間違えたチャート" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Charts You Missed"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "틀린 차트"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Biểu đồ trả lời sai"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "答錯的圖表"
+          }
+        }
+      }
+    },
+    "🏆 自己ベスト！" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "🏆 Personal Best!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "🏆 개인 최고 기록!"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "🏆 Kỷ lục cá nhân!"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "🏆 個人最佳紀錄！"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.3"
+}
