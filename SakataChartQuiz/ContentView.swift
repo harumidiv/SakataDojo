@@ -716,8 +716,11 @@ struct ContentView: View {
                             .multilineTextAlignment(.leading)
                             .frame(maxWidth: .infinity, alignment: .leading)
 
-                        Button(isLastQuestion ? String(localized: "結果を見る") : String(localized: "次の問題")) {
+                        Button {
                             nextQuestion()
+                        } label: {
+                            Text(isLastQuestion ? String(localized: "結果を見る") : String(localized: "次の問題"))
+                                .frame(maxWidth: .infinity)
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
