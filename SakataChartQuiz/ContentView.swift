@@ -143,6 +143,9 @@ struct ContentView: View {
     @State private var questionResults: [QuestionResult] = []
     @State private var isCorrectResultsExpanded = false
     @State private var isIncorrectResultsExpanded = false
+    @State private var resultDate = Date()
+    @State private var shareImage: ResultShareImage?
+    @State private var showsShareError = false
     @AppStorage("patternMistakesData") private var patternMistakesData: Data = Data()
     @AppStorage("allTimeBestStreak") private var allTimeBestStreak: Int = 0
     @AppStorage("lastReviewRequestVersion") private var lastReviewRequestVersion = ""
@@ -922,7 +925,23 @@ struct ContentView: View {
                     .controlSize(.large)
                     .disabled(isCompletingQuiz)
 
-                    ShareLink(item: resultShareText) {
+                    Button {
+                        let certificate = ResultCertificateView(
+                            correctCount: correctCount,
+                            questionCount: questionNumber,
+                            bestStreak: bestStreakThisSession,
+                            mode: quizMode.title,
+                            chartSource: quizChartSource.label,
+                            date: resultDate
+                        )
+                        let renderer = ImageRenderer(content: certificate)
+                        renderer.scale = 3
+                        if let image = renderer.uiImage {
+                            shareImage = ResultShareImage(image: image, text: resultShareText)
+                        } else {
+                            showsShareError = true
+                        }
+                    } label: {
                         Label("結果をSNSで共有", systemImage: "square.and.arrow.up")
                             .font(.headline)
                             .frame(maxWidth: .infinity, minHeight: 44)
@@ -971,6 +990,14 @@ struct ContentView: View {
             .frame(maxWidth: .infinity)
         }
         .background(Color.secondary.opacity(0.04).ignoresSafeArea())
+        .sheet(item: $shareImage) { item in
+            ResultShareSheet(item: item)
+        }
+        .alert("共有画像を作成できませんでした", isPresented: $showsShareError) {
+            Button("閉じる", role: .cancel) { }
+        } message: {
+            Text("もう一度お試しください。")
+        }
     }
 
     private func resultSection(
@@ -1140,6 +1167,7 @@ struct ContentView: View {
             isCompletingQuiz = true
             showAnswer = false
             selectedAnswer = nil
+            resultDate = Date()
             appScreen = .results
 
             if shouldRequestReviewForCurrentVersion {
