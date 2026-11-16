@@ -396,6 +396,37 @@
         }
       }
     },
+    "∞" : {
+
+    },
+    "🏆 自己ベスト！" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "🏆 Personal Best!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "🏆 개인 최고 기록!"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "🏆 Kỷ lục cá nhân!"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "🏆 個人最佳紀錄！"
+          }
+        }
+      }
+    },
     "10問" : {
       "localizations" : {
         "en" : {
@@ -517,78 +548,6 @@
         }
       }
     },
-    "pattern.description.はらみ足陰線" : {
-      "comment" : "ローソク足パターン「はらみ足陰線」の説明文",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "A small bearish candle sits within the real body of a large bullish candle. A reversal sign showing weakening buying pressure."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "大陽線の実体内に小陰線が収まる。買い勢力の弱まりを示す反転サイン。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "큰 양봉의 몸통 안에 작은 음봉이 들어갑니다. 매수세가 약해졌음을 나타내는 반전 신호입니다."
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Một nến giảm nhỏ nằm gọn trong thân nến của một nến tăng lớn. Tín hiệu đảo chiều cho thấy lực mua đang suy yếu."
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "小黑K落在長紅K的實體之內。顯示買方力道減弱的反轉訊號。"
-          }
-        }
-      }
-    },
-    "pattern.description.はらみ足陽線" : {
-      "comment" : "ローソク足パターン「はらみ足陽線」の説明文",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "A small bullish candle sits within the real body of a large bearish candle. A reversal sign showing weakening selling pressure."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "大陰線の実体内に小陽線が収まる。売り勢力の弱まりを示す反転サイン。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "큰 음봉의 몸통 안에 작은 양봉이 들어갑니다. 매도세가 약해졌음을 나타내는 반전 신호입니다."
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Một nến tăng nhỏ nằm gọn trong thân nến của một nến giảm lớn. Tín hiệu đảo chiều cho thấy lực bán đang suy yếu."
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "小紅K落在長黑K的實體之內。顯示賣方力道減弱的反轉訊號。"
-          }
-        }
-      }
-    },
     "pattern.description.カラカサ" : {
       "comment" : "ローソク足パターン「カラカサ」の説明文",
       "extractionState" : "extracted_with_value",
@@ -693,6 +652,78 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "下跌趨勢後出現只有下影線的十字線。顯示賣方力竭、買方進場的反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.はらみ足陰線" : {
+      "comment" : "ローソク足パターン「はらみ足陰線」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "A small bearish candle sits within the real body of a large bullish candle. A reversal sign showing weakening buying pressure."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "大陽線の実体内に小陰線が収まる。買い勢力の弱まりを示す反転サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "큰 양봉의 몸통 안에 작은 음봉이 들어갑니다. 매수세가 약해졌음을 나타내는 반전 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Một nến giảm nhỏ nằm gọn trong thân nến của một nến tăng lớn. Tín hiệu đảo chiều cho thấy lực mua đang suy yếu."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "小黑K落在長紅K的實體之內。顯示買方力道減弱的反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.はらみ足陽線" : {
+      "comment" : "ローソク足パターン「はらみ足陽線」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "A small bullish candle sits within the real body of a large bearish candle. A reversal sign showing weakening selling pressure."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "大陰線の実体内に小陽線が収まる。売り勢力の弱まりを示す反転サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "큰 음봉의 몸통 안에 작은 양봉이 들어갑니다. 매도세가 약해졌음을 나타내는 반전 신호입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Một nến tăng nhỏ nằm gọn trong thân nến của một nến giảm lớn. Tín hiệu đảo chiều cho thấy lực bán đang suy yếu."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "小紅K落在長黑K的實體之內。顯示賣方力道減弱的反轉訊號。"
           }
         }
       }
@@ -1021,6 +1052,78 @@
         }
       }
     },
+    "pattern.description.最後の抱き線陰" : {
+      "comment" : "ローソク足パターン「最後の抱き線陰」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Late in a downtrend, a large bearish candle engulfs a small bullish candle. A bullish reversal signal, with the bottom confirmed when the next day opens higher."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "下降トレンド末期に、小陽線を大陰線が包む形。翌日の上寄りで底入れを確認する買い転換サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "하락 추세 막바지에 큰 음봉이 작은 양봉을 감싸는 형태. 다음 날 시가가 높게 형성되면 바닥이 확인되는 매수 전환 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Cuối xu hướng giảm, nến giảm lớn bao trùm nến tăng nhỏ. Tín hiệu đảo chiều tăng, đáy được xác nhận khi phiên sau mở cửa cao hơn."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "下跌趨勢末段，大黑K吞噬小紅K的型態。隔日開高即確認底部，為買進反轉訊號。"
+          }
+        }
+      }
+    },
+    "pattern.description.最後の抱き線陽" : {
+      "comment" : "ローソク足パターン「最後の抱き線陽」の説明文",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Late in an uptrend, a large bullish candle engulfs a small bearish candle. A bearish reversal signal, with the top confirmed when the next day opens lower."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "上昇トレンド末期に、小陰線を大陽線が包む形。翌日の下寄りで天井を確認する売り転換サイン。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승 추세 막바지에 큰 양봉이 작은 음봉을 감싸는 형태. 다음 날 시가가 낮게 형성되면 천장이 확인되는 매도 전환 신호."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Cuối xu hướng tăng, nến tăng lớn bao trùm nến giảm nhỏ. Tín hiệu đảo chiều giảm, đỉnh được xác nhận khi phiên sau mở cửa thấp hơn."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "上升趨勢末段，大紅K吞噬小黑K的型態。隔日開低即確認頂部，為賣出反轉訊號。"
+          }
+        }
+      }
+    },
     "pattern.description.切り込み線" : {
       "comment" : "ローソク足パターン「切り込み線」の説明文",
       "extractionState" : "extracted_with_value",
@@ -1233,78 +1336,6 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "由大黑K、小實體、大紅K三根K線組成。觸底後轉為上漲的反轉訊號。"
-          }
-        }
-      }
-    },
-    "pattern.description.最後の抱き線陰" : {
-      "comment" : "ローソク足パターン「最後の抱き線陰」の説明文",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Late in a downtrend, a large bearish candle engulfs a small bullish candle. A bullish reversal signal, with the bottom confirmed when the next day opens higher."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "下降トレンド末期に、小陽線を大陰線が包む形。翌日の上寄りで底入れを確認する買い転換サイン。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "하락 추세 막바지에 큰 음봉이 작은 양봉을 감싸는 형태. 다음 날 시가가 높게 형성되면 바닥이 확인되는 매수 전환 신호."
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Cuối xu hướng giảm, nến giảm lớn bao trùm nến tăng nhỏ. Tín hiệu đảo chiều tăng, đáy được xác nhận khi phiên sau mở cửa cao hơn."
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "下跌趨勢末段，大黑K吞噬小紅K的型態。隔日開高即確認底部，為買進反轉訊號。"
-          }
-        }
-      }
-    },
-    "pattern.description.最後の抱き線陽" : {
-      "comment" : "ローソク足パターン「最後の抱き線陽」の説明文",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Late in an uptrend, a large bullish candle engulfs a small bearish candle. A bearish reversal signal, with the top confirmed when the next day opens lower."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "上昇トレンド末期に、小陰線を大陽線が包む形。翌日の下寄りで天井を確認する売り転換サイン。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "상승 추세 막바지에 큰 양봉이 작은 음봉을 감싸는 형태. 다음 날 시가가 낮게 형성되면 천장이 확인되는 매도 전환 신호."
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Cuối xu hướng tăng, nến tăng lớn bao trùm nến giảm nhỏ. Tín hiệu đảo chiều giảm, đỉnh được xác nhận khi phiên sau mở cửa thấp hơn."
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "上升趨勢末段，大紅K吞噬小黑K的型態。隔日開低即確認頂部，為賣出反轉訊號。"
           }
         }
       }
@@ -1597,78 +1628,6 @@
         }
       }
     },
-    "pattern.name.はらみ足陰線" : {
-      "comment" : "酒田五法のローソク足パターン名",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Bearish Harami"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "はらみ足陰線"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "하락잉태형"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Harami Giảm"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "空頭孕育"
-          }
-        }
-      }
-    },
-    "pattern.name.はらみ足陽線" : {
-      "comment" : "酒田五法のローソク足パターン名",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Bullish Harami"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "はらみ足陽線"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "상승잉태형"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Harami Tăng"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "多頭孕育"
-          }
-        }
-      }
-    },
     "pattern.name.カラカサ" : {
       "comment" : "酒田五法のローソク足パターン名",
       "extractionState" : "extracted_with_value",
@@ -1773,6 +1732,78 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "蜻蜓十字"
+          }
+        }
+      }
+    },
+    "pattern.name.はらみ足陰線" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bearish Harami"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "はらみ足陰線"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "하락잉태형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Harami Giảm"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "空頭孕育"
+          }
+        }
+      }
+    },
+    "pattern.name.はらみ足陽線" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bullish Harami"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "はらみ足陽線"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승잉태형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Harami Tăng"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "多頭孕育"
           }
         }
       }
@@ -2101,6 +2132,78 @@
         }
       }
     },
+    "pattern.name.最後の抱き線陰" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Last Engulfing Bottom"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "最後の抱き線陰"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "최후 장악 바닥형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nhấn Chìm Đáy Cuối"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "最後吞噬底部"
+          }
+        }
+      }
+    },
+    "pattern.name.最後の抱き線陽" : {
+      "comment" : "酒田五法のローソク足パターン名",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Last Engulfing Top"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "最後の抱き線陽"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "최후 장악 천장형"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Nhấn Chìm Đỉnh Cuối"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "最後吞噬頂部"
+          }
+        }
+      }
+    },
     "pattern.name.切り込み線" : {
       "comment" : "酒田五法のローソク足パターン名",
       "extractionState" : "extracted_with_value",
@@ -2313,78 +2416,6 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "晨星"
-          }
-        }
-      }
-    },
-    "pattern.name.最後の抱き線陰" : {
-      "comment" : "酒田五法のローソク足パターン名",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Last Engulfing Bottom"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "最後の抱き線陰"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "최후 장악 바닥형"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Nhấn Chìm Đáy Cuối"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "最後吞噬底部"
-          }
-        }
-      }
-    },
-    "pattern.name.最後の抱き線陽" : {
-      "comment" : "酒田五法のローソク足パターン名",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Last Engulfing Top"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "最後の抱き線陽"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "최후 장악 천장형"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Nhấn Chìm Đỉnh Cuối"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "最後吞噬頂部"
           }
         }
       }
@@ -2641,9 +2672,6 @@
         }
       }
     },
-    "∞" : {
-
-    },
     "あと%lld問ミスで弱点強化モード解放" : {
       "localizations" : {
         "en" : {
@@ -2772,6 +2800,34 @@
         }
       }
     },
+    "オレンジ色の縦線より左がパターン成立まで、右の薄いローソク足が成立後の値動きです。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Everything left of the vertical orange line leads up to the pattern. The faded candlesticks on the right show how the price moved afterward."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "주황색 세로선의 왼쪽은 패턴이 완성되기까지의 흐름이고, 오른쪽의 흐린 캔들은 패턴 완성 후의 가격 움직임입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Phần bên trái đường dọc màu cam là diễn biến đến khi hình thành mô hình, còn các nến màu nhạt bên phải là biến động giá sau khi mô hình hình thành."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "橘色垂直線左側為型態成立前的走勢，右側的淡色K線則是成立後的價格走勢。"
+          }
+        }
+      }
+    },
     "お手本チャート（模式図）" : {
       "localizations" : {
         "en" : {
@@ -2796,6 +2852,34 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "模範圖表（示意圖）"
+          }
+        }
+      }
+    },
+    "クイズを始める" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Start Quiz"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "퀴즈 시작"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bắt đầu câu đố"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "開始測驗"
           }
         }
       }
@@ -2884,118 +2968,6 @@
         }
       }
     },
-    "その後（薄色）" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Afterward (Faded)"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "이후(흐린 색)"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Sau đó (màu nhạt)"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "之後（淡色）"
-          }
-        }
-      }
-    },
-    "もう一度" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Try Again"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "다시 하기"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Làm lại"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "再試一次"
-          }
-        }
-      }
-    },
-    "オレンジ色の縦線より左がパターン成立まで、右の薄いローソク足が成立後の値動きです。" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Everything left of the vertical orange line leads up to the pattern. The faded candlesticks on the right show how the price moved afterward."
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "주황색 세로선의 왼쪽은 패턴이 완성되기까지의 흐름이고, 오른쪽의 흐린 캔들은 패턴 완성 후의 가격 움직임입니다."
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Phần bên trái đường dọc màu cam là diễn biến đến khi hình thành mô hình, còn các nến màu nhạt bên phải là biến động giá sau khi mô hình hình thành."
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "橘色垂直線左側為型態成立前的走勢，右側的淡色K線則是成立後的價格走勢。"
-          }
-        }
-      }
-    },
-    "クイズを始める" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Start Quiz"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "퀴즈 시작"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Bắt đầu câu đố"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "開始測驗"
-          }
-        }
-      }
-    },
     "セット終了！" : {
       "localizations" : {
         "en" : {
@@ -3020,6 +2992,34 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "本輪結束！"
+          }
+        }
+      }
+    },
+    "その後（薄色）" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Afterward (Faded)"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "이후(흐린 색)"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sau đó (màu nhạt)"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "之後（淡色）"
           }
         }
       }
@@ -3389,6 +3389,40 @@
         }
       }
     },
+    "もう一度" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Try Again"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "다시 하기"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Làm lại"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "再試一次"
+          }
+        }
+      }
+    },
+    "もう一度お試しください。" : {
+
+    },
+    "ローソク足 練習免状" : {
+
+    },
     "ローソク足の形から、パターン名を4つの候補から選びます" : {
       "localizations" : {
         "en" : {
@@ -3416,6 +3450,9 @@
           }
         }
       }
+    },
+    "ローソク足の形を学び、相場を読む力を磨く" : {
+
     },
     "上昇 ↗" : {
       "comment" : "回答ボタン: 上昇",
@@ -3446,35 +3483,6 @@
         }
       }
     },
-    "上昇サイン" : {
-      "comment" : "上昇を示すローソク足パターン",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Bullish Signal"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "상승 신호"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Tín hiệu tăng"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "看漲訊號"
-          }
-        }
-      }
-    },
     "上昇／下落" : {
       "comment" : "出題形式: 上がるか下がるかを当てる",
       "localizations" : {
@@ -3500,6 +3508,35 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "上漲／下跌"
+          }
+        }
+      }
+    },
+    "上昇サイン" : {
+      "comment" : "上昇を示すローソク足パターン",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Bullish Signal"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "상승 신호"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tín hiệu tăng"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "看漲訊號"
           }
         }
       }
@@ -3589,6 +3626,81 @@
           }
         }
       }
+    },
+    "修\n練" : {
+
+    },
+    "修練の記録" : {
+
+    },
+    "優\n秀" : {
+
+    },
+    "共有画像" : {
+
+    },
+    "共有画像を作成できませんでした" : {
+
+    },
+    "最大%lld連続正解" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Best streak: %lld in a row"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "최대 %lld연속 정답"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Chuỗi đúng dài nhất: %lld câu"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "最多連續答對%lld題"
+          }
+        }
+      }
+    },
+    "最大%lld連続正解🔥" : {
+      "comment" : "SNS共有テキスト: 最大連続正解数",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Best streak: %lld in a row 🔥"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "최대 %lld연속 정답🔥"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Chuỗi đúng dài nhất: %lld câu 🔥"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "最多連續答對%lld題🔥"
+          }
+        }
+      }
+    },
+    "最大連続正解" : {
+
     },
     "出題形式を選択" : {
       "localizations" : {
@@ -3990,6 +4102,9 @@
         }
       }
     },
+    "成績優秀" : {
+
+    },
     "手本チャート（模式図）" : {
       "localizations" : {
         "en" : {
@@ -4018,62 +4133,8 @@
         }
       }
     },
-    "最大%lld連続正解" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Best streak: %lld in a row"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "최대 %lld연속 정답"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Chuỗi đúng dài nhất: %lld câu"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "最多連續答對%lld題"
-          }
-        }
-      }
-    },
-    "最大%lld連続正解🔥" : {
-      "comment" : "SNS共有テキスト: 最大連続正解数",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Best streak: %lld in a row 🔥"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "최대 %lld연속 정답🔥"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Chuỗi đúng dài nhất: %lld câu 🔥"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "最多連續答對%lld題🔥"
-          }
-        }
-      }
+    "日々精進" : {
+
     },
     "次の問題" : {
       "localizations" : {
@@ -4159,6 +4220,34 @@
         }
       }
     },
+    "正解！" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Correct!"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "정답!"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Chính xác!"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "答對了！"
+          }
+        }
+      }
+    },
     "正解したチャート" : {
       "localizations" : {
         "en" : {
@@ -4186,6 +4275,9 @@
           }
         }
       }
+    },
+    "正解率" : {
+
     },
     "正解率 %@" : {
       "comment" : "結果画面の正解率",
@@ -4240,33 +4332,8 @@
         }
       }
     },
-    "正解！" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Correct!"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "정답!"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "Chính xác!"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "答對了！"
-          }
-        }
-      }
+    "正解率と最大連続正解数を記載した酒田道場の免状" : {
+
     },
     "特徴を強調した模式図で基本形を覚えます" : {
       "localizations" : {
@@ -4295,6 +4362,12 @@
           }
         }
       }
+    },
+    "皆伝" : {
+
+    },
+    "着実前進" : {
+
     },
     "第%lld問" : {
       "localizations" : {
@@ -4464,6 +4537,15 @@
         }
       }
     },
+    "連続正解数" : {
+
+    },
+    "酒田五法 ローソク足学習アプリ" : {
+
+    },
+    "酒田道場" : {
+
+    },
     "酒田道場でローソク足クイズに挑戦！" : {
       "comment" : "SNS共有テキストの1行目",
       "localizations" : {
@@ -4493,6 +4575,12 @@
         }
       }
     },
+    "酒田道場の練習結果" : {
+
+    },
+    "閉じる" : {
+
+    },
     "間違えたチャート" : {
       "localizations" : {
         "en" : {
@@ -4517,34 +4605,6 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "答錯的圖表"
-          }
-        }
-      }
-    },
-    "🏆 自己ベスト！" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "🏆 Personal Best!"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "🏆 개인 최고 기록!"
-          }
-        },
-        "vi" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "🏆 Kỷ lục cá nhân!"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "machine_translated",
-            "value" : "🏆 個人最佳紀錄！"
           }
         }
       }
