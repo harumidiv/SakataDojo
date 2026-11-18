@@ -101,9 +101,37 @@ private enum QuizChartSource: String, CaseIterable, Identifiable {
     }
 }
 
+private enum StudySortOrder: String, CaseIterable, Identifiable {
+    case direction
+    case category
+    case name
+
+    var id: Self { self }
+
+    var title: String {
+        switch self {
+        case .direction:
+            return String(localized: "方向別", comment: "図鑑の並べ替え: 上昇・下落サインごと")
+        case .category:
+            return String(localized: "分類別", comment: "図鑑の並べ替え: 三山・三川などの分類ごと")
+        case .name:
+            return String(localized: "名前順", comment: "図鑑の並べ替え: パターン名の順")
+        }
+    }
+}
+
+private struct StudySection: Identifiable {
+    let id: String
+    let title: String
+    let systemImage: String
+    let color: Color
+    let patterns: [QuizPattern]
+}
+
 private struct QuestionResult: Identifiable {
     let id = UUID()
     let questionNumber: Int
+    let patternID: String
     let patternName: String
     let patternDescription: String
     let signalDirection: String
@@ -149,6 +177,49 @@ struct ContentView: View {
     @AppStorage("patternMistakesData") private var patternMistakesData: Data = Data()
     @AppStorage("allTimeBestStreak") private var allTimeBestStreak: Int = 0
     @AppStorage("lastReviewRequestVersion") private var lastReviewRequestVersion = ""
+    @AppStorage("patternIDMigrationVersion") private var patternIDMigrationVersion = 0
+    @AppStorage("studySortOrder") private var studySortOrder: StudySortOrder = .direction
+
+    // デイリーチャレンジ
+    @State private var isDailyChallenge = false
+    @State private var dailyQueue: [DailyQuestion] = []
+    @State private var dailyStartDate = Date()
+    @State private var todayKey = DailyChallenge.dayKey()
+    @State private var settingsBeforeDaily: (source: QuizChartSource, mode: QuizMode, limit: Int?, weakness: Bool)?
+    @AppStorage("dailyLastCompletedDay") private var dailyLastCompletedDay = ""
+    @AppStorage("dailyStreak") private var dailyStreak = 0
+    @AppStorage("dailyBestStreak") private var dailyBestStreak = 0
+    @AppStorage("dailyLastResults") private var dailyLastResults = ""  // 例: "10111"（1=正解）
+
+    private var isDailyCompletedToday: Bool {
+        dailyLastCompletedDay == todayKey
+    }
+
+    /// 昨日までに途切れていれば0として表示する
+    private var displayedDailyStreak: Int {
+        let isAlive = dailyLastCompletedDay == todayKey
+            || dailyLastCompletedDay == DailyChallenge.previousDayKey()
+        return isAlive ? dailyStreak : 0
+    }
+
+    private var dailyResultFlags: [Bool] {
+        dailyLastResults.map { $0 == "1" }
+    }
+
+    private var dailyShareText: String {
+        let flags = dailyResultFlags
+        let correct = flags.filter { $0 }.count
+        var lines = [
+            String(localized: "酒田道場 デイリーチャレンジ \(dailyLastCompletedDay)", comment: "SNS共有テキスト: デイリーチャレンジの日付（yyyy-MM-dd）"),
+            "\(DailyChallenge.emojiSummary(flags)) \(correct)/\(flags.count)"
+        ]
+        if dailyStreak >= 2 {
+            lines.append(String(localized: "🔥\(dailyStreak)日連続", comment: "SNS共有テキスト: デイリーチャレンジの連続日数"))
+        }
+        lines.append(String(localized: "#酒田道場", comment: "SNS共有用ハッシュタグ（#を残し、スペースを含めないこと）"))
+        lines.append(Self.appStoreURL)
+        return lines.joined(separator: "\n")
+    }
 
     private static let appStoreURL = "https://apps.apple.com/app/id6798115410"
 
@@ -177,16 +248,15 @@ struct ContentView: View {
         return patterns.last
     }
 
-    private let patternNames = [
-        "赤三兵", "明けの明星", "陽のたすき",
-        "三羽烏", "宵の明星", "陰のたすき", "行き詰まり線",
-        "包み足陽線", "はらみ足陽線", "切り込み線", "毛抜き底", "最後の抱き線陰",
-        "包み足陰線", "はらみ足陰線", "かぶせ線", "毛抜き天井", "最後の抱き線陽",
-        "カラカサ", "トンボ",
-        "首吊り線", "トンカチ", "塔婆",
-        "上放れ並び赤", "上放れ並び黒", "上放れ十字線", "上放れ三手放れ寄せ線",
-        "下放れ並び赤", "下放れ二本の陰線", "下放れ十字線", "下放れ三手放れ寄せ線"
-    ]
+    private let patternNames = PatternCatalog.ids
+
+    /// パターンIDを改名したので、保存済みの苦手記録を新しいIDへ一度だけ付け替える
+    private func migratePatternIDsIfNeeded() {
+        guard patternIDMigrationVersion < PatternCatalog.currentMigrationVersion else { return }
+        let migrated = PatternCatalog.migrateMistakes(patternMistakes)
+        patternMistakesData = (try? JSONEncoder().encode(migrated)) ?? Data()
+        patternIDMigrationVersion = PatternCatalog.currentMigrationVersion
+    }
 
     private var displayCandles: [Candle] {
         switch quizChartSource {
@@ -255,6 +325,7 @@ struct ContentView: View {
     }
 
     private var resultShareText: String {
+        if isDailyChallenge { return dailyShareText }
         let accuracy = (questionNumber > 0
             ? Double(correctCount) / Double(questionNumber)
             : 0).formatted(.percent.precision(.fractionLength(0)))
@@ -293,6 +364,7 @@ struct ContentView: View {
         }
         .onChange(of: scenePhase, initial: true) { _, phase in
             guard phase == .active else { return }
+            todayKey = DailyChallenge.dayKey()
             Task { await adConsentManager.gatherConsentIfNeeded() }
         }
         .onChange(of: adConsentManager.canRequestAds) { _, canRequestAds in
@@ -300,6 +372,7 @@ struct ContentView: View {
         }
         .onAppear {
             if allPatterns.isEmpty, errorMessage == nil {
+                migratePatternIDsIfNeeded()
                 loadAllPatterns()
 #if DEBUG
                 configureScreenshotStateIfNeeded()
@@ -312,7 +385,8 @@ struct ContentView: View {
         NavigationStack {
         ScrollView {
             VStack(spacing: 24) {
-                Spacer(minLength: 36)
+                dailyChallengeCard
+                    .padding(.top, 8)
 
                 VStack(alignment: .leading, spacing: 12) {
                     Text("チャートを選択")
@@ -466,6 +540,8 @@ struct ContentView: View {
             .frame(maxWidth: .infinity)
         }
         .background(Color.secondary.opacity(0.04).ignoresSafeArea())
+        // タイトル文字は出さないので、大きいタイトル用の高さを確保しない
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if adConsentManager.isPrivacyOptionsRequired {
                 ToolbarItem(placement: .topBarLeading) {
@@ -489,12 +565,79 @@ struct ContentView: View {
         } // NavigationStack
     }
 
+    private var dailyChallengeCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Label("デイリーチャレンジ", systemImage: "calendar")
+                    .font(.headline)
+                Spacer()
+                if displayedDailyStreak > 0 {
+                    Label("\(displayedDailyStreak)日連続", systemImage: "flame.fill")
+                        .font(.subheadline.bold().monospacedDigit())
+                        .foregroundStyle(.orange)
+                }
+            }
+
+            if isDailyCompletedToday {
+                let flags = dailyResultFlags
+                Text(DailyChallenge.emojiSummary(flags))
+                    .font(.title2)
+                Text("今日の結果 \(flags.filter { $0 }.count)/\(flags.count)　また明日挑戦しよう")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                ShareLink(item: dailyShareText) {
+                    Label("結果を共有", systemImage: "square.and.arrow.up")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                }
+                .buttonStyle(.bordered)
+                .tint(.orange)
+            } else {
+                Text("実戦チャートのパターン名4択・全\(DailyChallenge.questionCount)問。1日1回、みんな同じ問題に挑戦します")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                if displayedDailyStreak > 0 {
+                    Text("今日も挑戦して連続記録を伸ばそう")
+                        .font(.caption.bold())
+                        .foregroundStyle(.orange)
+                }
+                Button {
+                    startDailyChallenge()
+                } label: {
+                    Label("今日の\(DailyChallenge.questionCount)問に挑戦", systemImage: "play.fill")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.orange)
+                .disabled(allPatterns.isEmpty)
+            }
+        }
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.orange.opacity(0.08))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color.orange.opacity(0.4), lineWidth: 1)
+        )
+    }
+
     private var studyScreen: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
-                    studyGrid(title: "上昇サイン", direction: "bullish", color: .red)
-                    studyGrid(title: "下落サイン", direction: "bearish", color: .blue)
+                    Picker("並べ替え", selection: $studySortOrder) {
+                        ForEach(StudySortOrder.allCases) { order in
+                            Text(order.title).tag(order)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+
+                    ForEach(studySections) { section in
+                        studyGrid(section)
+                    }
                 }
                 .padding()
             }
@@ -527,17 +670,72 @@ struct ContentView: View {
         }
     }
 
-    @ViewBuilder
-    private func studyGrid(title: LocalizedStringKey, direction: String, color: Color) -> some View {
-        let patterns = filteredStudyPatterns.filter { $0.direction == direction }
-        if !patterns.isEmpty {
-            VStack(alignment: .leading, spacing: 10) {
-                Label(title, systemImage: direction == "bullish" ? "arrow.up.right" : "arrow.down.right")
-                    .font(.headline)
-                    .foregroundStyle(color)
+    private var studySections: [StudySection] {
+        let patterns = filteredStudyPatterns
+        switch studySortOrder {
+        case .direction:
+            return [
+                StudySection(
+                    id: "bullish",
+                    title: signalLabel(for: "bullish"),
+                    systemImage: "arrow.up.right",
+                    color: .red,
+                    patterns: patterns.filter { $0.direction == "bullish" }
+                ),
+                StudySection(
+                    id: "bearish",
+                    title: signalLabel(for: "bearish"),
+                    systemImage: "arrow.down.right",
+                    color: .blue,
+                    patterns: patterns.filter { $0.direction == "bearish" }
+                )
+            ].filter { !$0.patterns.isEmpty }
+        case .category:
+            return PatternCategory.allCases.compactMap { category in
+                // 分類の中では上昇サインを先に並べる
+                let items = patterns
+                    .filter { PatternCatalog.category(for: $0.pattern) == category }
+                    .sorted { ($0.direction == "bullish" ? 0 : 1) < ($1.direction == "bullish" ? 0 : 1) }
+                guard !items.isEmpty else { return nil }
+                return StudySection(
+                    id: category.rawValue,
+                    title: category.title,
+                    systemImage: category.systemImage,
+                    color: .primary,
+                    patterns: items
+                )
+            }
+        case .name:
+            let sorted = patterns.sorted {
+                PatternCatalog.sortKey(for: $0)
+                    .localizedStandardCompare(PatternCatalog.sortKey(for: $1)) == .orderedAscending
+            }
+            guard !sorted.isEmpty else { return [] }
+            return [StudySection(
+                id: "all",
+                title: String(localized: "すべてのパターン"),
+                systemImage: "textformat",
+                color: .primary,
+                patterns: sorted
+            )]
+        }
+    }
+
+    private func studyGrid(_ section: StudySection) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+                HStack {
+                    Label(section.title, systemImage: section.systemImage)
+                        .font(.headline)
+                        .foregroundStyle(section.color)
+                    Spacer()
+                    Text("\(section.patterns.count)")
+                        .font(.subheadline.monospacedDigit())
+                        .foregroundStyle(.secondary)
+                }
 
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                    ForEach(patterns, id: \.pattern) { pattern in
+                    ForEach(section.patterns, id: \.pattern) { pattern in
+                        let color: Color = pattern.direction == "bullish" ? .red : .blue
                         NavigationLink {
                             PatternStudyDetailView(pattern: pattern)
                         } label: {
@@ -576,7 +774,6 @@ struct ContentView: View {
                         .buttonStyle(.plain)
                     }
                 }
-            }
         }
     }
 
@@ -756,6 +953,15 @@ struct ContentView: View {
     }
 
     private func pickRandom() {
+        if isDailyChallenge {
+            guard !dailyQueue.isEmpty else { return }
+            let question = dailyQueue.removeFirst()
+            currentPattern = question.pattern
+            currentExample = question.example
+            patternChoices = question.choices
+            return
+        }
+
         let pattern: QuizPattern
         if !weaknessMode && quizChartSource == .ideals {
             if patternQueue.isEmpty { buildPatternQueue() }
@@ -794,7 +1000,7 @@ struct ContentView: View {
         // スクショごとに見た目が被らないよう、画面ごとに別のパターンを表示する
         let screenshotPatterns: [String: (pattern: String, choices: [String])] = [
             "direction": ("宵の明星", ["宵の明星", "明けの明星", "三羽烏", "赤三兵"]),
-            "pattern": ("包み足陽線", ["はらみ足陽線", "包み足陽線", "毛抜き底", "切り込み線"]),
+            "pattern": ("陽の包み線", ["陽のはらみ線", "陽の包み線", "毛抜き底", "切り込み線"]),
             "answer": ("三羽烏", ["三羽烏", "赤三兵", "宵の明星", "明けの明星"]),
             "ideal": ("赤三兵", ["赤三兵", "三羽烏", "明けの明星", "宵の明星"])
         ]
@@ -831,6 +1037,31 @@ struct ContentView: View {
             appScreen = .quiz
         case "study":
             appScreen = .study
+        case "results":
+            // 間違いが多くて下に長くなる結果画面を確認するためのダミー結果
+            quizChartSource = .ideals
+            quizMode = .patternName
+            questionResults = allPatterns.prefix(10).enumerated().map { index, pattern in
+                let isCorrect = index % 3 == 0
+                return QuestionResult(
+                    questionNumber: index + 1,
+                    patternID: pattern.pattern,
+                    patternName: pattern.localizedName,
+                    patternDescription: pattern.localizedDescription,
+                    signalDirection: pattern.direction,
+                    chartSubtitle: String(localized: "お手本チャート（模式図）"),
+                    candles: idealPatternCandles[pattern.pattern] ?? [],
+                    dividerIndex: nil,
+                    showsMarketDetails: false,
+                    selectedAnswer: isCorrect ? pattern.localizedName : allPatterns[(index + 1) % allPatterns.count].localizedName,
+                    correctAnswer: pattern.localizedName,
+                    isCorrect: isCorrect
+                )
+            }
+            questionNumber = questionResults.count
+            correctCount = questionResults.filter(\.isCorrect).count
+            isIncorrectResultsExpanded = true
+            appScreen = .results
         default:
             appScreen = .title
         }
@@ -883,6 +1114,7 @@ struct ContentView: View {
     }
 
     private var resultsScreen: some View {
+        NavigationStack {
         ScrollView {
             VStack(spacing: 24) {
                 Image(systemName: correctCount > (questionNumber / 2) ? "star.fill" : "chart.xyaxis.line")
@@ -890,8 +1122,17 @@ struct ContentView: View {
                     .foregroundStyle(correctCount > (questionNumber / 2) ? .yellow : .secondary)
 
                 VStack(spacing: 8) {
-                    Text("セット終了！")
+                    Text(isDailyChallenge ? String(localized: "デイリーチャレンジ完了！") : String(localized: "セット終了！"))
                         .font(.largeTitle.bold())
+                    if isDailyChallenge {
+                        Text(DailyChallenge.emojiSummary(questionResults.map(\.isCorrect)))
+                            .font(.title)
+                        if dailyStreak > 0 {
+                            Label("\(dailyStreak)日連続", systemImage: "flame.fill")
+                                .font(.headline)
+                                .foregroundStyle(.orange)
+                        }
+                    }
                     Text("\(questionNumber)問中 \(correctCount)問正解")
                         .font(.title2)
                         .foregroundStyle(.secondary)
@@ -914,23 +1155,25 @@ struct ContentView: View {
                 }
 
                 VStack(spacing: 12) {
-                    Button {
-                        startQuiz()
-                    } label: {
-                        Label("もう一度", systemImage: "arrow.clockwise")
-                            .font(.headline)
-                            .frame(maxWidth: .infinity, minHeight: 50)
+                    if !isDailyChallenge {
+                        Button {
+                            startQuiz()
+                        } label: {
+                            Label("もう一度", systemImage: "arrow.clockwise")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity, minHeight: 50)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .controlSize(.large)
+                        .disabled(isCompletingQuiz)
                     }
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.large)
-                    .disabled(isCompletingQuiz)
 
                     Button {
                         let certificate = ResultCertificateView(
                             correctCount: correctCount,
                             questionCount: questionNumber,
                             bestStreak: bestStreakThisSession,
-                            mode: quizMode.title,
+                            mode: isDailyChallenge ? String(localized: "デイリーチャレンジ") : quizMode.title,
                             chartSource: quizChartSource.label,
                             date: resultDate
                         )
@@ -943,17 +1186,6 @@ struct ContentView: View {
                         }
                     } label: {
                         Label("結果をSNSで共有", systemImage: "square.and.arrow.up")
-                            .font(.headline)
-                            .frame(maxWidth: .infinity, minHeight: 44)
-                    }
-                    .buttonStyle(.bordered)
-                    .controlSize(.large)
-                    .disabled(isCompletingQuiz)
-
-                    Button {
-                        returnToTitle()
-                    } label: {
-                        Text("タイトルに戻る")
                             .font(.headline)
                             .frame(maxWidth: .infinity, minHeight: 44)
                     }
@@ -986,10 +1218,24 @@ struct ContentView: View {
                 .frame(maxWidth: 760)
             }
             .padding(.horizontal, 20)
-            .padding(.vertical, 32)
+            .padding(.top, 8)
+            .padding(.bottom, 32)
             .frame(maxWidth: .infinity)
         }
         .background(Color.secondary.opacity(0.04).ignoresSafeArea())
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            // 振り返りのチャートを下までスクロールしても、すぐタイトルに戻れるようにする
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    returnToTitle()
+                } label: {
+                    Label("タイトル", systemImage: "chevron.left")
+                }
+                .disabled(isCompletingQuiz)
+            }
+        }
+        } // NavigationStack
         .sheet(item: $shareImage) { item in
             ResultShareSheet(item: item)
         }
@@ -1083,6 +1329,24 @@ struct ContentView: View {
                     .foregroundStyle(.secondary)
             }
             .font(.subheadline)
+
+            // 基本形で解いたときも、実際の相場でどう現れるかを図鑑の実例で確認できるようにする
+            if let pattern = allPatterns.first(where: { $0.pattern == result.patternID }),
+               !pattern.examples.isEmpty {
+                NavigationLink {
+                    PatternStudyDetailView(pattern: pattern)
+                } label: {
+                    HStack {
+                        Label("実戦チャートの実例を見る", systemImage: "chart.xyaxis.line")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.caption.bold())
+                    }
+                    .font(.subheadline.bold())
+                    .frame(maxWidth: .infinity, minHeight: 36)
+                }
+                .buttonStyle(.bordered)
+            }
         }
         .padding(14)
         .background(
@@ -1118,6 +1382,38 @@ struct ContentView: View {
         }
     }
 
+    private func startDailyChallenge() {
+        guard !isDailyCompletedToday else { return }
+        let now = Date()
+        let questions = DailyChallenge.questions(for: now, from: allPatterns)
+        guard !questions.isEmpty else { return }
+
+        // タイトル画面の設定はデイリー終了後に元へ戻す
+        if settingsBeforeDaily == nil {
+            settingsBeforeDaily = (quizChartSource, quizMode, questionLimit, weaknessMode)
+        }
+        isDailyChallenge = true
+        dailyStartDate = now
+        dailyQueue = questions
+        quizChartSource = .examples
+        quizMode = .patternName
+        questionLimit = questions.count
+        weaknessMode = false
+        startQuiz()
+    }
+
+    private func completeDailyChallenge() {
+        // 日付をまたいで回答しても、開始した日の分として記録する
+        let day = DailyChallenge.dayKey(for: dailyStartDate)
+        guard dailyLastCompletedDay != day else { return }
+        dailyStreak = dailyLastCompletedDay == DailyChallenge.previousDayKey(of: dailyStartDate)
+            ? dailyStreak + 1
+            : 1
+        dailyBestStreak = max(dailyBestStreak, dailyStreak)
+        dailyLastCompletedDay = day
+        dailyLastResults = questionResults.map { $0.isCorrect ? "1" : "0" }.joined()
+    }
+
     private func buildPatternQueue() {
         guard quizChartSource == .ideals else {
             patternQueue = []
@@ -1135,6 +1431,16 @@ struct ContentView: View {
     }
 
     private func returnToTitle() {
+        if let saved = settingsBeforeDaily {
+            quizChartSource = saved.source
+            quizMode = saved.mode
+            questionLimit = saved.limit
+            weaknessMode = saved.weakness
+            settingsBeforeDaily = nil
+        }
+        isDailyChallenge = false
+        dailyQueue = []
+        todayKey = DailyChallenge.dayKey()
         withAnimation(.easeInOut(duration: 0.25)) {
             appScreen = .title
             showAnswer = false
@@ -1162,6 +1468,7 @@ struct ContentView: View {
         if isLastQuestion {
             isIncorrectResultsExpanded = !incorrectQuestionResults.isEmpty
             isCorrectResultsExpanded = incorrectQuestionResults.isEmpty && !correctQuestionResults.isEmpty
+            if isDailyChallenge { completeDailyChallenge() }
 
             // 先に結果画面へ切り替えてから広告を出し、閉じたときに最後の問題が一瞬見えないようにする
             isCompletingQuiz = true
@@ -1200,6 +1507,7 @@ struct ContentView: View {
         questionResults.append(
             QuestionResult(
                 questionNumber: questionNumber,
+                patternID: pattern.pattern,
                 patternName: pattern.localizedName,
                 patternDescription: pattern.localizedDescription,
                 signalDirection: pattern.direction,
