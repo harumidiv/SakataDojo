@@ -384,9 +384,8 @@ struct ContentView: View {
         NavigationStack {
         ScrollView {
             VStack(spacing: 24) {
-                Spacer(minLength: 36)
-
                 dailyChallengeCard
+                    .padding(.top, 8)
 
                 VStack(alignment: .leading, spacing: 12) {
                     Text("チャートを選択")
@@ -540,6 +539,8 @@ struct ContentView: View {
             .frame(maxWidth: .infinity)
         }
         .background(Color.secondary.opacity(0.04).ignoresSafeArea())
+        // タイトル文字は出さないので、大きいタイトル用の高さを確保しない
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             if adConsentManager.isPrivacyOptionsRequired {
                 ToolbarItem(placement: .topBarLeading) {
