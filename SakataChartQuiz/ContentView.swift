@@ -1036,6 +1036,30 @@ struct ContentView: View {
             appScreen = .quiz
         case "study":
             appScreen = .study
+        case "results":
+            // 間違いが多くて下に長くなる結果画面を確認するためのダミー結果
+            quizChartSource = .ideals
+            quizMode = .patternName
+            questionResults = allPatterns.prefix(10).enumerated().map { index, pattern in
+                let isCorrect = index % 3 == 0
+                return QuestionResult(
+                    questionNumber: index + 1,
+                    patternName: pattern.localizedName,
+                    patternDescription: pattern.localizedDescription,
+                    signalDirection: pattern.direction,
+                    chartSubtitle: String(localized: "お手本チャート（模式図）"),
+                    candles: idealPatternCandles[pattern.pattern] ?? [],
+                    dividerIndex: nil,
+                    showsMarketDetails: false,
+                    selectedAnswer: isCorrect ? pattern.localizedName : allPatterns[(index + 1) % allPatterns.count].localizedName,
+                    correctAnswer: pattern.localizedName,
+                    isCorrect: isCorrect
+                )
+            }
+            questionNumber = questionResults.count
+            correctCount = questionResults.filter(\.isCorrect).count
+            isIncorrectResultsExpanded = true
+            appScreen = .results
         default:
             appScreen = .title
         }
@@ -1088,6 +1112,7 @@ struct ContentView: View {
     }
 
     private var resultsScreen: some View {
+        NavigationStack {
         ScrollView {
             VStack(spacing: 24) {
                 Image(systemName: correctCount > (questionNumber / 2) ? "star.fill" : "chart.xyaxis.line")
@@ -1165,17 +1190,6 @@ struct ContentView: View {
                     .buttonStyle(.bordered)
                     .controlSize(.large)
                     .disabled(isCompletingQuiz)
-
-                    Button {
-                        returnToTitle()
-                    } label: {
-                        Text("タイトルに戻る")
-                            .font(.headline)
-                            .frame(maxWidth: .infinity, minHeight: 44)
-                    }
-                    .buttonStyle(.bordered)
-                    .controlSize(.large)
-                    .disabled(isCompletingQuiz)
                 }
                 .frame(maxWidth: 400)
 
@@ -1202,10 +1216,24 @@ struct ContentView: View {
                 .frame(maxWidth: 760)
             }
             .padding(.horizontal, 20)
-            .padding(.vertical, 32)
+            .padding(.top, 8)
+            .padding(.bottom, 32)
             .frame(maxWidth: .infinity)
         }
         .background(Color.secondary.opacity(0.04).ignoresSafeArea())
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            // 振り返りのチャートを下までスクロールしても、すぐタイトルに戻れるようにする
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    returnToTitle()
+                } label: {
+                    Label("タイトル", systemImage: "chevron.left")
+                }
+                .disabled(isCompletingQuiz)
+            }
+        }
+        } // NavigationStack
         .sheet(item: $shareImage) { item in
             ResultShareSheet(item: item)
         }
