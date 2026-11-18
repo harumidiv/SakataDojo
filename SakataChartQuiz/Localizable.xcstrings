@@ -4245,6 +4245,7 @@
       }
     },
     "タイトルに戻る" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5491,6 +5492,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "實戰圖表的型態名稱四選一，共 %lld 題。每天一次，大家挑戰相同的題目"
+          }
+        }
+      }
+    },
+    "実戦チャートの実例を見る" : {
+      "comment" : "結果画面の振り返りから、そのパターンの実戦チャート（図鑑の詳細）を開くボタン",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See Real-Chart Examples"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "실전 차트 예시 보기"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xem ví dụ trên biểu đồ thực tế"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "查看實戰圖表範例"
           }
         }
       }

@@ -131,6 +131,7 @@ private struct StudySection: Identifiable {
 private struct QuestionResult: Identifiable {
     let id = UUID()
     let questionNumber: Int
+    let patternID: String
     let patternName: String
     let patternDescription: String
     let signalDirection: String
@@ -1044,6 +1045,7 @@ struct ContentView: View {
                 let isCorrect = index % 3 == 0
                 return QuestionResult(
                     questionNumber: index + 1,
+                    patternID: pattern.pattern,
                     patternName: pattern.localizedName,
                     patternDescription: pattern.localizedDescription,
                     signalDirection: pattern.direction,
@@ -1327,6 +1329,24 @@ struct ContentView: View {
                     .foregroundStyle(.secondary)
             }
             .font(.subheadline)
+
+            // 基本形で解いたときも、実際の相場でどう現れるかを図鑑の実例で確認できるようにする
+            if let pattern = allPatterns.first(where: { $0.pattern == result.patternID }),
+               !pattern.examples.isEmpty {
+                NavigationLink {
+                    PatternStudyDetailView(pattern: pattern)
+                } label: {
+                    HStack {
+                        Label("実戦チャートの実例を見る", systemImage: "chart.xyaxis.line")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.caption.bold())
+                    }
+                    .font(.subheadline.bold())
+                    .frame(maxWidth: .infinity, minHeight: 36)
+                }
+                .buttonStyle(.bordered)
+            }
         }
         .padding(14)
         .background(
@@ -1487,6 +1507,7 @@ struct ContentView: View {
         questionResults.append(
             QuestionResult(
                 questionNumber: questionNumber,
+                patternID: pattern.pattern,
                 patternName: pattern.localizedName,
                 patternDescription: pattern.localizedDescription,
                 signalDirection: pattern.direction,
