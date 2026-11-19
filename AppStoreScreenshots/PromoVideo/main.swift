@@ -25,6 +25,9 @@ struct VideoFormat {
 let formats = [
     VideoFormat(name: "search_3840x2560", width: 3840, height: 2560,
                 safeTopLeft: CGRect(x: 836, y: 765, width: 2168, height: 1030)),
+    // パターンの切り替えを先に見せ、そのあとスマホを出す構成
+    VideoFormat(name: "search_carousel_3840x2560", width: 3840, height: 2560,
+                safeTopLeft: CGRect(x: 836, y: 765, width: 2168, height: 1030)),
     VideoFormat(name: "header_3840x1646", width: 3840, height: 1646,
                 safeTopLeft: CGRect(x: 1097, y: 493, width: 1646, height: 661)),
 ]
@@ -43,8 +46,10 @@ let fps: Int32 = 30
 let duration: Double = 15
 let frameCount = Int(duration * Double(fps))
 
-/// 前景はこの大きさの「設計用の座標」で組み、各フォーマットのセーフエリアに収まるよう拡大縮小する
+/// 前景はこの大きさの「設計用の座標」で組み、拡大縮小して画面に置く
 let unit = CGSize(width: 2168, height: 1030)
+/// 検索結果の動画で、前景が画面の横幅に占める割合（セーフエリアより大きく使う）
+let searchContentRatio: CGFloat = 0.92
 
 // MARK: - 言語ごとの文言
 
@@ -64,7 +69,7 @@ struct Copy {
 
 let copies: [String: Copy] = [
     "ja": Copy(
-        hook1: "ローソク足を",
+        hook1: "酒田五法を",
         hook2: "クイズで学ぶ",
         patternsLabel: "PATTERNS",
         bullish: "上昇サイン",
@@ -520,9 +525,12 @@ func drawCarousel(_ ctx: CGContext, t: Double, copy: Copy, start: Double, end: D
     if within < 0.12 { flash = max(flash, 0.06) }
 }
 
+/// スマホの高さ（設計用の座標の高さに対する割合）。1 を超えた分はセーフエリアの上下にはみ出す
+let phoneHeightRatio: CGFloat = 1.42
+
 func phoneRect(slideIn: Double, slideOut: Double) -> CGRect {
     let h = unit.height
-    let phoneHeight = h * 0.96
+    let phoneHeight = h * phoneHeightRatio
     let phoneWidth = phoneHeight * 1206 / 2622
     let x = unit.width * 0.06 + CGFloat(1 - slideIn) * -900 + CGFloat(slideOut) * -1400
     return CGRect(x: x, y: (h - phoneHeight) / 2, width: phoneWidth, height: phoneHeight)
@@ -620,6 +628,47 @@ func drawSearchForeground(_ ctx: CGContext, t: Double, copy: Copy, assets: Asset
             drawFeatureCaption(ctx, copy: copy, index: index, phone: phone, enter: enter, exit: exit, titleY: h * 0.5)
         }
         if t - marks[index] < 0.1 && index > 0 { flash = max(flash, 0.08) }
+    }
+
+    drawEndCard(ctx, t: t, copy: copy, assets: assets, start: 13.1, flash: &flash)
+}
+
+/// 検索結果用（パターン先出し）: 0〜2.3秒 つかみ → 2.3〜5.5秒 パターンを高速で切り替え
+/// → 5.5〜13秒 スマホで特徴を切り替え → 13〜15秒 エンドカード
+func drawSearchCarouselFirstForeground(_ ctx: CGContext, t: Double, copy: Copy, assets: Assets, flash: inout Double) {
+    let w = unit.width, h = unit.height
+    let titleFont = { (size: CGFloat) in makeFont(copy.titleFont, size, .heavy) }
+
+    drawHook(ctx, t: t, copy: copy, lineStarts: (0.1, 0.4), outStart: 1.9, flash: &flash)
+
+    let carouselStart = 2.3, carouselEnd = 5.5
+    if t >= carouselStart - 0.1 && t < carouselEnd + 0.1 {
+        let alpha = clamp(progress(t, carouselStart - 0.1, carouselStart)) * (1 - clamp(progress(t, carouselEnd - 0.1, carouselEnd)))
+        // 42 PATTERNS のカウンター
+        let count = Int(1 + 41 * easeOutCubic(progress(t, carouselStart, carouselEnd - 0.4)))
+        let counter = NSMutableAttributedString(attributedString: attributed("\(count) ", titleFont(150), neonOrange))
+        counter.append(attributed(copy.patternsLabel, titleFont(70), neonOrange, kern: 10))
+        drawText(ctx, counter, at: CGPoint(x: w / 2, y: h * 0.9), glow: neonOrange, alpha: alpha)
+        drawCarousel(ctx, t: t, copy: copy, start: carouselStart, end: carouselEnd,
+                     chartRect: CGRect(x: w * 0.06, y: h * 0.1, width: w * 0.42, height: h * 0.62),
+                     nameCenter: CGPoint(x: w * 0.74, y: h * 0.46), nameMaxWidth: w * 0.48, baseNameSize: 170,
+                     labelCenter: CGPoint(x: w * 0.74, y: h * 0.25), labelSize: 70,
+                     alpha: alpha, flash: &flash)
+    }
+
+    let phoneStart = carouselEnd, phoneEnd = 13.0
+    if t >= phoneStart - 0.1 && t < phoneEnd + 0.2 {
+        let phoneIn = easeOutCubic(progress(t, phoneStart, phoneStart + 0.4))
+        let phoneOut = easeInCubic(progress(t, phoneEnd - 0.3, phoneEnd))
+        let phone = phoneRect(slideIn: phoneIn, slideOut: phoneOut)
+        let per = (phoneEnd - phoneStart) / Double(copy.features.count)
+        let index = min(max(Int((t - phoneStart) / per), 0), copy.features.count - 1)
+        let start = phoneStart + Double(index) * per
+        drawPhone(ctx, screen: assets.screens[index], in: phone, alpha: clamp(phoneIn * 2) * (1 - phoneOut))
+        let enter = easeOutCubic(clamp((t - start) / 0.3))
+        let exit = index == copy.features.count - 1 ? phoneOut : easeInCubic(clamp((t - (start + per - 0.25)) / 0.25))
+        drawFeatureCaption(ctx, copy: copy, index: index, phone: phone, enter: enter, exit: exit, titleY: h * 0.5)
+        if t - start < 0.1 && index > 0 { flash = max(flash, 0.08) }
     }
 
     drawEndCard(ctx, t: t, copy: copy, assets: assets, start: 13.1, flash: &flash)
@@ -748,8 +797,10 @@ func renderFrame(_ ctx: CGContext, format: VideoFormat, background: Background, 
     ctx.saveGState()
     ctx.translateBy(x: safe.midX, y: safe.midY)
     ctx.scaleBy(x: 1, y: safe.height / safe.width)
+    // 検索結果の動画は前景を画面いっぱいに広げるので、暗くする範囲も広げる
+    let dimScale: CGFloat = isImage ? 1 : searchContentRatio * CGFloat(format.width) / safe.width
     ctx.drawRadialGradient(dim, startCenter: .zero, startRadius: 0, endCenter: .zero,
-                           endRadius: safe.width * 0.72, options: [])
+                           endRadius: safe.width * 0.72 * dimScale, options: [])
     ctx.restoreGState()
 
     if isImage {
@@ -759,12 +810,18 @@ func renderFrame(_ ctx: CGContext, format: VideoFormat, background: Background, 
         NSGraphicsContext.restoreGraphicsState()
         return
     }
-    let scale = min(safe.width / unit.width, safe.height / unit.height)
+    // 検索結果の動画は、セーフエリアではなく画面の横幅いっぱい（searchContentRatio）に前景を広げる
+    let content = CGRect(x: 0, y: 0, width: format.width, height: format.height)
+    let scale = content.width * searchContentRatio / unit.width
     ctx.saveGState()
-    ctx.translateBy(x: safe.midX - unit.width * scale / 2, y: safe.midY - unit.height * scale / 2)
+    ctx.translateBy(x: content.midX - unit.width * scale / 2, y: content.midY - unit.height * scale / 2)
     ctx.scaleBy(x: scale, y: scale)
     var flash = 0.0
-    drawSearchForeground(ctx, t: t, copy: copy, assets: assets, flash: &flash)
+    if format.name.contains("carousel") {
+        drawSearchCarouselFirstForeground(ctx, t: t, copy: copy, assets: assets, flash: &flash)
+    } else {
+        drawSearchForeground(ctx, t: t, copy: copy, assets: assets, flash: &flash)
+    }
     ctx.restoreGState()
 
     if flash > 0 {
@@ -778,7 +835,9 @@ func renderFrame(_ ctx: CGContext, format: VideoFormat, background: Background, 
 
 func writeStills(format: VideoFormat, language: String, copy: Copy, assets: Assets, to directory: URL) throws {
     let background = Background(width: format.width, height: format.height)
-    for t in (format.name.hasPrefix("search") ? [1.0, 3.2, 7.5, 10.5, 12.2, 13.8] : [0.0, 5.0, 14.96]) {
+    let times = format.name.contains("carousel") ? [1.0, 3.5, 6.5, 8.5, 10.5, 12.3, 13.8]
+        : format.name.hasPrefix("search") ? [1.0, 3.2, 7.5, 10.5, 12.2, 13.8] : [0.0, 5.0, 14.96]
+    for t in times {
         guard let ctx = CGContext(data: nil, width: format.width, height: format.height, bitsPerComponent: 8, bytesPerRow: 0,
                                   space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)
         else { continue }
