@@ -149,6 +149,7 @@ struct ContentView: View {
     @Environment(\.requestReview) private var requestReview
     @StateObject private var adConsentManager = AdConsentManager()
     @StateObject private var interstitialAdManager = InterstitialAdManager()
+    @StateObject private var gameCenter = GameCenterManager()
     @State private var allPatterns: [QuizPattern] = []
     @State private var currentPattern: QuizPattern?
     @State private var currentExample: QuizExample?
@@ -174,6 +175,7 @@ struct ContentView: View {
     @State private var resultDate = Date()
     @State private var shareImage: ResultShareImage?
     @State private var showsShareError = false
+    @State private var showsGameCenterSignInHelp = false
     @AppStorage("patternMistakesData") private var patternMistakesData: Data = Data()
     @AppStorage("allTimeBestStreak") private var allTimeBestStreak: Int = 0
     @AppStorage("lastReviewRequestVersion") private var lastReviewRequestVersion = ""
@@ -249,6 +251,14 @@ struct ContentView: View {
     }
 
     private let patternNames = PatternCatalog.ids
+
+    /// Game Center にサインインし、これまでの自己ベストも送っておく（アップデート前の記録もランキングに反映される）
+    private func startGameCenterIfNeeded() {
+        if ProcessInfo.processInfo.arguments.contains(where: { $0.hasPrefix("--screenshot-state=") }) { return }
+        gameCenter.authenticate()
+        gameCenter.submit(allTimeBestStreak, to: GameCenterManager.Leaderboard.bestStreak)
+        gameCenter.submit(dailyBestStreak, to: GameCenterManager.Leaderboard.dailyBestStreak)
+    }
 
     /// パターンIDを改名したので、保存済みの苦手記録を新しいIDへ一度だけ付け替える
     private func migratePatternIDsIfNeeded() {
@@ -378,6 +388,14 @@ struct ContentView: View {
                 configureScreenshotStateIfNeeded()
 #endif
             }
+            startGameCenterIfNeeded()
+        }
+        // 自己ベストが更新されたらランキングへ送る
+        .onChange(of: allTimeBestStreak) { _, newValue in
+            gameCenter.submit(newValue, to: GameCenterManager.Leaderboard.bestStreak)
+        }
+        .onChange(of: dailyBestStreak) { _, newValue in
+            gameCenter.submit(newValue, to: GameCenterManager.Leaderboard.dailyBestStreak)
         }
     }
 
@@ -555,12 +573,27 @@ struct ContentView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
+                    if !gameCenter.showLeaderboards() {
+                        showsGameCenterSignInHelp = true
+                    }
+                } label: {
+                    Image(systemName: "trophy.fill")
+                }
+                .accessibilityLabel("ランキング")
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
                     openStudyGuide()
                 } label: {
                     Image(systemName: "books.vertical.fill")
                 }
                 .disabled(allPatterns.isEmpty)
             }
+        }
+        .alert("Game Centerにサインインしていません", isPresented: $showsGameCenterSignInHelp) {
+            Button("閉じる", role: .cancel) { }
+        } message: {
+            Text("設定アプリの「Game Center」からサインインすると、ランキングに参加できます。")
         }
         } // NavigationStack
     }
