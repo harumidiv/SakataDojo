@@ -6167,6 +6167,93 @@
           }
         }
       }
+    },
+    "ランキング" : {
+      "comment" : "タイトル画面のGame Centerランキングを開くボタン",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leaderboards"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "랭킹"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bảng xếp hạng"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "排行榜"
+          }
+        }
+      }
+    },
+    "Game Centerにサインインしていません" : {
+      "comment" : "Game Center未サインイン時のアラートの見出し",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not Signed In to Game Center"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Game Center에 로그인되어 있지 않습니다"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chưa đăng nhập Game Center"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尚未登入 Game Center"
+          }
+        }
+      }
+    },
+    "設定アプリの「Game Center」からサインインすると、ランキングに参加できます。" : {
+      "comment" : "Game Center未サインイン時のアラートの本文",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in from Game Center in the Settings app to join the leaderboards."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정 앱의 'Game Center'에서 로그인하면 랭킹에 참여할 수 있습니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hãy đăng nhập trong mục Game Center của ứng dụng Cài đặt để tham gia bảng xếp hạng."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在「設定」App 的「Game Center」登入後，即可參加排行榜。"
+          }
+        }
+      }
     }
   },
   "version" : "1.3"
