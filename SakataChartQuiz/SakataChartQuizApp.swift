@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct SakataChartQuizApp: App {
+    @StateObject private var adRemoval = AdRemovalSubscription()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(adRemoval: adRemoval)
         }
     }
 }
