@@ -1,6 +1,7 @@
 import SwiftUI
 import UIKit
 import StoreKit
+import GoogleMobileAds
 
 private func signalLabel(for direction: String) -> String {
     direction == "bullish"
@@ -9,10 +10,16 @@ private func signalLabel(for direction: String) -> String {
 }
 
 private enum AppScreen {
+    /// タブ（ホーム・図鑑・記録・設定）を表示している状態
     case title
     case quiz
     case results
+}
+
+private enum AppTab: Hashable {
+    case home
     case study
+    case settings
 }
 
 private enum QuizMode: String, CaseIterable, Identifiable {
@@ -150,6 +157,7 @@ struct ContentView: View {
     @ObservedObject private var adRemoval: AdRemovalSubscription
     @StateObject private var adConsentManager: AdConsentManager
     @StateObject private var interstitialAdManager: InterstitialAdManager
+    @StateObject private var studyNativeAds: StudyNativeAdManager
     @StateObject private var gameCenter = GameCenterManager()
     @State private var allPatterns: [QuizPattern] = []
     @State private var currentPattern: QuizPattern?
@@ -157,6 +165,7 @@ struct ContentView: View {
     @State private var quizChartSource: QuizChartSource = .ideals
     @State private var quizMode: QuizMode = .direction
     @State private var appScreen: AppScreen = .title
+    @State private var selectedTab: AppTab = .home
     @State private var selectedAnswer: String?
     @State private var patternChoices: [String] = []
     @State private var showAnswer = false
@@ -176,8 +185,6 @@ struct ContentView: View {
     @State private var resultDate = Date()
     @State private var shareImage: ResultShareImage?
     @State private var showsShareError = false
-    @State private var showsGameCenterSignInHelp = false
-    @State private var showsAdRemoval = false
     @AppStorage("patternMistakesData") private var patternMistakesData: Data = Data()
     @AppStorage("allTimeBestStreak") private var allTimeBestStreak: Int = 0
     @AppStorage("lastReviewRequestVersion") private var lastReviewRequestVersion = ""
@@ -199,6 +206,7 @@ struct ContentView: View {
         self.adRemoval = adRemoval
         _adConsentManager = StateObject(wrappedValue: AdConsentManager(adRemoval: adRemoval))
         _interstitialAdManager = StateObject(wrappedValue: InterstitialAdManager(adRemoval: adRemoval))
+        _studyNativeAds = StateObject(wrappedValue: StudyNativeAdManager(adRemoval: adRemoval))
     }
 
     private var isDailyCompletedToday: Bool {
@@ -371,13 +379,11 @@ struct ContentView: View {
         Group {
             switch appScreen {
             case .title:
-                titleScreen
+                mainTabs
             case .quiz:
                 quizScreen
             case .results:
                 resultsScreen
-            case .study:
-                studyScreen
             }
         }
         .onChange(of: scenePhase, initial: true) { _, phase in
@@ -391,16 +397,20 @@ struct ContentView: View {
         .onChange(of: adRemoval.access) { _, access in
             if access == .free, scenePhase == .active {
                 Task { await adConsentManager.gatherConsentIfNeeded() }
-                if adConsentManager.canRequestAds { interstitialAdManager.loadAd() }
+                if adConsentManager.canRequestAds {
+                    interstitialAdManager.loadAd()
+                    studyNativeAds.loadAdsIfNeeded()
+                }
             } else {
                 interstitialAdManager.discardCachedAd()
+                studyNativeAds.discardAds()
             }
         }
         .onChange(of: adConsentManager.canRequestAds) { _, canRequestAds in
-            if canRequestAds { interstitialAdManager.loadAd() }
-        }
-        .sheet(isPresented: $showsAdRemoval) {
-            AdRemovalSubscriptionView(subscription: adRemoval)
+            if canRequestAds {
+                interstitialAdManager.loadAd()
+                studyNativeAds.loadAdsIfNeeded()
+            }
         }
         .onAppear {
             if allPatterns.isEmpty, errorMessage == nil {
@@ -552,17 +562,6 @@ struct ContentView: View {
                     }
                 }
 
-                Button {
-                    startQuiz()
-                } label: {
-                    Label("クイズを始める", systemImage: "play.fill")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity, minHeight: 50)
-                }
-                .buttonStyle(.borderedProminent)
-                .controlSize(.large)
-                .disabled(allPatterns.isEmpty)
-
                 Group {
                     if let error = errorMessage {
                         Text(error)
@@ -573,57 +572,60 @@ struct ContentView: View {
                     }
                 }
 
-                Spacer(minLength: 36)
+                Spacer(minLength: 16)
             }
             .frame(maxWidth: 600)
             .padding(.horizontal, 20)
             .frame(maxWidth: .infinity)
         }
+        // 設定がスクロールしても「クイズを始める」は常にタブバーの上に見えるようにする
+        .safeAreaInset(edge: .bottom) {
+            Button {
+                startQuiz()
+            } label: {
+                Label("クイズを始める", systemImage: "play.fill")
+                    .font(.headline)
+                    .frame(maxWidth: .infinity, minHeight: 50)
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+            .disabled(allPatterns.isEmpty)
+            .frame(maxWidth: 600)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 12)
+            .frame(maxWidth: .infinity)
+            .background(.bar)
+        }
         .background(Color.secondary.opacity(0.04).ignoresSafeArea())
-        // タイトル文字は出さないので、大きいタイトル用の高さを確保しない
+        .navigationTitle("酒田道場")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItemGroup(placement: .topBarLeading) {
-                Button {
-                    showsAdRemoval = true
-                } label: {
-                    Text("広告を非表示")
-                }
-
-                if adConsentManager.isPrivacyOptionsRequired {
-                    Button {
-                        Task { await adConsentManager.presentPrivacyOptionsForm() }
-                    } label: {
-                        Image(systemName: "hand.raised.fill")
-                    }
-                    .accessibilityLabel("プライバシー設定")
-                }
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    if !gameCenter.showLeaderboards() {
-                        showsGameCenterSignInHelp = true
-                    }
-                } label: {
-                    Image(systemName: "trophy.fill")
-                }
-                .accessibilityLabel("ランキング")
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    openStudyGuide()
-                } label: {
-                    Image(systemName: "books.vertical.fill")
-                }
-                .disabled(allPatterns.isEmpty)
-            }
-        }
-        .alert("Game Centerにサインインしていません", isPresented: $showsGameCenterSignInHelp) {
-            Button("閉じる", role: .cancel) { }
-        } message: {
-            Text("設定アプリの「Game Center」からサインインすると、ランキングに参加できます。")
-        }
         } // NavigationStack
+    }
+
+    private var mainTabs: some View {
+        TabView(selection: $selectedTab) {
+            titleScreen
+                .tabItem { Label("ホーム", systemImage: "house.fill") }
+                .tag(AppTab.home)
+
+            studyScreen
+                .tabItem { Label("図鑑", systemImage: "books.vertical.fill") }
+                .tag(AppTab.study)
+
+            SettingsView(
+                adRemoval: adRemoval,
+                bestStreak: allTimeBestStreak,
+                dailyStreak: displayedDailyStreak,
+                dailyBestStreak: dailyBestStreak,
+                hasMistakes: patternMistakes.values.contains(where: { $0 > 0 }),
+                isPrivacyOptionsRequired: adConsentManager.isPrivacyOptionsRequired,
+                onResetMistakes: { patternMistakesData = Data() },
+                onShowLeaderboards: { gameCenter.showLeaderboards() },
+                onPresentPrivacyOptions: { await adConsentManager.presentPrivacyOptionsForm() }
+            )
+            .tabItem { Label("記録・設定", systemImage: "gearshape.fill") }
+            .tag(AppTab.settings)
+        }
     }
 
     private var dailyChallengeCard: some View {
@@ -696,8 +698,13 @@ struct ContentView: View {
                     }
                     .pickerStyle(.segmented)
 
-                    ForEach(studySections) { section in
-                        studyGrid(section)
+                    let sections = studySections
+                    ForEach(Array(sections.enumerated()), id: \.element.id) { index, section in
+                        studyGrid(
+                            section,
+                            patternOffset: sections.prefix(index).reduce(0) { $0 + $1.patterns.count },
+                            totalPatterns: sections.reduce(0) { $0 + $1.patterns.count }
+                        )
                     }
                 }
                 .padding()
@@ -707,25 +714,6 @@ struct ContentView: View {
             .overlay {
                 if filteredStudyPatterns.isEmpty {
                     ContentUnavailableView.search(text: studySearchText)
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        returnToTitle()
-                    } label: {
-                        Label("タイトル", systemImage: "chevron.left")
-                    }
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    if patternMistakes.values.contains(where: { $0 > 0 }) {
-                        Button {
-                            patternMistakesData = Data()
-                        } label: {
-                            Label("苦手リセット", systemImage: "flame.slash")
-                        }
-                        .tint(.orange)
-                    }
                 }
             }
         }
@@ -782,7 +770,18 @@ struct ContentView: View {
         }
     }
 
-    private func studyGrid(_ section: StudySection) -> some View {
+    /// 図鑑ではセクションをまたいで通しでパターン8件ごとにネイティブ広告を1枚はさむ
+    private static let studyPatternsPerAd = 8
+
+    /// 検索中は広告を出さず、読み込めた枚数の範囲で差し込む
+    private func studyAd(slot: Int) -> NativeAd? {
+        guard studySearchText.isEmpty, adRemoval.access == .free,
+              studyNativeAds.ads.indices.contains(slot) else { return nil }
+        return studyNativeAds.ads[slot]
+    }
+
+    /// patternOffset: このセクションより前にあるパターン数。通しの件数で広告の位置を決める
+    private func studyGrid(_ section: StudySection, patternOffset: Int, totalPatterns: Int) -> some View {
         VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     Label(section.title, systemImage: section.systemImage)
@@ -794,8 +793,16 @@ struct ContentView: View {
                         .foregroundStyle(.secondary)
                 }
 
+                // 通し番号が8の倍数になる位置でグリッドを区切る
+                let per = Self.studyPatternsPerAd
+                let firstCut = (per - patternOffset % per) % per
+                let cuts = stride(from: firstCut == 0 ? per : firstCut, to: section.patterns.count, by: per).map { $0 }
+                let bounds = [0] + cuts + [section.patterns.count]
+                let chunks = zip(bounds, bounds.dropFirst()).map { Array(section.patterns[$0..<$1]) }
+                let chunkEnds = Array(bounds.dropFirst())
+                ForEach(Array(chunks.enumerated()), id: \.offset) { chunkIndex, chunk in
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
-                    ForEach(section.patterns, id: \.pattern) { pattern in
+                    ForEach(chunk, id: \.pattern) { pattern in
                         let color: Color = pattern.direction == "bullish" ? .red : .blue
                         NavigationLink {
                             PatternStudyDetailView(pattern: pattern)
@@ -834,6 +841,11 @@ struct ContentView: View {
                         }
                         .buttonStyle(.plain)
                     }
+                }
+                let end = patternOffset + chunkEnds[chunkIndex]
+                if end % per == 0, end < totalPatterns, let ad = studyAd(slot: end / per - 1) {
+                    StudyNativeAdCard(nativeAd: ad)
+                }
                 }
         }
     }
@@ -1097,7 +1109,11 @@ struct ContentView: View {
             currentExample = nil
             appScreen = .quiz
         case "study":
-            appScreen = .study
+            selectedTab = .study
+            appScreen = .title
+        case "settings":
+            selectedTab = .settings
+            appScreen = .title
         case "results":
             // 間違いが多くて下に長くなる結果画面を確認するためのダミー結果
             quizChartSource = .ideals
@@ -1482,13 +1498,6 @@ struct ContentView: View {
         }
         let available = allPatterns.filter { !(idealPatternCandles[$0.pattern] ?? []).isEmpty }
         patternQueue = available.shuffled()
-    }
-
-    private func openStudyGuide() {
-        studySearchText = ""
-        withAnimation(.easeInOut(duration: 0.25)) {
-            appScreen = .study
-        }
     }
 
     private func returnToTitle() {
