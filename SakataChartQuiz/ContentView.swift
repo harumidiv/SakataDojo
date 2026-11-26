@@ -585,16 +585,14 @@ struct ContentView: View {
             } label: {
                 Label("クイズを始める", systemImage: "play.fill")
                     .font(.headline)
-                    .frame(maxWidth: .infinity, minHeight: 50)
+                    .frame(maxWidth: .infinity, minHeight: 44)
             }
             .buttonStyle(.borderedProminent)
-            .controlSize(.large)
             .disabled(allPatterns.isEmpty)
             .frame(maxWidth: 600)
             .padding(.horizontal, 20)
-            .padding(.vertical, 12)
+            .padding(.vertical, 8)
             .frame(maxWidth: .infinity)
-            .background(.bar)
         }
         .background(Color.secondary.opacity(0.04).ignoresSafeArea())
         .navigationTitle("酒田道場")
