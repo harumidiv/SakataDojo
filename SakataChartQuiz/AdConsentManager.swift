@@ -10,11 +10,16 @@ final class AdConsentManager: ObservableObject {
 
     private var hasGatheredConsent = false
     private var hasStartedMobileAds = false
+    private let adRemoval: AdRemovalSubscription
+
+    init(adRemoval: AdRemovalSubscription) {
+        self.adRemoval = adRemoval
+    }
 
     /// UMP の同意取得 → ATT ダイアログ → Mobile Ads SDK の起動を順に行う。
     /// ATT はアプリがアクティブな状態でないと表示されないため、scenePhase が active になってから呼ぶこと。
     func gatherConsentIfNeeded() async {
-        guard !hasGatheredConsent else { return }
+        guard adRemoval.access == .free, !hasGatheredConsent else { return }
         if ProcessInfo.processInfo.arguments.contains(where: { $0.hasPrefix("--screenshot-state=") }) { return }
         hasGatheredConsent = true
 
@@ -23,12 +28,18 @@ final class AdConsentManager: ObservableObject {
 
         do {
             try await ConsentInformation.shared.requestConsentInfoUpdate(with: nil)
-            try await ConsentForm.loadAndPresentIfRequired(from: nil)
+            if adRemoval.access == .free {
+                try await ConsentForm.loadAndPresentIfRequired(from: nil)
+            }
         } catch {
             print("Failed to gather consent: \(error.localizedDescription)")
         }
 
-        await requestTrackingAuthorizationIfNeeded()
+        if adRemoval.access == .free {
+            await requestTrackingAuthorizationIfNeeded()
+        } else {
+            hasGatheredConsent = false
+        }
 
         isPrivacyOptionsRequired =
             ConsentInformation.shared.privacyOptionsRequirementStatus == .required
@@ -51,7 +62,7 @@ final class AdConsentManager: ObservableObject {
     }
 
     private func startMobileAdsIfPossible() {
-        guard ConsentInformation.shared.canRequestAds else { return }
+        guard adRemoval.access == .free, ConsentInformation.shared.canRequestAds else { return }
         canRequestAds = true
 
         guard !hasStartedMobileAds else { return }

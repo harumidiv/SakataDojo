@@ -1,0 +1,57 @@
+{
+  "identifier" : "86F269AB-4604-464D-B031-2F82E001FFB5",
+  "nonRenewingSubscriptions" : [],
+  "products" : [],
+  "settings" : {
+    "_failTransactionsEnabled" : false,
+    "_locale" : "ja",
+    "_storefront" : "JPN",
+    "_storeKitErrors" : []
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "2B355A44",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "広告非表示",
+          "locale" : "ja"
+        }
+      ],
+      "name" : "Ad Removal",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [],
+          "codeOffers" : [],
+          "displayPrice" : "300",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6798115411",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "広告を非表示にします。",
+              "displayName" : "広告非表示（月額）",
+              "locale" : "ja"
+            },
+            {
+              "description" : "Remove ads from the app.",
+              "displayName" : "Ad Removal (Monthly)",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "sakataQuiz.SakataChartQuiz.adfree.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Ad Removal Monthly",
+          "subscriptionGroupID" : "2B355A44",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : []
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

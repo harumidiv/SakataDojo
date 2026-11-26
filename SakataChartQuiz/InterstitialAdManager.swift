@@ -18,34 +18,50 @@ final class InterstitialAdManager: NSObject, ObservableObject, FullScreenContent
     private var loadedAt: Date?
     private var isLoading = false
     private var dismissalAction: (() -> Void)?
+    private let adRemoval: AdRemovalSubscription
+
+    init(adRemoval: AdRemovalSubscription) {
+        self.adRemoval = adRemoval
+        super.init()
+    }
+
+    func discardCachedAd() {
+        interstitialAd = nil
+        loadedAt = nil
+    }
 
     func loadAd() {
-        guard ConsentInformation.shared.canRequestAds else { return }
+        guard adRemoval.access == .free, ConsentInformation.shared.canRequestAds else { return }
         discardExpiredAd()
         guard interstitialAd == nil, !isLoading else { return }
         isLoading = true
 
         Task { [weak self] in
             guard let self else { return }
+            defer { isLoading = false }
+            guard adRemoval.access == .free else { return }
 
             do {
                 let ad = try await InterstitialAd.load(
                     with: Self.adUnitID,
                     request: Request()
                 )
+                guard adRemoval.access == .free else { return }
                 ad.fullScreenContentDelegate = self
                 interstitialAd = ad
                 loadedAt = Date()
             } catch {
                 print("Failed to load interstitial ad: \(error.localizedDescription)")
             }
-
-            isLoading = false
         }
     }
 
     func present(onDismiss: @escaping () -> Void) {
         guard dismissalAction == nil else { return }
+        guard adRemoval.access == .free, ConsentInformation.shared.canRequestAds else {
+            onDismiss()
+            return
+        }
         discardExpiredAd()
         guard let interstitialAd else {
             onDismiss()
@@ -54,16 +70,14 @@ final class InterstitialAdManager: NSObject, ObservableObject, FullScreenContent
         }
 
         dismissalAction = onDismiss
-        self.interstitialAd = nil
-        loadedAt = nil
+        discardCachedAd()
         interstitialAd.present(from: nil)
     }
 
     private func discardExpiredAd() {
         guard let loadedAt,
               Date().timeIntervalSince(loadedAt) > Self.adExpirationInterval else { return }
-        interstitialAd = nil
-        self.loadedAt = nil
+        discardCachedAd()
     }
 
     func ad(

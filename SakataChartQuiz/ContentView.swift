@@ -147,8 +147,9 @@ private struct QuestionResult: Identifiable {
 struct ContentView: View {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.requestReview) private var requestReview
-    @StateObject private var adConsentManager = AdConsentManager()
-    @StateObject private var interstitialAdManager = InterstitialAdManager()
+    @ObservedObject private var adRemoval: AdRemovalSubscription
+    @StateObject private var adConsentManager: AdConsentManager
+    @StateObject private var interstitialAdManager: InterstitialAdManager
     @StateObject private var gameCenter = GameCenterManager()
     @State private var allPatterns: [QuizPattern] = []
     @State private var currentPattern: QuizPattern?
@@ -176,6 +177,7 @@ struct ContentView: View {
     @State private var shareImage: ResultShareImage?
     @State private var showsShareError = false
     @State private var showsGameCenterSignInHelp = false
+    @State private var showsAdRemoval = false
     @AppStorage("patternMistakesData") private var patternMistakesData: Data = Data()
     @AppStorage("allTimeBestStreak") private var allTimeBestStreak: Int = 0
     @AppStorage("lastReviewRequestVersion") private var lastReviewRequestVersion = ""
@@ -192,6 +194,12 @@ struct ContentView: View {
     @AppStorage("dailyStreak") private var dailyStreak = 0
     @AppStorage("dailyBestStreak") private var dailyBestStreak = 0
     @AppStorage("dailyLastResults") private var dailyLastResults = ""  // 例: "10111"（1=正解）
+
+    init(adRemoval: AdRemovalSubscription) {
+        self.adRemoval = adRemoval
+        _adConsentManager = StateObject(wrappedValue: AdConsentManager(adRemoval: adRemoval))
+        _interstitialAdManager = StateObject(wrappedValue: InterstitialAdManager(adRemoval: adRemoval))
+    }
 
     private var isDailyCompletedToday: Bool {
         dailyLastCompletedDay == todayKey
@@ -375,10 +383,24 @@ struct ContentView: View {
         .onChange(of: scenePhase, initial: true) { _, phase in
             guard phase == .active else { return }
             todayKey = DailyChallenge.dayKey()
-            Task { await adConsentManager.gatherConsentIfNeeded() }
+            Task {
+                await adRemoval.refresh()
+                await adConsentManager.gatherConsentIfNeeded()
+            }
+        }
+        .onChange(of: adRemoval.access) { _, access in
+            if access == .free, scenePhase == .active {
+                Task { await adConsentManager.gatherConsentIfNeeded() }
+                if adConsentManager.canRequestAds { interstitialAdManager.loadAd() }
+            } else {
+                interstitialAdManager.discardCachedAd()
+            }
         }
         .onChange(of: adConsentManager.canRequestAds) { _, canRequestAds in
             if canRequestAds { interstitialAdManager.loadAd() }
+        }
+        .sheet(isPresented: $showsAdRemoval) {
+            AdRemovalSubscriptionView(subscription: adRemoval)
         }
         .onAppear {
             if allPatterns.isEmpty, errorMessage == nil {
@@ -561,8 +583,14 @@ struct ContentView: View {
         // タイトル文字は出さないので、大きいタイトル用の高さを確保しない
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if adConsentManager.isPrivacyOptionsRequired {
-                ToolbarItem(placement: .topBarLeading) {
+            ToolbarItemGroup(placement: .topBarLeading) {
+                Button {
+                    showsAdRemoval = true
+                } label: {
+                    Text("広告を非表示")
+                }
+
+                if adConsentManager.isPrivacyOptionsRequired {
                     Button {
                         Task { await adConsentManager.presentPrivacyOptionsForm() }
                     } label: {
@@ -1747,5 +1775,5 @@ private struct PatternStudyDetailView: View {
 }
 
 #Preview {
-    ContentView()
+    ContentView(adRemoval: AdRemovalSubscription())
 }
