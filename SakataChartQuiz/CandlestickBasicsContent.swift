@@ -104,20 +104,40 @@ enum BasicsLesson {
         }
     }
 
-    var explanation: LocalizedStringKey {
+    var explanationParts: [LocalizedStringResource] {
         switch self {
         case .prices:
-            "1本は、1日など一定期間の値動きを表します。実体は最初の価格（始値）から最後の価格（終値）までの範囲です。上ひげの先は高値、下ひげの先は安値です。高値や安値が実体の端と重なる側にはひげが出ません。"
+            [
+                "まずは1本の見方からいこう。1本で、1日など一定期間の値動きを表すんだ。",
+                "実体は始値から終値まで。上ひげの先が高値、下ひげの先が安値だよ。",
+                "高値や安値が実体の端と重なると、その側のひげは出ないんだ。"
+            ]
         case .parts:
-            "太い部分が実体で、始値と終値の間を表します。上ひげは実体の上端から高値まで伸びる細い線です。下ひげは実体の下端から安値まで伸びます。"
+            [
+                "色のついた太いところが実体だよ。始値から終値までの幅を表しているんだ。",
+                "上に伸びた細い線が上ひげで、実体の上端から高値まで。",
+                "下に伸びた線が下ひげで、実体の下端から安値までだよ。"
+            ]
         case .bullish:
-            "終値が始値より高いと陽線です。このアプリでは赤で表示します。実体の上端が終値、下端が始値です。"
+            [
+                "終値が始値より高い足を陽線って呼ぶよ。このアプリでは赤色だね。",
+                "だから、実体の上端が終値、下端が始値になるんだ。"
+            ]
         case .bearish:
-            "終値が始値より低いと陰線です。このアプリでは青で表示します。実体の上端が始値、下端が終値です。"
+            [
+                "終値が始値より低い足が陰線だよ。このアプリでは青色で表示しているんだ。",
+                "実体の上端が始値、下端が終値になるよ。"
+            ]
         case .spinningTop:
-            "上下のひげに比べて実体が小さい形をコマ足と呼びます。期間中に価格が動き、終値は始値の近くに戻っています。"
+            [
+                "実体が小さくて、上下のひげが長いね。こんな形をコマ足って呼ぶんだ。",
+                "期間中に価格が動いたあと、終値が始値の近くに戻ってきた形だよ。"
+            ]
         case .doji:
-            "始値と終値が同じかほぼ同じときにできる形が十字線です。実体は横線のように細く見えます。"
+            [
+                "始値と終値が同じか、ほとんど同じだと、実体が横線みたいに細くなるよ。",
+                "この形が十字線なんだ。"
+            ]
         }
     }
 }
@@ -151,8 +171,8 @@ struct BasicsQuestion {
     var point: BasicsPoint? = nil
     let correct: BasicsChoice
     let choices: [BasicsChoice]
-    let hint: LocalizedStringKey
-    let explanation: LocalizedStringKey
+    let hint: LocalizedStringResource
+    let explanationParts: [LocalizedStringResource]
 
     var prompt: LocalizedStringKey {
         guard let point else { return "このローソク足はどの種類？" }
@@ -161,67 +181,67 @@ struct BasicsQuestion {
 
     static let high = BasicsQuestion(
         sample: .bullish, point: .high, correct: .high, choices: [.open, .high, .close],
-        hint: "実体より上に伸びる細い線に注目しましょう。",
-        explanation: "上ひげの先は、その期間で最も高かった価格です。"
+        hint: "実体から上に伸びている細い線の先を見てみよう。そこがいちばん高いところだよ。",
+        explanationParts: ["正解、上ひげの先は、この期間でいちばん高かった価格だよ。"]
     )
     static let low = BasicsQuestion(
         sample: .bearish, point: .low, correct: .low, choices: [.high, .close, .low],
-        hint: "実体より下に伸びる細い線に注目しましょう。",
-        explanation: "下ひげの先は、その期間で最も低かった価格です。"
+        hint: "実体から下に伸びている線の先を見てみよう。",
+        explanationParts: ["そう、下ひげの先が、この期間でいちばん低かった価格だよ。"]
     )
     static let body = BasicsQuestion(
         sample: .bullish, point: .bodyMiddle, correct: .body, choices: [.upperWick, .body, .lowerWick],
-        hint: "色が塗られた太い部分に注目しましょう。",
-        explanation: "実体は、始値と終値の間を表す太い部分です。"
+        hint: "色のついた、太いところに注目してみよう。",
+        explanationParts: ["正解。色のついた太い部分が実体で、始値と終値の間を表しているよ。"]
     )
     static let upperWick = BasicsQuestion(
         sample: .bearish, point: .upperWick, correct: .upperWick, choices: [.upperWick, .lowerWick, .body],
-        hint: "実体より上に伸びる細い線に注目しましょう。",
-        explanation: "上ひげは、実体の上端から高値までを表します。"
+        hint: "実体から上に伸びる細い線を探してみよう。",
+        explanationParts: ["正解、これが上ひげだよ。", "実体の上端から高値までを表しているんだ。"]
     )
     static let lowerWick = BasicsQuestion(
         sample: .bullish, point: .lowerWick, correct: .lowerWick, choices: [.body, .upperWick, .lowerWick],
-        hint: "実体より下に伸びる細い線に注目しましょう。",
-        explanation: "下ひげは、実体の下端から安値までを表します。"
+        hint: "実体から下に伸びている細い線を探してみよう。",
+        explanationParts: ["正解、これが下ひげだよ。", "実体の下端から安値までを表しているんだ。"]
     )
     static let bullishTop = BasicsQuestion(
         sample: .bullish, point: .bodyTop, correct: .close, choices: [.close, .high, .open],
-        hint: "陽線では、取引が始まったときより終わったときの価格が上にあります。",
-        explanation: "陽線では終値が始値より高く、実体の上端が終値になります。"
+        hint: "陽線は、始値と終値のどっちが高かったかな？",
+        explanationParts: ["そう、陽線は終値が始値より高いね。", "だから実体の上端が終値になるんだ。"]
     )
     static let bullishBottom = BasicsQuestion(
         sample: .bullish, point: .bodyBottom, correct: .open, choices: [.low, .open, .close],
-        hint: "陽線の実体の下端です。上端の終値と比べてみましょう。",
-        explanation: "陽線の実体の下端は始値です。下ひげの先が安値です。"
+        hint: "陽線の実体の下端を見てみよう。上端の終値と比べるとわかるよ。",
+        explanationParts: ["正解。陽線の実体の下端は始値だよ。", "下ひげの先が安値だね。"]
     )
     static let bullishType = BasicsQuestion(
         sample: .bullish, correct: .bullish, choices: [.bearish, .bullish],
-        hint: "このアプリでは、実体の色で始値と終値の上下関係を確認できます。",
-        explanation: "このアプリでは赤が陽線です。終値が始値を上回ったことを表します。"
+        hint: "このアプリでは、実体の色がヒントになるよ。",
+        explanationParts: ["正解。このアプリでは赤が陽線。", "終値が始値より高くなった印だよ。"]
     )
     static let bearishTop = BasicsQuestion(
         sample: .bearish, point: .bodyTop, correct: .open, choices: [.high, .close, .open],
-        hint: "陰線では、取引が終わったときより始まったときの価格が上にあります。",
-        explanation: "陰線では始値が終値より高いため、実体の上端が始値です。"
+        hint: "陰線は、始値と終値のどっちが高かったかな？",
+        explanationParts: ["そう、陰線は始値のほうが高いね。", "だから実体の上端が始値になるんだ。"]
     )
     static let bearishBottom = BasicsQuestion(
         sample: .bearish, point: .bodyBottom, correct: .close, choices: [.close, .open, .low],
-        hint: "陰線では、取引が始まったときより終わったときの価格が下にあります。",
-        explanation: "陰線の実体の下端は終値です。下ひげの先が安値です。"
+        hint: "陰線の実体の下端を見てみよう。終値と安値は同じかな？",
+        explanationParts: ["正解、陰線の実体の下端は終値だよ。", "下ひげの先が安値になるんだ。"]
     )
     static let bearishType = BasicsQuestion(
         sample: .bearish, correct: .bearish, choices: [.bullish, .bearish],
-        hint: "このアプリでは、実体の色で始値と終値の上下関係を確認できます。",
-        explanation: "このアプリでは青が陰線です。終値が始値を下回ったことを表します。"
+        hint: "このアプリでは、実体の色がヒントになるよ。",
+        explanationParts: ["そう、このアプリでは青が陰線。", "終値が始値より低くなった印だよ。"]
     )
     static let spinningTopType = BasicsQuestion(
         sample: .spinningTop, correct: .spinningTop, choices: [.doji, .spinningTop, .bearish],
-        hint: "上下のひげと、実体の縦の長さを比べてみましょう。",
-        explanation: "コマ足は、上下にひげがあり、実体が小さいのが特徴です。"
+        hint: "実体の大きさと、上下のひげの長さを比べてみよう。",
+        explanationParts: ["正解、コマ足は実体が小さくて、上下にひげがある形だよ。"]
     )
     static let dojiType = BasicsQuestion(
         sample: .doji, correct: .doji, choices: [.spinningTop, .bullish, .doji],
-        hint: "始値と終値がほとんど重なると、実体はどう見えますか？",
-        explanation: "十字線は始値と終値が同じかほぼ同じで、実体が横線のように見えます。"
+        hint: "始値と終値がほとんど同じなら、実体はどんな形に見えるかな？",
+        explanationParts: ["そう、十字線は始値と終値が同じか近くて、", "実体が横線みたいに細く見えるんだ。"]
     )
 }

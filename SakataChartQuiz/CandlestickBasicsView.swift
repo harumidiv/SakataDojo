@@ -9,6 +9,7 @@ struct CandlestickBasicsView: View {
     @State private var answers: [Int: BasicsChoice] = [:]
     @State private var showsHint = false
     @State private var isFinished = false
+    @State private var commentPartIndex = 0
 
     private static let pages: [BasicsPage] = [
         .lesson(.prices),
@@ -57,26 +58,28 @@ struct CandlestickBasicsView: View {
             }
             .onChange(of: pageIndex) {
                 showsHint = false
+                commentPartIndex = 0
                 proxy.scrollTo("basicsTop", anchor: .top)
             }
             .onChange(of: isFinished) { proxy.scrollTo("basicsTop", anchor: .top) }
-            .onChange(of: answers.count) { oldValue, newValue in
-                if newValue > oldValue {
-                    proxy.scrollTo("basicsFeedback")
-                }
-            }
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
             VStack(spacing: 0) {
                 if !isFinished {
+                    mascotDock
+                        .padding(.horizontal, 20)
+                        .padding(.top, 10)
+                        .padding(.bottom, 12)
+                        .frame(maxWidth: 560)
+                        .frame(maxWidth: .infinity)
                     pageControls
                 }
                 if reservesBannerSpace {
                     CandlestickBasicsBanner(loadsAd: adAccess == .free && canRequestAds)
                 }
             }
+            .background(Color(uiColor: .systemBackground))
         }
-        .ignoresSafeArea(.container, edges: reservesBannerSpace ? .bottom : [])
         .navigationTitle("ローソク足の基礎")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarVisibility(.hidden, for: .tabBar)
@@ -98,7 +101,6 @@ struct CandlestickBasicsView: View {
                 diagram(sample: lesson.sample)
             }
 
-            Text(lesson.explanation)
         }
     }
 
@@ -116,15 +118,48 @@ struct CandlestickBasicsView: View {
                 }
             }
 
+        }
+    }
+
+    @ViewBuilder
+    private var mascotDock: some View {
+        switch page {
+        case .lesson(let lesson):
+            let parts = lesson.explanationParts
+            let asksToReplay = commentPartIndex >= parts.count
+            let onTap: (() -> Void)? = parts.count > 1 ? { advanceComment(partCount: parts.count) } : nil
+            BasicsMascotMessage(
+                mood: .explaining,
+                onTap: onTap,
+                tapLabel: asksToReplay ? "もう一度聞く？" : "タップでつづき"
+            ) {
+                if asksToReplay {
+                    Text("もう一度聞く？")
+                } else {
+                    TypingText(text: String(localized: parts[commentPartIndex]))
+                }
+            }
+        case .question(let question):
             if let selectedAnswer {
-                feedback(question, isCorrect: selectedAnswer == question.correct)
-                    .id("basicsFeedback")
+                let parts = question.explanationParts
+                let asksToReplay = commentPartIndex >= parts.count
+                let onTap: (() -> Void)? = parts.count > 1 ? { advanceComment(partCount: parts.count) } : nil
+                feedback(
+                    question,
+                    isCorrect: selectedAnswer == question.correct,
+                    parts: parts,
+                    onTap: onTap,
+                    tapLabel: asksToReplay ? "もう一度聞く？" : "タップでつづき",
+                    asksToReplay: asksToReplay
+                )
             } else {
-                DisclosureGroup("ヒント", isExpanded: $showsHint) {
-                    Text(question.hint)
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.top, 6)
+                BasicsMascotMessage(mood: showsHint ? .thinking : .idle) {
+                    DisclosureGroup("ヒント", isExpanded: $showsHint) {
+                        Text(question.hint)
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.top, 6)
+                    }
                 }
             }
         }
@@ -138,6 +173,7 @@ struct CandlestickBasicsView: View {
         return Button {
             guard selectedAnswer == nil else { return }
             answers[pageIndex] = choice
+            commentPartIndex = 0
             SoundEffectPlayer.shared.play(choice == question.correct ? .correct : .wrong)
         } label: {
             Text(choice.title)
@@ -167,20 +203,41 @@ struct CandlestickBasicsView: View {
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 
-    private func feedback(_ question: BasicsQuestion, isCorrect: Bool) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
+    private func feedback(
+        _ question: BasicsQuestion,
+        isCorrect: Bool,
+        parts: [LocalizedStringResource],
+        onTap: (() -> Void)?,
+        tapLabel: LocalizedStringResource,
+        asksToReplay: Bool
+    ) -> some View {
+        BasicsMascotMessage(
+            mood: isCorrect ? .celebrating : .thinking,
+            fill: (isCorrect ? Color.green : Color.red).opacity(0.10),
+            onTap: onTap,
+            tapLabel: tapLabel
+        ) {
             if isCorrect {
-                Label("正解", systemImage: "checkmark.circle.fill")
+                Label("正解！", systemImage: "checkmark.circle.fill")
             } else {
-                Label("不正解", systemImage: "xmark.circle.fill")
+                Label("おしい！", systemImage: "xmark.circle.fill")
             }
 
-            Text(question.explanation)
+            if asksToReplay {
+                Text("もう一度聞く？")
+            } else {
+                TypingText(text: String(localized: parts[commentPartIndex]))
+            }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(14)
-        .background((isCorrect ? Color.green : Color.red).opacity(0.10), in: RoundedRectangle(cornerRadius: 12))
         .accessibilityElement(children: .combine)
+    }
+
+    private func advanceComment(partCount: Int) {
+        if commentPartIndex >= partCount {
+            commentPartIndex = 0
+        } else {
+            commentPartIndex += 1
+        }
     }
 
     private func diagram(sample: BasicsSample, point: BasicsPoint? = nil) -> some View {

@@ -9,7 +9,7 @@ struct CandlestickAnnotatedDiagram: View {
     let sample: BasicsSample
     let style: Style
 
-    @ScaledMetric(relativeTo: .subheadline) private var rowHeight: CGFloat = 40
+    @ScaledMetric(relativeTo: .subheadline) private var rowHeight: CGFloat = 34
     private let chartWidth: CGFloat = 76
     private let plotInset: CGFloat = 12
 
