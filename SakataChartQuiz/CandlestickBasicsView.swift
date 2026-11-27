@@ -21,7 +21,8 @@ struct CandlestickBasicsView: View {
         .lesson(.bearish),
         .question(.bearishTop), .question(.bearishBottom), .question(.bearishType),
         .lesson(.spinningTop), .question(.spinningTopType),
-        .lesson(.doji), .question(.dojiType)
+        .lesson(.doji), .question(.dojiType),
+        .lesson(.homma), .lesson(.riceMarket), .lesson(.sakataGoho)
     ]
 
     private var page: BasicsPage { Self.pages[pageIndex] }
@@ -99,8 +100,56 @@ struct CandlestickBasicsView: View {
                 CandlestickAnnotatedDiagram(sample: lesson.sample, style: .parts)
             case .spinningTop, .doji:
                 diagram(sample: lesson.sample)
+            case .homma, .riceMarket, .sakataGoho:
+                historyCard(for: lesson)
             }
 
+        }
+    }
+
+    private func historyCard(for lesson: BasicsLesson) -> some View {
+        let symbol: String
+        let eyebrow: LocalizedStringKey
+        switch lesson {
+        case .homma:
+            symbol = "person.crop.circle.badge.questionmark"
+            eyebrow = "人物を知ろう"
+        case .riceMarket:
+            symbol = "shippingbox.fill"
+            eyebrow = "江戸時代の酒田"
+        case .sakataGoho:
+            symbol = "chart.xyaxis.line"
+            eyebrow = "相場の見方"
+        default:
+            symbol = "book.closed.fill"
+            eyebrow = "酒田の相場ばなし"
+        }
+
+        return VStack(alignment: .leading, spacing: 16) {
+            Label(eyebrow, systemImage: symbol)
+                .font(.headline)
+                .foregroundStyle(.orange)
+            Text(historySummary(for: lesson))
+                .font(.body)
+                .foregroundStyle(.primary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(20)
+        .background(Color.orange.opacity(0.10), in: RoundedRectangle(cornerRadius: 18))
+        .accessibilityElement(children: .combine)
+    }
+
+    private func historySummary(for lesson: BasicsLesson) -> LocalizedStringKey {
+        switch lesson {
+        case .homma:
+            "酒田生まれの米商人・相場師。大阪や江戸の米相場でも活躍し、その名は相場の教えとともに語り継がれているよ。"
+        case .riceMarket:
+            "米が集まる港町・酒田では、米の値動きが暮らしと商いを動かした。相場師たちは日々の変化を観察していたんだ。"
+        case .sakataGoho:
+            "三山・三川・三空・三兵・三法。5つの見方で値動きの型を整理する、酒田に伝わる相場の考え方だよ。"
+        default:
+            "酒田に伝わる相場の知恵を、たぬきと一緒に見ていこう。"
         }
     }
 

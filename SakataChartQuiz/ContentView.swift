@@ -435,39 +435,6 @@ struct ContentView: View {
         NavigationStack {
         ScrollView {
             VStack(spacing: 24) {
-                NavigationLink {
-                    CandlestickBasicsView(
-                        adAccess: adRemoval.access,
-                        canRequestAds: adConsentManager.canRequestAds
-                    )
-                } label: {
-                    HStack(spacing: 12) {
-                        Image(systemName: "chart.bar.xaxis")
-                            .font(.title2)
-                            .foregroundStyle(Color.accentColor)
-                            .accessibilityHidden(true)
-
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("ローソク足の基礎")
-                                .font(.headline)
-                            Text("1本の読み方を見本と確認問題で学ぶ")
-                                .font(.subheadline)
-                                .foregroundStyle(.secondary)
-                        }
-
-                        Spacer(minLength: 8)
-                        Image(systemName: "chevron.forward")
-                            .font(.footnote.bold())
-                            .foregroundStyle(.secondary)
-                            .accessibilityHidden(true)
-                    }
-                    .padding(16)
-                    .background(Color.accentColor.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
-                    .contentShape(.rect)
-                }
-                .buttonStyle(.plain)
-                .padding(.top, 8)
-
                 dailyChallengeCard
 
                 VStack(alignment: .leading, spacing: 12) {
@@ -629,6 +596,23 @@ struct ContentView: View {
         .background(Color.secondary.opacity(0.04).ignoresSafeArea())
         .navigationTitle("酒田道場")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    CandlestickBasicsView(
+                        adAccess: adRemoval.access,
+                        canRequestAds: adConsentManager.canRequestAds
+                    )
+                } label: {
+                    Image("BeginnerMark")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 32, height: 32)
+                        .accessibilityHidden(true)
+                }
+                .accessibilityLabel("初心者向けローソク足の基礎")
+            }
+        }
         } // NavigationStack
     }
 

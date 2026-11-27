@@ -83,6 +83,9 @@ enum BasicsLesson {
     case bearish
     case spinningTop
     case doji
+    case homma
+    case riceMarket
+    case sakataGoho
 
     var title: LocalizedStringKey {
         switch self {
@@ -92,12 +95,15 @@ enum BasicsLesson {
         case .bearish: "陰線の読み方"
         case .spinningTop: "コマ足の読み方"
         case .doji: "十字線の読み方"
+        case .homma: "本間宗久ってどんな人？"
+        case .riceMarket: "酒田と米相場の物語"
+        case .sakataGoho: "酒田五法はどう生まれた？"
         }
     }
 
     var sample: BasicsSample {
         switch self {
-        case .prices, .parts, .bullish: .bullish
+        case .prices, .parts, .bullish, .homma, .riceMarket, .sakataGoho: .bullish
         case .bearish: .bearish
         case .spinningTop: .spinningTop
         case .doji: .doji
@@ -137,6 +143,21 @@ enum BasicsLesson {
             [
                 "始値と終値が同じか、ほとんど同じだと、実体が横線みたいに細くなるよ。",
                 "この形が十字線なんだ。"
+            ]
+        case .homma:
+            [
+                "本間宗久は、江戸時代に酒田で生まれた米商人・相場師だよ。本間家の商いを支えたあと、大阪や江戸でも米相場に取り組んだんだ。",
+                "相場の経験や教えは後の書物にも伝わっているよ。ローソク足を宗久ひとりが発明した、と言い切れる確かな記録があるわけではないんだ。"
+            ]
+        case .riceMarket:
+            [
+                "昔の酒田は、お米が集まる港町。米の値段は暮らしや商いに深く関わっていたんだ。",
+                "相場師たちは値動きを観察して、売り買いの目安を探したんだね。ローソク足の読み方も、そんな相場の知恵と結びついて語られてきたよ。"
+            ]
+        case .sakataGoho:
+            [
+                "酒田五法は、三山・三川・三空・三兵・三法という値動きの型をまとめた呼び名だよ。相場の流れを、いくつかの形に分けて考えるんだ。",
+                "宗久の相場術と結びつけて紹介されることが多いけれど、今の五法が宗久本人によって作られたと断定できる資料は限られているよ。経験則が後の時代に整理されて伝わった、と考えるのが慎重なんだ。"
             ]
         }
     }
