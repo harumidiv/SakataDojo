@@ -13,6 +13,7 @@ struct SettingsView: View {
     let onShowLeaderboards: () -> Bool
     let onPresentPrivacyOptions: () async -> Void
 
+    @AppStorage(MascotVoicePlayer.enabledKey) private var mascotVoiceEnabled = true
     @State private var showsAdRemoval = false
     @State private var showsResetConfirmation = false
     @State private var showsGameCenterSignInHelp = false
@@ -52,6 +53,16 @@ struct SettingsView: View {
                     } label: {
                         Label("ランキング", systemImage: "trophy.fill")
                     }
+                }
+
+                Section {
+                    Toggle(isOn: $mascotVoiceEnabled) {
+                        Label("たぬきの声", systemImage: "speaker.wave.2.fill")
+                    }
+                } header: {
+                    Text("サウンド")
+                } footer: {
+                    Text("初心者モードでたぬきが話すときの声を鳴らします。消音モード中は鳴りません。")
                 }
 
                 Section {

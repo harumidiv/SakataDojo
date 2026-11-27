@@ -4620,6 +4620,34 @@
         }
       }
     },
+    "サウンド" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Sound"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "사운드"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Âm thanh"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "音效"
+          }
+        }
+      }
+    },
     "サブスクリプションを管理" : {
       "localizations" : {
         "en" : {
@@ -4824,6 +4852,34 @@
     },
     "たぬきの案内を聞く" : {
 
+    },
+    "たぬきの声" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Tanuki Voice"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "너구리 목소리"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Giọng tanuki"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "狸貓的聲音"
+          }
+        }
+      }
     },
     "チャート" : {
       "localizations" : {
@@ -5553,6 +5609,34 @@
     },
     "初心者モード" : {
 
+    },
+    "初心者モードでたぬきが話すときの声を鳴らします。消音モード中は鳴りません。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Plays the tanuki's voice when it talks in Beginner Mode. It stays silent while your device is muted."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "초보자 모드에서 너구리가 말할 때 목소리를 재생합니다. 무음 모드에서는 재생되지 않습니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "Phát giọng của tanuki khi nó nói trong Chế độ người mới. Không phát khi thiết bị đang ở chế độ im lặng."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "machine_translated",
+            "value" : "在新手模式中，狸貓說話時會播放聲音。靜音模式下不會播放。"
+          }
+        }
+      }
     },
     "上に伸びた細い線が上ひげで、実体の上端から高値まで。" : {
 

@@ -118,7 +118,11 @@ struct CandlestickBasicsView: View {
             }
         }
         .toolbarVisibility(.hidden, for: .tabBar)
-        .onAppear { SoundEffectPlayer.shared.prepare() }
+        .onAppear {
+            SoundEffectPlayer.shared.prepare()
+            MascotVoicePlayer.shared.prepare()
+        }
+        .onDisappear { MascotVoicePlayer.shared.suspend() }
     }
 
     private func returnToTopicPicker() {
@@ -297,7 +301,8 @@ struct CandlestickBasicsView: View {
             } else {
                 BasicsMascotMessage(mood: showsHint ? .thinking : .idle) {
                     DisclosureGroup("ヒント", isExpanded: $showsHint) {
-                        Text(question.hint)
+                        // Opening the hint has the tanuki read it out, typing it like its other lines.
+                        TypingText(text: String(localized: question.hint))
                             .foregroundStyle(.secondary)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.top, 6)
@@ -403,14 +408,16 @@ struct CandlestickBasicsView: View {
 
     private var pageControls: some View {
         HStack(spacing: 12) {
-            Button {
-                pageIndex -= 1
-            } label: {
-                Label("前へ", systemImage: "chevron.backward")
-                    .frame(minHeight: 36)
+            // There's nothing to go back to on the first page, so "次へ" takes the full width.
+            if pageIndex > 0 {
+                Button {
+                    pageIndex -= 1
+                } label: {
+                    Label("前へ", systemImage: "chevron.backward")
+                        .frame(minHeight: 36)
+                }
+                .buttonStyle(.bordered)
             }
-            .buttonStyle(.bordered)
-            .disabled(pageIndex == 0)
 
             Button {
                 if isLastPage {

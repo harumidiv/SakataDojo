@@ -139,7 +139,7 @@ private struct TopicPickerSpeechBubble: View {
     var body: some View {
         Button(action: onClose) {
             VStack(alignment: .leading, spacing: 6) {
-                Text("今日の米相場は……ん？\nちょうどいい、相場の読み方を教えてあげよう")
+                TypingText(text: String(localized: "今日の米相場は……ん？\nちょうどいい、相場の読み方を教えてあげよう"))
                     .font(.subheadline)
                     .foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -213,6 +213,12 @@ struct BasicsMascotMessage<Message: View>: View {
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
+    private static var cornerRadius: CGFloat { 12 }
+    /// How far the bubble is raised above the bottom of the mascot sprite.
+    private static var bubbleLift: CGFloat { 10 }
+    /// The tanuki's mouth in the 64pt sprite (about 43% down from the top).
+    private static var mouthAboveSpriteBottom: CGFloat { 36 }
+
     var body: some View {
         let useVerticalLayout = dynamicTypeSize.isAccessibilitySize
         let layout = useVerticalLayout
@@ -227,18 +233,25 @@ struct BasicsMascotMessage<Message: View>: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(14)
                 .padding(.bottom, onTap == nil ? 0 : 14)
-                .background(fill, in: RoundedRectangle(cornerRadius: 12))
-                .background(alignment: .bottomLeading) {
+                .background(fill, in: RoundedRectangle(cornerRadius: Self.cornerRadius))
+                .background {
                     if !useVerticalLayout {
-                        Path { path in
-                            path.move(to: CGPoint(x: 8, y: 0))
-                            path.addLine(to: CGPoint(x: 0, y: 6))
-                            path.addLine(to: CGPoint(x: 8, y: 12))
-                            path.closeSubpath()
+                        GeometryReader { geometry in
+                            // Point the tail at the tanuki's mouth. The bubble's bottom sits
+                            // `bubbleLift` above the sprite's bottom, so the mouth is this far up from it.
+                            let mouthAboveBubbleBottom = Self.mouthAboveSpriteBottom - Self.bubbleLift
+                            // Keep the tail on the straight part of the edge, clear of the rounded corner.
+                            let tailY = max(Self.cornerRadius + 6, geometry.size.height - mouthAboveBubbleBottom)
+                            Path { path in
+                                path.move(to: CGPoint(x: 8, y: 0))
+                                path.addLine(to: CGPoint(x: 0, y: 6))
+                                path.addLine(to: CGPoint(x: 8, y: 12))
+                                path.closeSubpath()
+                            }
+                            .fill(fill)
+                            .frame(width: 8, height: 12)
+                            .position(x: -4, y: tailY)
                         }
-                        .fill(fill)
-                        .frame(width: 8, height: 12)
-                        .offset(x: -8, y: -4)
                         .accessibilityHidden(true)
                     }
                 }
@@ -250,7 +263,7 @@ struct BasicsMascotMessage<Message: View>: View {
                             .padding(8)
                     }
                 }
-                .offset(y: -10)
+                .offset(y: -Self.bubbleLift)
         }
         .contentShape(Rectangle())
         .onTapGesture { onTap?() }
@@ -261,12 +274,16 @@ struct BasicsMascotMessage<Message: View>: View {
 
 struct TypingText: View {
     let text: String
+    /// Plays the tanuki's babbling voice while the text types out.
+    var speaksAloud = true
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var startedAt = Date.now
     @State private var isTyping = true
 
     private let characterInterval = 0.035
+    /// One syllable for every this many voiced characters, so the babble isn't a buzz.
+    private let charactersPerSyllable = 2
 
     var body: some View {
         TimelineView(.animation(minimumInterval: characterInterval, paused: reduceMotion || !isTyping)) { timeline in
@@ -276,18 +293,35 @@ struct TypingText: View {
                 ? characters.count
                 : min(characters.count, Int(elapsed / characterInterval))
 
-            Text(String(characters.prefix(visibleCount)))
+            // The full text, hidden, keeps the height fixed so the layout doesn't grow line by line.
+            Text(text)
+                .hidden()
+                .overlay(alignment: .topLeading) {
+                    Text(String(characters.prefix(visibleCount)))
+                }
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibilityElement(children: .ignore)
                 .accessibilityLabel(Text(verbatim: text))
         }
         .task(id: text) {
             startedAt = .now
             isTyping = !reduceMotion
             guard !reduceMotion else { return }
-            do {
-                try await Task.sleep(for: .seconds(Double(Array(text).count) * characterInterval))
-            } catch {
-                return
+
+            let start = ContinuousClock.now
+            var voicedCount = 0
+            for (index, character) in text.enumerated() {
+                if speaksAloud, MascotVoicePlayer.isVoiced(character) {
+                    if voicedCount % charactersPerSyllable == 0 {
+                        MascotVoicePlayer.shared.speak(character)
+                    }
+                    voicedCount += 1
+                }
+                do {
+                    try await Task.sleep(until: start + .seconds(Double(index + 1) * characterInterval), clock: .continuous)
+                } catch {
+                    return
+                }
             }
             isTyping = false
         }
@@ -317,4 +351,16 @@ struct BasicsMascotAnimation: View {
         .frame(width: 64, height: 64)
         .accessibilityHidden(true)
     }
+}
+
+#Preview("Mascot message tail") {
+    VStack(spacing: 24) {
+        BasicsMascotMessage(mood: .idle) {
+            Text("ヒント")
+        }
+        BasicsMascotMessage(mood: .explaining, onTap: {}) {
+            Text("陽線は、始値より終値が高いローソク足だよ。実体の上と下に出ている細い線が「ひげ」なんだ。")
+        }
+    }
+    .padding(20)
 }
