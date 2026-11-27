@@ -2,7 +2,12 @@ import GoogleMobileAds
 import SwiftUI
 
 struct CandlestickBasicsBanner: View {
+    /// Space between the top of this view and the ad itself.
+    static let topPadding: CGFloat = 16
+
     let loadsAd: Bool
+    /// Off when the banner sits on a scene that should show through around the ad.
+    var showsBarBackground = true
 
     var body: some View {
         let size = cgSize(for: AdSizeBanner)
@@ -19,8 +24,8 @@ struct CandlestickBasicsBanner: View {
                     }
                 }
             }
-            .padding(.top, 16)
-            .background(.bar)
+            .padding(.top, Self.topPadding)
+            .background(showsBarBackground ? AnyShapeStyle(.bar) : AnyShapeStyle(.clear))
     }
 }
 

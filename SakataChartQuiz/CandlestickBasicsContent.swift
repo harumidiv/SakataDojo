@@ -1,5 +1,40 @@
 import SwiftUI
 
+enum BasicsTopic: String, CaseIterable, Identifiable {
+    case fundamentals
+    case sakataHistory
+
+    var id: Self { self }
+
+    var title: LocalizedStringKey {
+        switch self {
+        case .fundamentals: "ローソク足の基本"
+        case .sakataHistory: "酒田の相場と酒田五法"
+        }
+    }
+
+    var detail: LocalizedStringKey {
+        switch self {
+        case .fundamentals: "始値・高値・安値・終値と、実体やひげをクイズで学ぼう"
+        case .sakataHistory: "本間宗久と米相場、酒田五法の成り立ちをまとめて学ぼう"
+        }
+    }
+
+    var symbol: String {
+        switch self {
+        case .fundamentals: "chart.bar.xaxis"
+        case .sakataHistory: "building.columns"
+        }
+    }
+
+    var pageRange: ClosedRange<Int> {
+        switch self {
+        case .fundamentals: 0...18
+        case .sakataHistory: 19...21
+        }
+    }
+}
+
 enum BasicsPage {
     case lesson(BasicsLesson)
     case question(BasicsQuestion)

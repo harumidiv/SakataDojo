@@ -5,6 +5,7 @@ struct CandlestickBasicsView: View {
     let canRequestAds: Bool
 
     @ScaledMetric(relativeTo: .body) private var answerIconSpace: CGFloat = 24
+    @State private var selectedTopic: BasicsTopic?
     @State private var pageIndex = 0
     @State private var answers: [Int: BasicsChoice] = [:]
     @State private var showsHint = false
@@ -25,20 +26,26 @@ struct CandlestickBasicsView: View {
         .lesson(.homma), .lesson(.riceMarket), .lesson(.sakataGoho)
     ]
 
-    private var page: BasicsPage { Self.pages[pageIndex] }
+    private var activePages: [BasicsPage] {
+        guard let selectedTopic else { return [] }
+        return Array(Self.pages[selectedTopic.pageRange])
+    }
+    private var page: BasicsPage { activePages[pageIndex] }
     private var selectedAnswer: BasicsChoice? { answers[pageIndex] }
-    private var isLastPage: Bool { pageIndex == Self.pages.count - 1 }
+    private var isLastPage: Bool { pageIndex == activePages.count - 1 }
     private var reservesBannerSpace: Bool { adAccess != .subscribed }
 
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    if isFinished {
+                    if selectedTopic == nil {
+                        topicPicker
+                    } else if isFinished {
                         result
                     } else {
-                        ProgressView(value: Double(pageIndex + 1), total: Double(Self.pages.count)) {
-                            Text("\(pageIndex + 1) / \(Self.pages.count)")
+                        ProgressView(value: Double(pageIndex + 1), total: Double(activePages.count)) {
+                            Text("\(pageIndex + 1) / \(activePages.count)")
                                 .font(.subheadline.monospacedDigit())
                                 .foregroundStyle(.secondary)
                         }
@@ -66,7 +73,11 @@ struct CandlestickBasicsView: View {
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
             VStack(spacing: 0) {
-                if !isFinished {
+                if selectedTopic == nil {
+                    // With a banner below, the tanuki walks along the ad's top edge.
+                    TopicPickerMascot(footDrop: reservesBannerSpace ? CandlestickBasicsBanner.topPadding : 0)
+                        .zIndex(1)
+                } else if !isFinished {
                     mascotDock
                         .padding(.horizontal, 20)
                         .padding(.top, 10)
@@ -76,15 +87,97 @@ struct CandlestickBasicsView: View {
                     pageControls
                 }
                 if reservesBannerSpace {
-                    CandlestickBasicsBanner(loadsAd: adAccess == .free && canRequestAds)
+                    CandlestickBasicsBanner(
+                        loadsAd: adAccess == .free && canRequestAds,
+                        showsBarBackground: selectedTopic != nil
+                    )
                 }
             }
-            .background(Color(uiColor: .systemBackground))
+            .background {
+                // On the topic picker the port's quay carries on behind the banner and into the safe area.
+                if selectedTopic == nil {
+                    SakataPortGround().ignoresSafeArea()
+                } else {
+                    Color(uiColor: .systemBackground).ignoresSafeArea()
+                }
+            }
         }
-        .navigationTitle("ローソク足の基礎")
+        .navigationTitle("初心者モード")
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(selectedTopic != nil)
+        .toolbar {
+            if selectedTopic != nil {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        returnToTopicPicker()
+                    } label: {
+                        Label("テーマ", systemImage: "chevron.backward")
+                    }
+                    .accessibilityHint("テーマ選択画面に戻る")
+                }
+            }
+        }
         .toolbarVisibility(.hidden, for: .tabBar)
         .onAppear { SoundEffectPlayer.shared.prepare() }
+    }
+
+    private func returnToTopicPicker() {
+        selectedTopic = nil
+        pageIndex = 0
+        answers = [:]
+        isFinished = false
+        commentPartIndex = 0
+    }
+
+    private var topicPicker: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("今日は何を学ぶ？")
+                    .font(.title.bold())
+                    .accessibilityAddTraits(.isHeader)
+                Text("気になるテーマを選んでね。たぬきが案内するよ！")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+            .padding(.bottom, 4)
+
+            ForEach(BasicsTopic.allCases) { topic in
+                Button {
+                    selectedTopic = topic
+                    pageIndex = 0
+                    answers = [:]
+                    isFinished = false
+                    commentPartIndex = 0
+                } label: {
+                    HStack(spacing: 14) {
+                        Image(systemName: topic.symbol)
+                            .font(.title2)
+                            .foregroundStyle(.orange)
+                            .frame(width: 44, height: 44)
+                            .background(Color.orange.opacity(0.12), in: RoundedRectangle(cornerRadius: 12))
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(topic.title)
+                                .font(.headline)
+                                .foregroundStyle(.primary)
+                            Text(topic.detail)
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        Spacer(minLength: 0)
+                        Image(systemName: "chevron.forward")
+                            .font(.footnote.weight(.semibold))
+                            .foregroundStyle(.tertiary)
+                    }
+                    .padding(16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color.secondary.opacity(0.07), in: RoundedRectangle(cornerRadius: 16))
+                    .contentShape(RoundedRectangle(cornerRadius: 16))
+                }
+                .buttonStyle(.plain)
+                .accessibilityElement(children: .combine)
+            }
+        }
     }
 
     private func lessonContent(_ lesson: BasicsLesson) -> some View {
@@ -340,7 +433,7 @@ struct CandlestickBasicsView: View {
     }
 
     private var result: some View {
-        let questions: [Bool] = Self.pages.enumerated().compactMap { index, page in
+        let questions: [Bool] = activePages.enumerated().compactMap { index, page in
             if case .question(let question) = page {
                 return answers[index] == question.correct
             }
@@ -349,17 +442,20 @@ struct CandlestickBasicsView: View {
         let correctCount = questions.count(where: { $0 })
 
         return Group {
-            Label("基礎レッスン完了", systemImage: "checkmark.circle")
+            Label("学習完了！", systemImage: "checkmark.circle")
                 .font(.title.bold())
                 .accessibilityAddTraits(.isHeader)
 
-            Text("\(questions.count)問中\(correctCount)問正解")
-                .font(.title3.monospacedDigit())
+            if !questions.isEmpty {
+                Text("\(questions.count)問中\(correctCount)問正解")
+                    .font(.title3.monospacedDigit())
+            }
 
-            Button("最初から学び直す") {
+            Button("テーマを選び直す") {
+                selectedTopic = nil
                 pageIndex = 0
-                answers = [:]
                 isFinished = false
+                commentPartIndex = 0
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
