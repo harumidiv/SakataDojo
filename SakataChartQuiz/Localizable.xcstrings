@@ -538,6 +538,370 @@
     "∞" : {
 
     },
+    "上に伸びる細い線の途中に印がある図" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagram with a marker midway along the thin line above the thick part"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "굵은 부분 위로 뻗은 가는 선의 중간에 표시가 있는 그림"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hình có dấu giữa đường mảnh kéo lên trên phần dày"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標記位於較粗部分上方的細線中段"
+          }
+        }
+      }
+    },
+    "上ひげ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upper wick"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "위꼬리"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bóng trên"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上影線"
+          }
+        }
+      }
+    },
+    "上ひげは、実体の上端から高値までを表します。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The upper wick runs from the top of the body to the high."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "위꼬리는 몸통 위쪽 끝부터 고가까지 나타냅니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bóng trên kéo từ mép trên thân nến đến giá cao nhất."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上影線從實體上緣延伸至最高價。"
+          }
+        }
+      }
+    },
+    "下に伸びる細い線の途中に印がある図" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagram with a marker midway along the thin line below the thick part"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "굵은 부분 아래로 뻗은 가는 선의 중간에 표시가 있는 그림"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hình có dấu giữa đường mảnh kéo xuống dưới phần dày"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標記位於較粗部分下方的細線中段"
+          }
+        }
+      }
+    },
+    "下ひげ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lower wick"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아래꼬리"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bóng dưới"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下影線"
+          }
+        }
+      }
+    },
+    "下ひげは、実体の下端から安値までを表します。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The lower wick runs from the bottom of the body to the low."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아래꼬리는 몸통 아래쪽 끝부터 저가까지 나타냅니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bóng dưới kéo từ mép dưới thân nến đến giá thấp nhất."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下影線從實體下緣延伸至最低價。"
+          }
+        }
+      }
+    },
+    "印が付いている部分の名前は？" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is the marked part called?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "표시된 부분의 이름은 무엇인가요?"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phần được đánh dấu gọi là gì?"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標記指出的是哪個部分？"
+          }
+        }
+      }
+    },
+    "太い部分が実体で、始値と終値の間を表します。上ひげは実体の上端から高値まで伸びる細い線です。下ひげは実体の下端から安値まで伸びます。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The thick part is the body. It spans the opening and closing prices. The upper wick is the thin line from the top of the body to the high. The lower wick runs from the bottom of the body to the low."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "굵은 부분인 몸통은 시가와 종가 사이를 나타냅니다. 위꼬리는 몸통 위쪽 끝부터 고가까지 뻗은 가는 선입니다. 아래꼬리는 몸통 아래쪽 끝부터 저가까지 이어집니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phần dày là thân nến, thể hiện khoảng giữa giá mở cửa và giá đóng cửa. Bóng trên là đường mảnh từ mép trên thân nến đến giá cao nhất. Bóng dưới kéo từ mép dưới thân nến đến giá thấp nhất."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "較粗的部分稱為實體，表示開盤價與收盤價之間的範圍。上影線是從實體上緣延伸至最高價的細線。下影線則從實體下緣延伸至最低價。"
+          }
+        }
+      }
+    },
+    "太い部分の中央に印がある図" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagram with a marker halfway up the thick part"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "굵은 부분의 가운데에 표시가 있는 그림"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hình có dấu ở giữa phần dày"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標記位於較粗部分的中央"
+          }
+        }
+      }
+    },
+    "実体" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Body"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "몸통"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thân nến"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實體"
+          }
+        }
+      }
+    },
+    "実体とひげ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Body and Wicks"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "몸통과 꼬리"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thân nến và bóng nến"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實體與影線"
+          }
+        }
+      }
+    },
+    "実体は、始値と終値の間を表す太い部分です。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The body is the thick part between the open and the close."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "몸통은 시가와 종가 사이를 나타내는 굵은 부분입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thân nến là phần dày thể hiện khoảng giữa giá mở cửa và giá đóng cửa."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實體是表示開盤價與收盤價之間範圍的較粗部分。"
+          }
+        }
+      }
+    },
+    "色が塗られた太い部分に注目しましょう。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Look at the thick, colored part."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "색이 칠해진 굵은 부분을 보세요."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hãy quan sát phần dày được tô màu."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "觀察有顏色的較粗部分。"
+          }
+        }
+      }
+    },
     "🏆 自己ベスト！" : {
       "localizations" : {
         "en" : {

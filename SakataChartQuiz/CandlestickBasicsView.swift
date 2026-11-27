@@ -13,6 +13,8 @@ struct CandlestickBasicsView: View {
     private static let pages: [BasicsPage] = [
         .lesson(.prices),
         .question(.high), .question(.low),
+        .lesson(.parts),
+        .question(.body), .question(.upperWick), .question(.lowerWick),
         .lesson(.bullish),
         .question(.bullishTop), .question(.bullishBottom), .question(.bullishType),
         .lesson(.bearish),
@@ -87,9 +89,12 @@ struct CandlestickBasicsView: View {
                 .font(.title.bold())
                 .accessibilityAddTraits(.isHeader)
 
-            if lesson.showsPrices {
-                CandlestickPriceDiagram(sample: lesson.sample)
-            } else {
+            switch lesson {
+            case .prices, .bullish, .bearish:
+                CandlestickAnnotatedDiagram(sample: lesson.sample, style: .prices)
+            case .parts:
+                CandlestickAnnotatedDiagram(sample: lesson.sample, style: .parts)
+            case .spinningTop, .doji:
                 diagram(sample: lesson.sample)
             }
 

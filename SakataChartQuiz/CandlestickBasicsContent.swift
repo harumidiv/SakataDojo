@@ -40,6 +40,16 @@ enum BasicsPoint {
     case low
     case bodyTop
     case bodyBottom
+    case bodyMiddle
+    case upperWick
+    case lowerWick
+
+    var identifiesPart: Bool {
+        switch self {
+        case .bodyMiddle, .upperWick, .lowerWick: true
+        case .high, .low, .bodyTop, .bodyBottom: false
+        }
+    }
 
     func price(in candle: Candle) -> Double {
         switch self {
@@ -47,6 +57,9 @@ enum BasicsPoint {
         case .low: candle.low
         case .bodyTop: max(candle.open, candle.close)
         case .bodyBottom: min(candle.open, candle.close)
+        case .bodyMiddle: (candle.open + candle.close) / 2
+        case .upperWick: (candle.high + max(candle.open, candle.close)) / 2
+        case .lowerWick: (candle.low + min(candle.open, candle.close)) / 2
         }
     }
 
@@ -56,12 +69,16 @@ enum BasicsPoint {
         case .low: "下ひげの先に印がある図"
         case .bodyTop: "実体の上端に印がある図"
         case .bodyBottom: "実体の下端に印がある図"
+        case .bodyMiddle: "太い部分の中央に印がある図"
+        case .upperWick: "上に伸びる細い線の途中に印がある図"
+        case .lowerWick: "下に伸びる細い線の途中に印がある図"
         }
     }
 }
 
 enum BasicsLesson {
     case prices
+    case parts
     case bullish
     case bearish
     case spinningTop
@@ -70,6 +87,7 @@ enum BasicsLesson {
     var title: LocalizedStringKey {
         switch self {
         case .prices: "1本に含まれる4つの価格"
+        case .parts: "実体とひげ"
         case .bullish: "陽線の読み方"
         case .bearish: "陰線の読み方"
         case .spinningTop: "コマ足の読み方"
@@ -79,17 +97,10 @@ enum BasicsLesson {
 
     var sample: BasicsSample {
         switch self {
-        case .prices, .bullish: .bullish
+        case .prices, .parts, .bullish: .bullish
         case .bearish: .bearish
         case .spinningTop: .spinningTop
         case .doji: .doji
-        }
-    }
-
-    var showsPrices: Bool {
-        switch self {
-        case .prices, .bullish, .bearish: true
-        case .spinningTop, .doji: false
         }
     }
 
@@ -97,6 +108,8 @@ enum BasicsLesson {
         switch self {
         case .prices:
             "1本は、1日など一定期間の値動きを表します。実体は最初の価格（始値）から最後の価格（終値）までの範囲です。上ひげの先は高値、下ひげの先は安値です。高値や安値が実体の端と重なる側にはひげが出ません。"
+        case .parts:
+            "太い部分が実体で、始値と終値の間を表します。上ひげは実体の上端から高値まで伸びる細い線です。下ひげは実体の下端から安値まで伸びます。"
         case .bullish:
             "終値が始値より高いと陽線です。このアプリでは赤で表示します。実体の上端が終値、下端が始値です。"
         case .bearish:
@@ -111,6 +124,7 @@ enum BasicsLesson {
 
 enum BasicsChoice: String, Identifiable {
     case open, close, high, low
+    case body, upperWick, lowerWick
     case bullish, bearish, spinningTop, doji
 
     var id: Self { self }
@@ -121,6 +135,9 @@ enum BasicsChoice: String, Identifiable {
         case .close: "終値"
         case .high: "高値"
         case .low: "安値"
+        case .body: "実体"
+        case .upperWick: "上ひげ"
+        case .lowerWick: "下ひげ"
         case .bullish: "陽線"
         case .bearish: "陰線"
         case .spinningTop: "コマ足"
@@ -138,8 +155,8 @@ struct BasicsQuestion {
     let explanation: LocalizedStringKey
 
     var prompt: LocalizedStringKey {
-        if point != nil { return "印が示すのはどの価格？" }
-        return "このローソク足はどの種類？"
+        guard let point else { return "このローソク足はどの種類？" }
+        return point.identifiesPart ? "印が付いている部分の名前は？" : "印が示すのはどの価格？"
     }
 
     static let high = BasicsQuestion(
@@ -151,6 +168,21 @@ struct BasicsQuestion {
         sample: .bearish, point: .low, correct: .low, choices: [.high, .close, .low],
         hint: "実体より下に伸びる細い線に注目しましょう。",
         explanation: "下ひげの先は、その期間で最も低かった価格です。"
+    )
+    static let body = BasicsQuestion(
+        sample: .bullish, point: .bodyMiddle, correct: .body, choices: [.upperWick, .body, .lowerWick],
+        hint: "色が塗られた太い部分に注目しましょう。",
+        explanation: "実体は、始値と終値の間を表す太い部分です。"
+    )
+    static let upperWick = BasicsQuestion(
+        sample: .bearish, point: .upperWick, correct: .upperWick, choices: [.upperWick, .lowerWick, .body],
+        hint: "実体より上に伸びる細い線に注目しましょう。",
+        explanation: "上ひげは、実体の上端から高値までを表します。"
+    )
+    static let lowerWick = BasicsQuestion(
+        sample: .bullish, point: .lowerWick, correct: .lowerWick, choices: [.body, .upperWick, .lowerWick],
+        hint: "実体より下に伸びる細い線に注目しましょう。",
+        explanation: "下ひげは、実体の下端から安値までを表します。"
     )
     static let bullishTop = BasicsQuestion(
         sample: .bullish, point: .bodyTop, correct: .close, choices: [.close, .high, .open],

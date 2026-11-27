@@ -124,8 +124,7 @@ struct CandlestickChartView: View {
 
                 if let highlightedPrice, candles.count == 1 {
                     let y = priceY(highlightedPrice)
-                    let x = highlightedPrice == candle.high || highlightedPrice == candle.low
-                        ? cx : cx + bodyWidth / 2
+                    let x = Self.markerX(for: highlightedPrice, in: candle, center: cx, bodyWidth: bodyWidth)
                     let guideEnd = size.width - 5
                     context.stroke(
                         Path { path in
@@ -156,6 +155,12 @@ struct CandlestickChartView: View {
 
     static func bodyWidth(for slotWidth: CGFloat) -> CGFloat {
         max(slotWidth * 0.6, 2)
+    }
+
+    static func markerX(for price: Double, in candle: Candle, center: CGFloat, bodyWidth: CGFloat) -> CGFloat {
+        let isWithinBody = price >= min(candle.open, candle.close) && price <= max(candle.open, candle.close)
+        let isWickTip = price == candle.high || price == candle.low
+        return isWithinBody && !isWickTip ? center + bodyWidth / 2 : center
     }
 
     struct PriceScale {
