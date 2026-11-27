@@ -436,7 +436,6 @@ struct ContentView: View {
         ScrollView {
             VStack(spacing: 24) {
                 dailyChallengeCard
-                    .padding(.top, 8)
 
                 VStack(alignment: .leading, spacing: 12) {
                     Text("チャートを選択")
@@ -597,6 +596,23 @@ struct ContentView: View {
         .background(Color.secondary.opacity(0.04).ignoresSafeArea())
         .navigationTitle("酒田道場")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    CandlestickBasicsView(
+                        adAccess: adRemoval.access,
+                        canRequestAds: adConsentManager.canRequestAds
+                    )
+                } label: {
+                    Image("BeginnerMark")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 32, height: 32)
+                        .accessibilityHidden(true)
+                }
+                .accessibilityLabel("初心者向けローソク足の基礎")
+            }
+        }
         } // NavigationStack
     }
 

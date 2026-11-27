@@ -14,6 +14,8 @@ struct SakataChartQuizApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(adRemoval: adRemoval)
+                // Synthesize the tanuki's voice up front so its first line in Beginner Mode isn't late.
+                .task { MascotVoicePlayer.shared.preload() }
         }
     }
 }
