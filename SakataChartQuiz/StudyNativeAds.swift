@@ -102,7 +102,10 @@ private struct NativeAdCardRepresentable: UIViewRepresentable {
     }
 
     func sizeThatFits(_ proposal: ProposedViewSize, uiView: NativeAdCardView, context: Context) -> CGSize? {
-        let width = proposal.width ?? UIScreen.main.bounds.width
+        let proposedWidth = proposal.width ?? .infinity
+        guard let width = proposedWidth.isFinite ? proposedWidth : uiView.window?.bounds.width else {
+            return nil
+        }
         let size = uiView.systemLayoutSizeFitting(
             CGSize(width: width, height: UIView.layoutFittingCompressedSize.height),
             withHorizontalFittingPriority: .required,
