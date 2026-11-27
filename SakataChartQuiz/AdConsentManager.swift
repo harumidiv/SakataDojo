@@ -62,10 +62,11 @@ final class AdConsentManager: ObservableObject {
     }
 
     private func startMobileAdsIfPossible() {
-        guard adRemoval.access == .free, ConsentInformation.shared.canRequestAds else { return }
-        canRequestAds = true
-
-        guard !hasStartedMobileAds else { return }
+        let isEligible = adRemoval.access == .free && ConsentInformation.shared.canRequestAds
+        if canRequestAds != isEligible {
+            canRequestAds = isEligible
+        }
+        guard isEligible, !hasStartedMobileAds else { return }
         hasStartedMobileAds = true
         MobileAds.shared.start()
     }

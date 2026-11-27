@@ -435,8 +435,40 @@ struct ContentView: View {
         NavigationStack {
         ScrollView {
             VStack(spacing: 24) {
+                NavigationLink {
+                    CandlestickBasicsView(
+                        adAccess: adRemoval.access,
+                        canRequestAds: adConsentManager.canRequestAds
+                    )
+                } label: {
+                    HStack(spacing: 12) {
+                        Image(systemName: "chart.bar.xaxis")
+                            .font(.title2)
+                            .foregroundStyle(Color.accentColor)
+                            .accessibilityHidden(true)
+
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("ローソク足の基礎")
+                                .font(.headline)
+                            Text("1本の読み方を見本と確認問題で学ぶ")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                        }
+
+                        Spacer(minLength: 8)
+                        Image(systemName: "chevron.forward")
+                            .font(.footnote.bold())
+                            .foregroundStyle(.secondary)
+                            .accessibilityHidden(true)
+                    }
+                    .padding(16)
+                    .background(Color.accentColor.opacity(0.08), in: RoundedRectangle(cornerRadius: 16))
+                    .contentShape(.rect)
+                }
+                .buttonStyle(.plain)
+                .padding(.top, 8)
+
                 dailyChallengeCard
-                    .padding(.top, 8)
 
                 VStack(alignment: .leading, spacing: 12) {
                     Text("チャートを選択")

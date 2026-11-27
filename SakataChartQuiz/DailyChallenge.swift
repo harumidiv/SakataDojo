@@ -24,7 +24,10 @@ enum DailyChallenge {
     /// 標準ライブラリの shuffled() は実装が保証されないため、独自の乱数とシャッフルで再現性を確保する
     static func questions(for date: Date = Date(), from patterns: [QuizPattern]) -> [DailyQuestion] {
         let c = Calendar.current.dateComponents([.year, .month, .day], from: date)
-        let seed = UInt64((c.year ?? 0) * 10_000 + (c.month ?? 0) * 100 + (c.day ?? 0))
+        let year = c.year ?? 0
+        let month = c.month ?? 0
+        let day = c.day ?? 0
+        let seed = UInt64(year * 10_000 + month * 100 + day)
         var rng = SplitMix64(seed: seed)
 
         let candidates = patterns.filter { !$0.examples.isEmpty }

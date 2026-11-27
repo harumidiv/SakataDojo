@@ -46,6 +46,16 @@
     "%lld" : {
 
     },
+    "%lld / %lld" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld / %2$lld"
+          }
+        }
+      }
+    },
     "%lld/%lld" : {
       "localizations" : {
         "ja" : {
@@ -371,6 +381,34 @@
         }
       }
     },
+    "%lld問中%lld問正解" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$lld of %1$lld correct"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld문제 중 %2$lld문제 정답"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đúng %2$lld / %1$lld câu"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "共 %1$lld 題，答對 %2$lld 題"
+          }
+        }
+      }
+    },
     "%lld日" : {
       "localizations" : {
         "en" : {
@@ -553,6 +591,90 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "🔥連續 %lld 天"
+          }
+        }
+      }
+    },
+    "1本に含まれる4つの価格" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Four Prices in a Candle"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "캔들 하나에 담긴 네 가지 가격"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bốn mức giá của một cây nến"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一根 K 線的四種價格"
+          }
+        }
+      }
+    },
+    "1本の読み方を見本と確認問題で学ぶ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Learn to read a candle with examples and quick questions"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "예시와 확인 문제로 캔들 하나를 읽는 법을 배워 보세요"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Học cách đọc một cây nến qua ví dụ và câu hỏi ôn tập"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "透過範例與小測驗學習如何看懂一根 K 線"
+          }
+        }
+      }
+    },
+    "1本は、1日など一定期間の値動きを表します。実体は最初の価格（始値）から最後の価格（終値）までの範囲です。上ひげの先は高値、下ひげの先は安値です。高値や安値が実体の端と重なる側にはひげが出ません。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Each candle shows price movement over a period such as one day. Its body spans the first price (open) and the last price (close). The upper wick ends at the high, and the lower wick ends at the low. A wick is absent when the high or low coincides with that edge of the body."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "캔들 하나는 하루와 같은 일정 기간의 가격 움직임을 보여 줍니다. 몸통은 첫 가격(시가)과 마지막 가격(종가) 사이입니다. 위꼬리 끝은 고가, 아래꼬리 끝은 저가입니다. 고가나 저가가 몸통 끝과 겹치는 쪽에는 꼬리가 없습니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mỗi nến thể hiện biến động giá trong một khoảng thời gian, chẳng hạn một ngày. Thân nến nối giá đầu tiên (giá mở cửa) với giá cuối cùng (giá đóng cửa). Đầu bóng trên là giá cao nhất, còn đầu bóng dưới là giá thấp nhất. Nếu mức giá cao nhất hoặc thấp nhất trùng với mép thân nến thì phía đó không có bóng."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每根 K 線代表一段期間（例如一天）的價格變動。實體是第一個價格（開盤價）到最後一個價格（收盤價）的區間。上影線頂端是最高價，下影線底端是最低價。最高價或最低價若與實體邊緣重合，該側就沒有影線。"
           }
         }
       }
@@ -4175,6 +4297,90 @@
         }
       }
     },
+    "このアプリでは、実体の色で始値と終値の上下関係を確認できます。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In this app, the body color tells you whether the close is above or below the open."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 앱에서는 몸통의 색으로 종가가 시가보다 높은지 낮은지 알 수 있습니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trong ứng dụng này, màu thân nến cho biết giá đóng cửa cao hay thấp hơn giá mở cửa."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在這個 App 裡，實體顏色表示收盤價比開盤價高或低。"
+          }
+        }
+      }
+    },
+    "このアプリでは赤が陽線です。終値が始値を上回ったことを表します。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Red is bullish in this app. It shows that the close was above the open."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 앱에서 빨간색은 양봉입니다. 종가가 시가보다 높았다는 뜻입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trong ứng dụng này, màu đỏ là nến tăng. Giá đóng cửa cao hơn giá mở cửa."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在這個 App 裡，紅色代表陽線，表示收盤價高於開盤價。"
+          }
+        }
+      }
+    },
+    "このアプリでは青が陰線です。終値が始値を下回ったことを表します。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blue is bearish in this app. It shows that the close was below the open."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 앱에서 파란색은 음봉입니다. 종가가 시가보다 낮았다는 뜻입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trong ứng dụng này, màu xanh dương là nến giảm. Giá đóng cửa thấp hơn giá mở cửa."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在這個 App 裡，藍色代表陰線，表示收盤價低於開盤價。"
+          }
+        }
+      }
+    },
     "このアプリについて" : {
       "localizations" : {
         "en" : {
@@ -4283,6 +4489,118 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "這是哪種K線型態？"
+          }
+        }
+      }
+    },
+    "このローソク足はどの種類？" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What type of candlestick is this?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 캔들은 어떤 종류인가요?"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đây là loại nến nào?"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "這是哪一種 K 線？"
+          }
+        }
+      }
+    },
+    "コマ足" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spinning Top"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "팽이형 캔들"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nến con xoay"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "紡錘線"
+          }
+        }
+      }
+    },
+    "コマ足の読み方" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How to Read a Spinning Top"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "팽이형 캔들 읽는 법"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cách đọc nến con xoay"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如何看懂紡錘線"
+          }
+        }
+      }
+    },
+    "コマ足は、上下にひげがあり、実体が小さいのが特徴です。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A spinning top has a small body and wicks on both sides."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "팽이형 캔들은 몸통이 작고 위아래에 꼬리가 있습니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nến con xoay có thân nhỏ và bóng ở cả hai phía."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "紡錘線的特徵是實體較小，上下皆有影線。"
           }
         }
       }
@@ -4877,6 +5195,34 @@
         }
       }
     },
+    "ヒント" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hint"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "힌트"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gợi ý"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提示"
+          }
+        }
+      }
+    },
     "プライバシーポリシー" : {
       "localizations" : {
         "en" : {
@@ -5052,6 +5398,34 @@
     "ローソク足 練習免状" : {
 
     },
+    "ローソク足の基礎" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Candlestick Basics"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "캔들 차트 기초"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kiến thức cơ bản về nến"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "K 線基礎"
+          }
+        }
+      }
+    },
     "ローソク足の形から、パターン名を4つの候補から選びます" : {
       "localizations" : {
         "en" : {
@@ -5082,6 +5456,118 @@
     },
     "ローソク足の形を学び、相場を読む力を磨く" : {
 
+    },
+    "上ひげの先に印がある図" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagram with a marker at the tip of the upper wick"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "위꼬리 끝에 표시가 있습니다"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hình có dấu ở đầu bóng trên"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標記位於上影線頂端"
+          }
+        }
+      }
+    },
+    "上ひげの先は、その期間で最も高かった価格です。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The tip of the upper wick is the highest price during the period."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "위꼬리 끝은 그 기간의 가장 높은 가격입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đầu bóng trên là giá cao nhất trong kỳ."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上影線頂端是該期間的最高價。"
+          }
+        }
+      }
+    },
+    "上下のひげと、実体の縦の長さを比べてみましょう。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compare the height of the body with the upper and lower wicks."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "몸통의 길이를 위아래 꼬리와 비교해 보세요."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hãy so sánh độ cao của thân nến với bóng trên và bóng dưới."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "比較實體的高度與上下影線的長度。"
+          }
+        }
+      }
+    },
+    "上下のひげに比べて実体が小さい形をコマ足と呼びます。期間中に価格が動き、終値は始値の近くに戻っています。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A spinning top has a small body compared with its upper and lower wicks. The price moved during the period and closed close to where it opened."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "위아래 꼬리에 비해 몸통이 작으면 팽이형 캔들이라고 합니다. 그 기간에 가격이 움직였고 종가는 시가 근처로 돌아왔습니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nến con xoay có thân nhỏ so với bóng trên và bóng dưới. Giá biến động trong kỳ và đóng cửa gần mức mở cửa."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實體比上下影線短的形態稱為紡錘線。價格在期間內有所波動，收盤價回到開盤價附近。"
+          }
+        }
+      }
     },
     "上昇 ↗" : {
       "comment" : "回答ボタン: 上昇",
@@ -5166,6 +5652,62 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "看漲訊號"
+          }
+        }
+      }
+    },
+    "下ひげの先に印がある図" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagram with a marker at the tip of the lower wick"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아래꼬리 끝에 표시가 있습니다"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hình có dấu ở đầu bóng dưới"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標記位於下影線底端"
+          }
+        }
+      }
+    },
+    "下ひげの先は、その期間で最も低かった価格です。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The tip of the lower wick is the lowest price during the period."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아래꼬리 끝은 그 기간의 가장 낮은 가격입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đầu bóng dưới là giá thấp nhất trong kỳ."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下影線底端是該期間的最低價。"
           }
         }
       }
@@ -5386,6 +5928,34 @@
     "共有画像を作成できませんでした" : {
 
     },
+    "最初から学び直す" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Over"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "처음부터 다시 학습"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Học lại từ đầu"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "從頭再學"
+          }
+        }
+      }
+    },
     "最大%lld連続正解" : {
       "localizations" : {
         "en" : {
@@ -5583,6 +6153,146 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "上一個實例"
+          }
+        }
+      }
+    },
+    "前へ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previous"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이전"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quay lại"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上一頁"
+          }
+        }
+      }
+    },
+    "十字線" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doji"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "도지"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doji"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "十字線"
+          }
+        }
+      }
+    },
+    "十字線の読み方" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How to Read a Doji"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "도지 읽는 법"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cách đọc nến Doji"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如何看懂十字線"
+          }
+        }
+      }
+    },
+    "十字線は始値と終値が同じかほぼ同じで、実体が横線のように見えます。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A doji opens and closes at the same or nearly the same price, so its body looks like a horizontal line."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "도지는 시가와 종가가 같거나 거의 같아서 몸통이 가로선처럼 보입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nến Doji có giá mở cửa và đóng cửa bằng hoặc gần bằng nhau, nên thân nến trông như một đường ngang."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "十字線的開盤價與收盤價相同或相近，實體看起來像一條橫線。"
+          }
+        }
+      }
+    },
+    "印が示すのはどの価格？" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Which price does the marker show?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "표시는 어느 가격을 가리키나요?"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dấu trên hình chỉ mức giá nào?"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標記指出哪個價格？"
           }
         }
       }
@@ -5785,6 +6495,118 @@
         }
       }
     },
+    "基礎レッスン完了" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Basics Complete"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기초 레슨 완료"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Đã hoàn thành các bài cơ bản"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已完成基礎課程"
+          }
+        }
+      }
+    },
+    "始値" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시가"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giá mở cửa"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開盤價"
+          }
+        }
+      }
+    },
+    "始値と終値がほとんど重なると、実体はどう見えますか？" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What does the body look like when the open and close almost overlap?"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시가와 종가가 거의 겹치면 몸통은 어떻게 보이나요?"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thân nến trông thế nào khi giá mở cửa và đóng cửa gần trùng nhau?"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開盤價與收盤價幾乎重合時，實體看起來如何？"
+          }
+        }
+      }
+    },
+    "始値と終値が同じかほぼ同じときにできる形が十字線です。実体は横線のように細く見えます。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A doji forms when the open and close are the same or nearly the same. Its body is so thin that it looks like a horizontal line."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시가와 종가가 같거나 거의 같을 때 도지가 됩니다. 몸통은 가로선처럼 가늘게 보입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nến Doji hình thành khi giá mở cửa và đóng cửa bằng hoặc gần bằng nhau. Thân nến mỏng như một đường ngang."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開盤價與收盤價相同或相近時會形成十字線，實體細如橫線。"
+          }
+        }
+      }
+    },
     "学習" : {
       "localizations" : {
         "en" : {
@@ -5809,6 +6631,202 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "學習"
+          }
+        }
+      }
+    },
+    "学習の進み具合" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Learning progress"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "학습 진행률"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiến độ học tập"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "學習進度"
+          }
+        }
+      }
+    },
+    "安値" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Low"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저가"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giá thấp nhất"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最低價"
+          }
+        }
+      }
+    },
+    "実体がほぼ横線で、上下にひげがあるローソク足" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A candle with a nearly flat body and wicks above and below"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "몸통이 가로선에 가깝고 위아래에 꼬리가 있는 캔들"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nến có thân gần như là đường ngang và có bóng trên, bóng dưới"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實體近似橫線，上下皆有影線的 K 線"
+          }
+        }
+      }
+    },
+    "実体の上端に印がある図" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagram with a marker at the top of the body"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "몸통 위쪽 끝에 표시가 있습니다"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hình có dấu ở mép trên thân nến"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標記位於實體上緣"
+          }
+        }
+      }
+    },
+    "実体の下端に印がある図" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diagram with a marker at the bottom of the body"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "몸통 아래쪽 끝에 표시가 있습니다"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hình có dấu ở mép dưới thân nến"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標記位於實體下緣"
+          }
+        }
+      }
+    },
+    "実体より上に伸びる細い線に注目しましょう。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Look at the thin line above the body."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "몸통 위로 뻗은 가는 선을 살펴보세요."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hãy nhìn đường mảnh phía trên thân nến."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "觀察實體上方延伸的細線。"
+          }
+        }
+      }
+    },
+    "実体より下に伸びる細い線に注目しましょう。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Look at the thin line below the body."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "몸통 아래로 뻗은 가는 선을 살펴보세요."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hãy nhìn đường mảnh phía dưới thân nến."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "觀察實體下方延伸的細線。"
           }
         }
       }
@@ -6334,6 +7352,62 @@
         }
       }
     },
+    "次へ" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다음"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tiếp theo"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下一頁"
+          }
+        }
+      }
+    },
+    "正解" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Correct"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "정답"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chính xác"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "答對了"
+          }
+        }
+      }
+    },
     "正解: %@" : {
       "localizations" : {
         "en" : {
@@ -6508,6 +7582,34 @@
     "着実前進" : {
 
     },
+    "短い実体と、上下に長いひげがあるローソク足" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A candle with a short body and long wicks above and below"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "몸통이 작고 위아래 꼬리가 긴 캔들"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nến có thân ngắn và bóng dài ở cả hai phía"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "實體較短且上下皆有長影線的 K 線"
+          }
+        }
+      }
+    },
     "第%lld問" : {
       "localizations" : {
         "en" : {
@@ -6532,6 +7634,90 @@
           "stringUnit" : {
             "state" : "machine_translated",
             "value" : "第%lld題"
+          }
+        }
+      }
+    },
+    "終値" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "종가"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giá đóng cửa"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收盤價"
+          }
+        }
+      }
+    },
+    "終値が始値より低いと陰線です。このアプリでは青で表示します。実体の上端が始値、下端が終値です。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A candle is bearish when it closes below the open. This app shows it in blue. The open is at the top of the body and the close is at the bottom."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "종가가 시가보다 낮으면 음봉입니다. 이 앱에서는 파란색으로 표시합니다. 몸통의 위쪽 끝은 시가, 아래쪽 끝은 종가입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khi giá đóng cửa thấp hơn giá mở cửa, đó là nến giảm. Ứng dụng hiển thị nến giảm bằng màu xanh dương. Mép trên thân nến là giá mở cửa, còn mép dưới là giá đóng cửa."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收盤價低於開盤價時是陰線。這個 App 以藍色顯示陰線。實體上緣是開盤價，下緣是收盤價。"
+          }
+        }
+      }
+    },
+    "終値が始値より高いと陽線です。このアプリでは赤で表示します。実体の上端が終値、下端が始値です。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A candle is bullish when it closes above the open. This app shows it in red. The close is at the top of the body and the open is at the bottom."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "종가가 시가보다 높으면 양봉입니다. 이 앱에서는 빨간색으로 표시합니다. 몸통의 위쪽 끝은 종가, 아래쪽 끝은 시가입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Khi giá đóng cửa cao hơn giá mở cửa, đó là nến tăng. Ứng dụng hiển thị nến tăng bằng màu đỏ. Mép trên thân nến là giá đóng cửa, còn mép dưới là giá mở cửa."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收盤價高於開盤價時是陽線。這個 App 以紅色顯示陽線。實體上緣是收盤價，下緣是開盤價。"
           }
         }
       }
@@ -6987,6 +8173,34 @@
         }
       }
     },
+    "赤い実体の上下にひげがあるローソク足" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A red candle with wicks above and below the body"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빨간 몸통의 위아래에 꼬리가 있는 캔들"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nến có thân màu đỏ và bóng ở cả hai phía"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "紅色實體，上下皆有影線的 K 線"
+          }
+        }
+      }
+    },
     "連続正解数" : {
 
     },
@@ -7159,6 +8373,398 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "清除答錯的型態紀錄，讓弱點強化模式不再偏重出題。"
+          }
+        }
+      }
+    },
+    "陰線" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bearish Candle"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "음봉"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nến giảm"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "陰線"
+          }
+        }
+      }
+    },
+    "陰線では、取引が始まったときより終わったときの価格が下にあります。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On a bearish candle, the final trading price is below the first trading price."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "음봉에서는 거래가 끝날 때의 가격이 시작할 때보다 낮습니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Với nến giảm, mức giá cuối phiên thấp hơn mức giá đầu phiên."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "陰線的最後成交價低於最初成交價。"
+          }
+        }
+      }
+    },
+    "陰線では、取引が終わったときより始まったときの価格が上にあります。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On a bearish candle, the first trading price is above the final trading price."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "음봉에서는 거래가 시작할 때의 가격이 끝날 때보다 높습니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Với nến giảm, mức giá đầu phiên cao hơn mức giá cuối phiên."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "陰線的最初成交價高於最後成交價。"
+          }
+        }
+      }
+    },
+    "陰線では始値が終値より高いため、実体の上端が始値です。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A bearish candle opens above its close, so the open is at the top of the body."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "음봉은 시가가 종가보다 높으므로 몸통의 위쪽 끝이 시가입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nến giảm có giá mở cửa cao hơn giá đóng cửa, nên mép trên của thân nến là giá mở cửa."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "陰線的開盤價高於收盤價，所以實體上端是開盤價。"
+          }
+        }
+      }
+    },
+    "陰線の実体の下端は終値です。下ひげの先が安値です。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The bottom of a bearish candle’s body is the close. The tip of the lower wick is the low."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "음봉 몸통의 아래쪽 끝은 종가입니다. 아래꼬리 끝은 저가입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mép dưới thân nến giảm là giá đóng cửa. Đầu bóng dưới là giá thấp nhất."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "陰線實體的下緣是收盤價，下影線底端是最低價。"
+          }
+        }
+      }
+    },
+    "陰線の読み方" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How to Read a Bearish Candle"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "음봉 읽는 법"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cách đọc nến giảm"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如何看懂陰線"
+          }
+        }
+      }
+    },
+    "陽線" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bullish Candle"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "양봉"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nến tăng"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "陽線"
+          }
+        }
+      }
+    },
+    "陽線では、取引が始まったときより終わったときの価格が上にあります。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On a bullish candle, the final trading price is above the first trading price."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "양봉에서는 거래가 끝날 때의 가격이 시작할 때보다 높습니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Với nến tăng, mức giá cuối phiên cao hơn mức giá đầu phiên."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "陽線的最後成交價高於最初成交價。"
+          }
+        }
+      }
+    },
+    "陽線では終値が始値より高く、実体の上端が終値になります。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A bullish candle closes above its open, so the close is at the top of the body."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "양봉은 종가가 시가보다 높으므로 몸통의 위쪽 끝이 종가입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nến tăng có giá đóng cửa cao hơn giá mở cửa, nên mép trên của thân nến là giá đóng cửa."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "陽線的收盤價高於開盤價，所以實體上端是收盤價。"
+          }
+        }
+      }
+    },
+    "陽線の実体の下端です。上端の終値と比べてみましょう。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The marker is at the bottom of the body. Compare it with the close at the top."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "양봉 몸통의 아래쪽 끝입니다. 위쪽 끝의 종가와 비교해 보세요."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dấu nằm ở mép dưới của thân nến. Hãy so sánh với giá đóng cửa ở mép trên."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標記在陽線實體下緣，請與上緣的收盤價比較。"
+          }
+        }
+      }
+    },
+    "陽線の実体の下端は始値です。下ひげの先が安値です。" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The bottom of a bullish candle’s body is the open. The tip of the lower wick is the low."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "양봉 몸통의 아래쪽 끝은 시가입니다. 아래꼬리 끝은 저가입니다."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mép dưới thân nến tăng là giá mở cửa. Đầu bóng dưới là giá thấp nhất."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "陽線實體的下緣是開盤價，下影線底端是最低價。"
+          }
+        }
+      }
+    },
+    "陽線の読み方" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How to Read a Bullish Candle"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "양봉 읽는 법"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cách đọc nến tăng"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如何看懂陽線"
+          }
+        }
+      }
+    },
+    "青い実体の上下にひげがあるローソク足" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A blue candle with wicks above and below the body"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파란 몸통의 위아래에 꼬리가 있는 캔들"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nến có thân màu xanh dương và bóng ở cả hai phía"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "藍色實體，上下皆有影線的 K 線"
+          }
+        }
+      }
+    },
+    "高値" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "High"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "고가"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giá cao nhất"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最高價"
           }
         }
       }

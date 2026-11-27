@@ -5,17 +5,20 @@ struct CandlestickChartView: View {
     let dividerIndex: Int?
     let showsVolume: Bool
     let showsMovingAverages: Bool
+    let highlightedPrice: Double?
 
     init(
         candles: [Candle],
         dividerIndex: Int?,
         showsVolume: Bool = true,
-        showsMovingAverages: Bool = true
+        showsMovingAverages: Bool = true,
+        highlightedPrice: Double? = nil
     ) {
         self.candles = candles
         self.dividerIndex = dividerIndex
         self.showsVolume = showsVolume
         self.showsMovingAverages = showsMovingAverages
+        self.highlightedPrice = highlightedPrice
     }
 
     private var maxPrice: Double { candles.map { $0.high }.max() ?? 0 }
@@ -34,21 +37,13 @@ struct CandlestickChartView: View {
         Canvas { context, size in
             guard !candles.isEmpty else { return }
 
-            let priceRange = max(maxPrice - minPrice, 1)
-            let pad = priceRange * 0.06
-            let priceLow = minPrice - pad
-            let priceHigh = maxPrice + pad
-            let adjustedRange = priceHigh - priceLow
-
             let volumeHeight = showsVolume ? size.height * 0.2 : 0
             let chartHeight = size.height - volumeHeight - (showsVolume ? 6 : 0)
+            let priceScale = PriceScale(low: minPrice, high: maxPrice, height: chartHeight)
+            let priceY = priceScale.y(for:)
 
             let slotWidth = size.width / CGFloat(candles.count)
-            let bodyWidth = max(slotWidth * 0.6, 2)
-
-            func priceY(_ price: Double) -> CGFloat {
-                CGFloat((priceHigh - price) / adjustedRange) * chartHeight
-            }
+            let bodyWidth = Self.bodyWidth(for: slotWidth)
 
             func drawMA(_ values: [Double?], color: Color) {
                 var path = Path()
@@ -106,7 +101,7 @@ struct CandlestickChartView: View {
                 )
 
                 // 実体（十字線は横線で描画）
-                let isDoji = abs(candle.open - candle.close) < adjustedRange * 0.005
+                let isDoji = abs(candle.open - candle.close) < priceScale.range * 0.005
                 if isDoji {
                     let dojiY = priceY((candle.open + candle.close) / 2)
                     context.stroke(
@@ -127,6 +122,24 @@ struct CandlestickChartView: View {
                     )
                 }
 
+                if let highlightedPrice, candles.count == 1 {
+                    let y = priceY(highlightedPrice)
+                    let x = highlightedPrice == candle.high || highlightedPrice == candle.low
+                        ? cx : cx + bodyWidth / 2
+                    let guideEnd = size.width - 5
+                    context.stroke(
+                        Path { path in
+                            path.move(to: CGPoint(x: x, y: y))
+                            path.addLine(to: CGPoint(x: guideEnd, y: y))
+                        },
+                        with: .color(.primary),
+                        style: StrokeStyle(lineWidth: 1, dash: [3, 2])
+                    )
+                    let marker = Path(ellipseIn: CGRect(x: x - 4, y: y - 4, width: 8, height: 8))
+                    context.fill(marker, with: .color(Color(uiColor: .systemBackground)))
+                    context.stroke(marker, with: .color(.primary), lineWidth: 1.5)
+                }
+
                 if showsVolume {
                     let volRatio = CGFloat(candle.volume) / CGFloat(maxVolume)
                     let volBarH = volRatio * volumeHeight * 0.9
@@ -138,6 +151,27 @@ struct CandlestickChartView: View {
                     )
                 }
             }
+        }
+    }
+
+    static func bodyWidth(for slotWidth: CGFloat) -> CGFloat {
+        max(slotWidth * 0.6, 2)
+    }
+
+    struct PriceScale {
+        private let upper: Double
+        private let height: CGFloat
+        let range: Double
+
+        init(low: Double, high: Double, height: CGFloat) {
+            let padding = max(high - low, 1) * 0.06
+            upper = high + padding
+            range = upper - (low - padding)
+            self.height = height
+        }
+
+        func y(for price: Double) -> CGFloat {
+            CGFloat((upper - price) / range) * height
         }
     }
 }
